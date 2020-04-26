@@ -1,0 +1,105 @@
+ 
+{
+    "compilerOptions": {
+      /* Basic Options */
+      "target": "esnext",                       /* 指定 ECMAScript 目标版本 "ES3"（默认），"ES5"，"ES6"/"ES2015"，"ES2016"，"ES2017"，"ES2018", "ES2019" 或 "ESNext" */
+      "module": "commonjs",                     /* 指定生成哪个模块系统: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015', or 'ESNext'. */
+      "lib": ["es6"],                           /* 编译过程中需要引入的库文件的列表 */
+      // "traceResolution": false,              /* 生成模块解析日志信息 */
+      // "listEmittedFiles": false,             /* 打印出编译后生成文件的名字 */
+      // "listFiles": false,                    /* 编译过程中打印文件名 */
+      // "locale": string,                      /* 显示错误信息时使用的语言，比如：en-us */
+      // "mapRoot": string,                     /* 为调试器指定指定sourcemap文件的路径，而不是使用生成时的路径。当 .map文件是在运行时指定的，并不同于 js文件的地址时使用这个标记。指定的路径会嵌入到 sourceMap里告诉调试器到哪里去找它们 */
+      "allowJs": true,                          /* 允许编译javascript文件 */
+      // "maxNodeModuleJsDepth": 0,             /* node_modules依赖的最大搜索深度并加载JavaScript文件。仅适用于 --allowJs */
+      // "checkJs": true,                       /* 	在 .js文件中报告错误 */
+      "jsx": "react-native",                    /* 在 .tsx文件里支持JSX： "React"或 "Preserve"。查看 JSX */
+      // "jsxFactory": "React.createElement",   /* 指定生成目标为react JSX时，使用的JSX工厂函数，比如 React.createElement或 h */
+      // "declaration": true,                   /* 生成相应的 .d.ts文件 */
+      // "declarationDir": '',                  /* 生成声明文件的输出路径 */
+      // "diagnostics": false,                  /* 显示诊断信息 */
+      // "disableSizeLimit": false,             /* 禁用JavaScript工程体积大小的限制 */
+      // "emitBOM": false,                      /* 在输出文件的开头加入BOM头（UTF-8 Byte Order Mark） */
+      // "emitDecoratorMetadata": false,        /* 给源码里的装饰器声明加上设计类型元数据。查看 issue #2577了解更多信息 */
+      // "experimentalDecorators": false,       /* 	启用实验性的ES装饰器 */
+      // "extendedDiagnostics": false,          /* 显示详细的诊段信息 */
+      // "forceConsistentCasingInFileNames": false, /* 	禁止对同一个文件的不一致的引用 */
+      // "sourceMap": true,                     /* 	生成相应的 .map文件 */
+      // "outFile": "./",                       /* 连接并输出到单个文件 */
+      // "outDir": "./",                        /* 重定向输出目录*/
+      // "rootDir": "./",                       /* 仅用来控制输出的目录结构 --outDir。 */
+      // "removeComments": true,                /* 删除所有注释，除了以 /!*开头的版权信息 */
+      "noEmit": true,                           /* 	不生成输出文件 */
+      // "noEmitHelpers": false,                /* 不在输出文件中生成用户自定义的帮助函数代码，如 __extends。 */
+      // "noEmitOnError": false,                /* 报错时不生成输出文件 */
+      // "noErrorTruncation": false,            /* 不截短错误消息 */
+      // "noFallthroughCasesInSwitch": false    /* 报告switch语句的fallthrough错误。（即，不允许switch的case语句贯穿）    */
+      "incremental": true,                      /* Enable incremental compilation */
+      // "importHelpers": string,                 /* 从 tslib 导入辅助工具函数（比如 __extends， __rest等） */
+      // "downlevelIteration": true,            /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */
+      "isolatedModules": true,                  /* 将每个文件作为单独的模块（与“ts.transpileModule”类似） */
+  
+      /* Strict Type-Checking Options */
+      "strict": true,                           /* 	启用所有严格类型检查选项。 启用 --strict相当于启用 --noImplicitAny, --noImplicitThis, --alwaysStrict， --strictNullChecks和 --strictFunctionTypes和--strictPropertyInitialization */
+      // "noImplicitAny": true,                 /* 在表达式和声明上有隐含的 any类型时报错 */
+      // "strictNullChecks": true,              /* 在严格的 null检查模式下， null和 undefined值不包含在任何类型里，只允许用它们自己和 any来赋值（有个例外， undefined可以赋值到 void）。*/
+      // "strictFunctionTypes": true,           /* 禁用函数参数双向协变检查。 */
+      // "strictPropertyInitialization": true,  /* 确保类的非undefined属性已经在构造函数里初始化。若要令此选项生效，需要同时启用--strictNullChecks。 */
+      // "noImplicitThis": true,                /* 	当 this表达式的值为 any类型的时候，生成一个错误 */
+      // "alwaysStrict": true,                  /* 以严格模式解析并为每个源文件生成 "use strict"语句 */
+      // "stripInternal": false,                /* 	不对具有 /** @internal */ JSDoc注解的代码生成代码 */ 
+      // "suppressExcessPropertyErrors": false, /* 阻止对对象字面量的额外属性检查 */
+      // "suppressImplicitAnyIndexErrors": false,  /* 	阻止 --noImplicitAny对缺少索引签名的索引对象报错。查看 issue #1232了解详情 */
+      /* Additional Checks */
+      // "noUnusedLocals": true,                /* 若有未使用的局部变量则抛错 */
+      // "noUnusedParameters": true,            /* 	若有未使用的参数则抛错 */
+      // "noImplicitReturns": true,             /* 不是函数的所有返回路径都有返回值时报错 */
+      // "noImplicitUseStrict": false,          /* 	模块输出中不包含 "use strict"指令 */
+      // "noLib": false,                        /* 不包含默认的库文件（ lib.d.ts */
+      // "noResolve": false,                    /* 不把 /// <reference``>或模块导入的文件加到编译文件列表 */
+      // "noStrictGenericChecks": false,        /* 	禁用在函数类型里对泛型签名进行严格检查 */
+      // "noFallthroughCasesInSwitch": true,    /* Report errors for fallthrough cases in switch statement. */
+  
+      /* Module Resolution Options */
+      "moduleResolution": "node",               /* 决定如何处理模块。或者是"Node"对于Node.js/io.js，或者是"Classic"（默认）。查看模块解析了解详情 */
+      // "newLine": string,                     /* 当生成文件时指定行结束符： "crlf"（windows）或 "lf"（unix） */
+      "baseUrl": "./",                          /* 解析非相对模块名的基准目录。查看 模块解析文档了解详情。 */
+      // "charset": "utf8",                        /* 输入文件的字符集 */
+      // "paths": {},                           /* 	模块名到基于 baseUrl的路径映射的列表。查看 模块解析文档了解详情。 */
+      "paths": {
+        "@app": ["./src/"],
+        "@app/*": ["./src/*"]
+      },
+      // "preserveConstEnums": false            /* 	保留 const和 enum声明。查看 const enums documentation了解详情 */
+      // "rootDirs": [],                        /* 	根（root）文件夹列表，表示运行时组合工程结构的内容。查看 模块解析文档了解详情。 */
+      // "typeRoots": [],                       /* 要包含的类型声明文件路径列表。查看 @types，--typeRoots和--types章节了解详细信息 */
+      // "types": [],                           /*  要包含的类型声明文件名列表。查看 @types，--typeRoots和--types章节了解详细信息*/
+      // "kipDefaultLibCheck": false,           /* 忽略 库的默认声明文件的类型检查 */
+      // "skipLibCheck": false,                 /* 忽略所有的声明文件（ *.d.ts）的类型检查 */
+      "allowSyntheticDefaultImports": true,     /* 允许从没有设置默认导出的模块中默认导入。这并不影响代码的输出，仅为了类型检查 */
+      "esModuleInterop": true,                   /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */
+      // "preserveSymlinks": true,              /* 不把符号链接解析为其真实路径；将符号链接文件视为真正的文件。 */
+      // "preserveWatchOutput": false,          /* 保留watch模式下过时的控制台输出 */
+      // "pretty": false,                       /* 	给错误和消息设置样式，使用颜色和上下文 */
+      // "project": string,                     /* 编译指定目录下的项目。这个目录应该包含一个 tsconfig.json文件来管理编译。查看 tsconfig.json文档了解更多信息 */
+      // "reactNamespace": string,              /* 	当目标为生成 "react" JSX时，指定 createElement和 __spread的调用对象 */
+  
+      /* Source Map Options */
+      // "sourceRoot": "./",                    /* 指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到 sourceMap */
+      // "mapRoot": "./",                       /* Specify the location where debugger should locate map files instead of generated locations. */
+      // "inlineSourceMap": true,               /* 生成单个sourcemaps文件，而不是将每sourcemaps生成不同的文件 */
+      // "inlineSources": true,                 /* 将代码与sourcemaps生成到一个文件中，要求同时设置了 --inlineSourceMap或 --sourceMap属性。 */
+  
+      /* Experimental Options */
+      "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+      "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
+      "resolveJsonModule": true,
+      // "allowUnreachableCode": false,         /* 不报告执行不到的代码错误 */
+      // "allowUnusedLabels": false,               /* 不报告未使用的标签错误 */
+
+    },
+    "exclude": [
+      "node_modules", "babel.config.js", "metro.config.js", "jest.config.js"
+    ]
+  }
+  
