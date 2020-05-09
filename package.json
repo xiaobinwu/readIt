@@ -10,6 +10,7 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "link": "react-native link",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx"

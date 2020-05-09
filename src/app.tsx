@@ -44,6 +44,7 @@ const ArticleStackComponent = observer(() => {
             <ArticleStack.Screen
                 name={ArticleRoutes.ArticleList}
                 component={ArticleList}
+                options={ArticleList.getPageScreenOptions}
             />
         </ArticleStack.Navigator>
     );
@@ -98,7 +99,10 @@ const AboutStackComponent = observer(() => {
                     onStateChange={this.updateNavigationState}
                 >
                     <Tab.Navigator initialRouteName={ArticleRoutes.ArticleList}>
-                        <Tab.Screen name={ArticleRoutes.ArticleList} component={ArticleStackComponent} />
+                        <Tab.Screen
+                            name={ArticleRoutes.ArticleList}
+                            component={ArticleStackComponent}
+                        />
                         <Tab.Screen name={TodoRoutes.TodoList} component={TodoStackComponent} />
                         <Tab.Screen name={AboutRoutes.About} component={AboutStackComponent} />
                     </Tab.Navigator>

@@ -1,0 +1,303 @@
+{
+  "id": "1801710",
+  "name": "readIt",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "584242",
+      "name": "下箭头",
+      "font_class": "iconfonticonfonti2",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "1115053",
+      "name": "箭头4",
+      "font_class": "jiantou4",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "14443525",
+      "name": "邮件",
+      "font_class": "youjian",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "792344",
+      "name": "moon-b-月亮",
+      "font_class": "moonbyueliang",
+      "unicode": "e6a0",
+      "unicode_decimal": 59040
+    },
+    {
+      "icon_id": "2742627",
+      "name": "地球",
+      "font_class": "diqiu",
+      "unicode": "e668",
+      "unicode_decimal": 58984
+    },
+    {
+      "icon_id": "579286",
+      "name": "点赞",
+      "font_class": "dianzan",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "609891",
+      "name": "列表",
+      "font_class": "liebiaolist29",
+      "unicode": "e771",
+      "unicode_decimal": 59249
+    },
+    {
+      "icon_id": "5383657",
+      "name": "搜索",
+      "font_class": "sousuo",
+      "unicode": "e782",
+      "unicode_decimal": 59266
+    },
+    {
+      "icon_id": "10262050",
+      "name": "设 置",
+      "font_class": "shezhi",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "925443",
+      "name": "查看",
+      "font_class": "chakan",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "6865349",
+      "name": "时间",
+      "font_class": "shijian",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "6915039",
+      "name": "book3",
+      "font_class": "book",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "7791028",
+      "name": "学习",
+      "font_class": "xuexi",
+      "unicode": "e7f1",
+      "unicode_decimal": 59377
+    },
+    {
+      "icon_id": "12579397",
+      "name": "npm",
+      "font_class": "npm",
+      "unicode": "e74e",
+      "unicode_decimal": 59214
+    },
+    {
+      "icon_id": "12686740",
+      "name": "我",
+      "font_class": "icon_wode-",
+      "unicode": "e648",
+      "unicode_decimal": 58952
+    },
+    {
+      "icon_id": "13553457",
+      "name": "flutter-fill",
+      "font_class": "flutter-fill",
+      "unicode": "eeab",
+      "unicode_decimal": 61099
+    },
+    {
+      "icon_id": "3809763",
+      "name": "collection_pre",
+      "font_class": "favored",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "998817",
+      "name": "返回",
+      "font_class": "ai207",
+      "unicode": "e6c3",
+      "unicode_decimal": 59075
+    },
+    {
+      "icon_id": "3876176",
+      "name": "git",
+      "font_class": "git1",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "6204091",
+      "name": "关  闭",
+      "font_class": "guanbi",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "8727201",
+      "name": "星星",
+      "font_class": "xingxing",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "128958",
+      "name": "git",
+      "font_class": "git",
+      "unicode": "e799",
+      "unicode_decimal": 59289
+    },
+    {
+      "icon_id": "431813",
+      "name": "html5",
+      "font_class": "html5",
+      "unicode": "e726",
+      "unicode_decimal": 59174
+    },
+    {
+      "icon_id": "3876350",
+      "name": "mongodb",
+      "font_class": "mongodb",
+      "unicode": "e63e",
+      "unicode_decimal": 58942
+    },
+    {
+      "icon_id": "3876414",
+      "name": "jquery",
+      "font_class": "jquery",
+      "unicode": "e655",
+      "unicode_decimal": 58965
+    },
+    {
+      "icon_id": "3876428",
+      "name": "webpack",
+      "font_class": "webpack",
+      "unicode": "e65b",
+      "unicode_decimal": 58971
+    },
+    {
+      "icon_id": "11493372",
+      "name": "mysql",
+      "font_class": "mysql",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "1387",
+      "name": "github",
+      "font_class": "github",
+      "unicode": "e600",
+      "unicode_decimal": 58880
+    },
+    {
+      "icon_id": "431572",
+      "name": "android",
+      "font_class": "android",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
+      "icon_id": "1033981",
+      "name": "设计艺术",
+      "font_class": "shejiyishu",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "1444817",
+      "name": "language-php",
+      "font_class": "language-php",
+      "unicode": "e7c9",
+      "unicode_decimal": 59337
+    },
+    {
+      "icon_id": "3876068",
+      "name": "angular",
+      "font_class": "angular",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "3876384",
+      "name": "react",
+      "font_class": "react",
+      "unicode": "e64b",
+      "unicode_decimal": 58955
+    },
+    {
+      "icon_id": "3876406",
+      "name": "css3",
+      "font_class": "css",
+      "unicode": "e653",
+      "unicode_decimal": 58963
+    },
+    {
+      "icon_id": "3876458",
+      "name": "python",
+      "font_class": "python",
+      "unicode": "e664",
+      "unicode_decimal": 58980
+    },
+    {
+      "icon_id": "3977828",
+      "name": "数据库",
+      "font_class": "shujuku",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "5634728",
+      "name": "java",
+      "font_class": "java",
+      "unicode": "f1d7",
+      "unicode_decimal": 61911
+    },
+    {
+      "icon_id": "5634776",
+      "name": "node-js",
+      "font_class": "node-js",
+      "unicode": "f1fd",
+      "unicode_decimal": 61949
+    },
+    {
+      "icon_id": "12586802",
+      "name": "iOS",
+      "font_class": "iOS",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "13553538",
+      "name": "vuejs-fill",
+      "font_class": "vuejs-fill",
+      "unicode": "eeb1",
+      "unicode_decimal": 61105
+    },
+    {
+      "icon_id": "13896038",
+      "name": "pie-chart",
+      "font_class": "pie-chart",
+      "unicode": "e78b",
+      "unicode_decimal": 59275
+    },
+    {
+      "icon_id": "14343694",
+      "name": "js",
+      "font_class": "js",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    }
+  ]
+}

@@ -15,4 +15,8 @@ export enum LANGUAGES {
 export enum LANGUAGE_KEYS {
     ENGLISH = 'english',
     CHINESE = 'chinese',
+    // 文章列表页
+    ARTICLELIST = 'articleList',
+
+    NO_RESULT_RETRY = 'noResultRetry'
 }

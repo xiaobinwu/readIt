@@ -1,3 +1,11 @@
+
+/**
+ * Bussniss types
+ * @file 通用props模型
+ * @module types/props
+ * @author twenty-four K <https://github.com/xiaobinwu>
+ */
+
 import { Route } from '@react-navigation/native';
 
 // react node 子节点接口定义
@@ -30,7 +38,7 @@ export interface NavigationProps {
     navigation: Navigation;
     route: Route<string> & {
         params: any
-    }
+    };
 }
 
 // 路由页面的接口定义
