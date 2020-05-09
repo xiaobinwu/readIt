@@ -148,8 +148,9 @@ import mixins from '@app/style/mixins';
     @boundMethod
     private renderListEmptyView(): JSX.Element | null {
         const { styles } = obStyles;
+        // 下箭头
         const commonIconOptions = {
-            name: 'tobottom',
+            name: 'iconfonticonfonti2',
             size: 19,
             color: colors.textSecondary
         };
