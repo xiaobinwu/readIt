@@ -18,5 +18,11 @@ export enum LANGUAGE_KEYS {
     // 文章列表页
     ARTICLELIST = 'articleList',
 
-    NO_RESULT_RETRY = 'noResultRetry'
+    NO_RESULT_RETRY = 'noResultRetry',
+    LOADING = 'loading',
+    LOADMORE = 'loadmore',
+    NO_MORE = 'noMore',
+
+    NETWORK_ERROR = 'networkError',
+    UNKNOW_ERROR = 'unknowError',
 }

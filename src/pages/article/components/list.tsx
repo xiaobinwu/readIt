@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 /**
  * Index
  * @file 文章列表组件
@@ -81,6 +82,14 @@ import mixins from '@app/style/mixins';
         return this.articles.slice() || [];
     }
 
+    // 计算是否已经是最后一页
+    @computed
+    private get isNoMoreData(): boolean {
+        return (
+            !!this.pagination && this.pagination.current_page === this.pagination.total_page
+        );
+    }
+
     @action
     private updateLoadingState(loading: boolean) {
         this.isLoading = loading;
@@ -134,7 +143,7 @@ import mixins from '@app/style/mixins';
     private fetchArticles(page: number = 1): Promise<any> {
         this.updateLoadingState(true);
         return fetch.get<THttpResultPaginateArticles>('/article', { ...this.params, page })
-            .then((article: { result: THttpResultPaginateArticles; }) => {
+            .then((article: { result: THttpResultPaginateArticles }) => {
                 this.updateResultData(article.result);
                 return article;
             }).catch((error: any) => {
@@ -172,6 +181,73 @@ import mixins from '@app/style/mixins';
         );
     }
 
+    // 渲染文章列表脚部的三种状态：空、加载中、无更多、上拉加载
+    @boundMethod
+    private renderListFooterView(): JSX.Element | null {
+        const { styles } = obStyles;
+
+        if (!this.articleListData.length) {
+            return null;
+        }
+
+        if (this.isLoading) {
+            return (
+                <Observer
+                    render={() => (
+                        <View style={[styles.centerContainer, styles.loadmoreViewContainer]}>
+                            <AutoActivityIndicator style={{ marginRight: sizes.gap / 4 }} />
+                            <Text style={styles.smallTitle}>{i18n.t(LANGUAGE_KEYS.LOADING)}</Text>
+                        </View>
+                    )}
+                />
+            );
+        }
+
+        if (this.isNoMoreData) {
+            return (
+                <Observer
+                    render={() => (
+                        <View style={[styles.centerContainer, styles.loadmoreViewContainer]}>
+                            <Text style={styles.smallTitle}>{i18n.t(LANGUAGE_KEYS.NO_MORE)}</Text>
+                        </View>
+                    )}
+                />
+            );
+        }
+
+        return (
+            <Observer
+                render={() => (
+                    <View style={[styles.centerContainer, styles.loadmoreViewContainer]}>
+                        <Iconfont name="jiantou4" color={colors.textSecondary} />
+                        <Text style={[styles.smallTitle, { marginLeft: sizes.gap / 4 }]}>
+                            {i18n.t(LANGUAGE_KEYS.LOADMORE)}
+                        </Text>
+                    </View>
+                )}
+            />
+        );
+    }
+
+    @boundMethod
+    private handleLoadmoreArticle() {
+        if (!this.isNoMoreData && !this.isLoading && this.pagination) {
+        this.fetchArticles(this.pagination.current_page + 1);
+        }
+    }
+
+    @boundMethod
+    private handleToDetailPage(article: IArticle) {
+        // 可以使用navigate
+        this.props.navigation.dispatch(
+            CommonActions.navigate({
+                key: String(article.id),
+                name: ArticleRoutes.ArticleDetail,
+                params: { article }
+            })
+        );
+    }
+
     render() {
         return (
             <View style={obStyles.styles.listViewContainer}>
@@ -197,6 +273,23 @@ import mixins from '@app/style/mixins';
                     onEndReached={this.handleLoadmoreArticle}
                     // 唯一 ID
                     keyExtractor={this.getArticleIdKey}
+                    // 单个主体
+                    renderItem={({ item: article, index }) => {
+                        return (
+                            <Observer
+                                render={() => (
+                                    <ListItem
+                                        article={article}
+                                        liked={likeStore.article.includes(article.id)}
+                                        onPress={this.handleToDetailPage}
+                                        darkTheme={optionStore.darkTheme}
+                                        language={optionStore.language}
+                                        key={this.getArticleIdKey(article, index)}
+                                    />
+                                )}
+                            />
+                        );
+                    }}
                 />
             </View>
         );
@@ -223,6 +316,14 @@ import mixins from '@app/style/mixins';
                 ...fonts.base,
                 color: colors.textSecondary
             },
+            loadmoreViewContainer: {
+                ...mixins.rowCenter,
+                padding: sizes.goldenRatioGap
+            },
+            smallTitle: {
+                ...fonts.small,
+                color: colors.textSecondary
+            }
          });
      }
  });
