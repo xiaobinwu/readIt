@@ -73,7 +73,12 @@ oAxios.interceptors.request.use((config: IRequestConfig): any => {
   // 合并配置
   const finalConfig = assignConfig(config);
   return finalConfig;
-}, (error: any) => Promise.reject(error));
+}, (error: any) => {
+  const text = i18n.t(LANGUAGE_KEYS.NETWORK_ERROR);
+  showToast(text);
+  console.warn(`${text}：`,  error);
+  Promise.reject(error);
+});
 
 // 响应拦截器
 oAxios.interceptors.response.use((res: AxiosResponse<any>): any => {

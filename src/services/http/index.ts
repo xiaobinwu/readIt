@@ -11,8 +11,10 @@ import storage from '@app/services/storage';
 import { showToast } from '@app/services/toast';
 import request from './request';
 import defaultConfig from './config';
+import { constants } from './config';
 import { getLocalCacheKey } from './util';
 
+const { PREFIX_URL } = constants;
 
 export class HttpService {
 
@@ -26,6 +28,10 @@ export class HttpService {
 
 
   async http<T>(params: IRequestConfig): Promise<AxiosResponse<T>>  {
+    // 默认开启url转化
+    if (params.enabledUrlConfigure) {
+        params.url = `${PREFIX_URL}${params.url}`;
+    }
     // 等待前置条件完成
     try {
       const additional = this.params.additional || params.additional;
@@ -70,7 +76,8 @@ export class HttpService {
     }).then((res: AxiosResponse<T>) => {
       const { data = {} } = res;
       const { code, message } = data as IBaseResponse; // 断言，「欺骗」TypeScript 编译器
-      if (code && code !== 0 && curParams.errorPop) {
+      if (code && code !== 0 && message && curParams.errorPop) {
+        curParams.errorPopCall && curParams.errorPopCall(res);
         showToast(message);
       }
       // 接口报错不缓存, TODO, 待修改 

@@ -27,5 +27,7 @@ export const screen = {
 export default {
   gap: 20,
   goldenRatioGap: 20 * goldenRatio,
-  screen
+  touchOpacity: 0.6,
+  screen,
+  borderWidth: StyleSheet.hairlineWidth
 };

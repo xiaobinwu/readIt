@@ -23,13 +23,14 @@ export type ERequestMethod = Method | ERequestJSONPMethod;
 // 常量配置-枚举
 export interface EHttpConstants {
   TIMEOUT: number;
-  JSONPREFIX: string
+  JSONPREFIX: string;
+  PREFIX_URL: string;
 }
 
 // http请求response data（必须返回）
 export interface IBaseResponse {
-  code: number;
-  message: string;
+  code?: number;
+  message?: string;
 }
 
 // 页数数据
@@ -62,6 +63,7 @@ type TCancelTokenConfig = CancelToken | number;
 type TAxiosRequestConfig = Omit<AxiosRequestConfig, 'cancelToken'>;
 
 export interface IRequestConfig extends TAxiosRequestConfig {
+  enabledUrlConfigure?: boolean;
   cancelToken?: TCancelTokenConfig;
   isFilterEmptyField?: boolean;
   isCancel?: boolean;
@@ -69,6 +71,7 @@ export interface IRequestConfig extends TAxiosRequestConfig {
   useLocalCache?: number;
   usePreResult?: boolean;
   additional?: (params: IRequestConfig) => Promise<IRequestConfig>;
+  errorPopCall?: (params: any) => void;
   prefix?: string;
   jsonpCallback?: string;
 }

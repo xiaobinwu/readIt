@@ -13,7 +13,7 @@ import { Observer, observer } from 'mobx-react';
 import { CommonActions } from '@react-navigation/native';
 import { boundMethod } from 'autobind-decorator';
 import { IS_IOS } from '@app/config';
-import { likeStore } from '@app/stores/like';
+// import { likeStore } from '@app/stores/like';
 import { optionStore } from '@app/stores/option';
 import { ArticleRoutes } from '@app/constants/routes';
 import { LANGUAGE_KEYS } from '@app/constants/language';
@@ -23,11 +23,12 @@ import { NavigationProps } from '@app/types/props';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
 import { AutoActivityIndicator } from '@app/components/common/activity-indicator';
-import { archiveFilterStore, EFilterType, TFilterValue } from './filter';
-import { ArticleArchiveHeader } from './header';
+// import { archiveFilterStore, EFilterType, TFilterValue } from './filter';
+import { EFilterType, TFilterValue } from './filter';
+// import { ArticleArchiveHeader } from './header';
 import { ListItem } from './item';
 import i18n from '@app/services/i18n';
-import fetch from '@app/services/fetch';
+import request from '@app/services/request';
 import colors from '@app/style/colors';
 import sizes from '@app/style/sizes';
 import fonts from '@app/style/fonts';
@@ -51,16 +52,16 @@ import mixins from '@app/style/mixins';
         super(props);
         this.fetchArticles();
         // 当过滤条件变化时进行重请求
-        reaction(
-            () => [
-                archiveFilterStore.filterActive,
-                archiveFilterStore.filterType,
-                archiveFilterStore.filterValue
-            ],
-            ([isActive, type, value]: any) => {
-                this.handleFilterChanged(isActive, type, value);
-            }
-        );
+        // reaction(
+        //     () => [
+        //         archiveFilterStore.filterActive,
+        //         archiveFilterStore.filterType,
+        //         archiveFilterStore.filterValue
+        //     ],
+        //     ([isActive, type, value]: any) => {
+        //         this.handleFilterChanged(isActive, type, value);
+        //     }
+        // );
     }
 
     private getAricleItemLayout(_: any, index: number) {
@@ -86,7 +87,7 @@ import mixins from '@app/style/mixins';
     @computed
     private get isNoMoreData(): boolean {
         return (
-            !!this.pagination && this.pagination.current_page === this.pagination.total_page
+            !!this.pagination && this.pagination.page === this.pagination.pages
         );
     }
 
@@ -97,19 +98,20 @@ import mixins from '@app/style/mixins';
 
     @action
     private updateResultData(result: THttpResultPaginateArticles) {
-        const { data, pagination } = result;
+        const { entry, ...resetReuslt } = result;
+        const { list = [] } = entry;
         this.updateLoadingState(false);
-        this.pagination = pagination;
-        if (pagination.current_page > 1) {
-            this.articles.push(...data);
+        this.pagination = resetReuslt;
+        if (resetReuslt.page > 1) {
+            this.articles.push(...list);
         } else {
-            this.articles = data;
+            this.articles = list;
         }
     }
 
 
     @boundMethod
-    private scrollToListTop() {
+    scrollToListTop() {
         const listElement = this.listElement.current;
         if (this.articleListData.length > 0) {
             listElement && listElement.scrollToIndex({ index: 0, viewOffset: 0 });
@@ -140,17 +142,16 @@ import mixins from '@app/style/mixins';
     }
 
     @boundMethod
-    private fetchArticles(page: number = 1): Promise<any> {
+    private async fetchArticles(pageNo: number = 1): Promise<any> {
         this.updateLoadingState(true);
-        return fetch.get<THttpResultPaginateArticles>('/article', { ...this.params, page })
-            .then((article: { result: THttpResultPaginateArticles }) => {
-                this.updateResultData(article.result);
-                return article;
-            }).catch((error: any) => {
-                this.updateLoadingState(false);
-                console.warn('Fetch article list error:', error); // 黄屏
-                return Promise.reject(error);
-            });
+        const data = await request.fetchArticles<THttpResultPaginateArticles>({ ...this.params, pageNo });
+        const { code, message, ...reset } = data;
+        if (code === 0) {
+            this.updateResultData(reset);
+            this.updateLoadingState(false);
+            return data;
+        }
+        this.updateLoadingState(false);
     }
 
     // 渲染文章列表为空时的状态：无数据
@@ -232,7 +233,7 @@ import mixins from '@app/style/mixins';
     @boundMethod
     private handleLoadmoreArticle() {
         if (!this.isNoMoreData && !this.isLoading && this.pagination) {
-        this.fetchArticles(this.pagination.current_page + 1);
+        this.fetchArticles(this.pagination.page + 1);
         }
     }
 
@@ -280,7 +281,8 @@ import mixins from '@app/style/mixins';
                                 render={() => (
                                     <ListItem
                                         article={article}
-                                        liked={likeStore.article.includes(article.id)}
+                                        // liked={likeStore.article.includes(article.id)}
+                                        liked={true}
                                         onPress={this.handleToDetailPage}
                                         darkTheme={optionStore.darkTheme}
                                         language={optionStore.language}

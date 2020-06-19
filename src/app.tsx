@@ -16,11 +16,14 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppearanceProvider } from 'react-native-appearance';
 import { ArticleRoutes, TodoRoutes, AboutRoutes } from '@app/constants/routes';
 import colors from '@app/style/colors';
-import { headerStyles } from '@app/components/layout/title';
-import ArticleList from '@app/pages/article/articleList';
+import { headerStyles, AutoI18nTitle } from '@app/components/layout/title';
+import ArticleList, { indexStore } from '@app/pages/article/articleList';
 import TodoList from '@app/pages/todo/todoList';
+import { Iconfont } from '@app/components/common/iconfont';
 import About from '@app/pages/about';
 import { IS_ANDROID } from '@app/config';
+import { LANGUAGE_KEYS } from '@app/constants/language';
+import { optionStore } from './stores/option';
 
 
 const Tab = createBottomTabNavigator();
@@ -93,18 +96,99 @@ const AboutStackComponent = observer(() => {
     } 
 
     render() {
+        const labelStyle = StyleSheet.create({
+            text: {
+              marginTop: IS_ANDROID ? -2 : 0,
+              marginBottom: IS_ANDROID ? 5 : 0
+            }
+        });
         return (
             <AppearanceProvider>
                 <NavigationContainer
                     onStateChange={this.updateNavigationState}
+                    theme={{
+                        dark: optionStore.darkTheme,
+                        colors: {
+                            primary: colors.primary,
+                            background: colors.background,
+                            card: colors.cardBackground,
+                            text: colors.textDefault,
+                            border: colors.border
+                        }
+                    }}
                 >
                     <Tab.Navigator initialRouteName={ArticleRoutes.ArticleList}>
                         <Tab.Screen
                             name={ArticleRoutes.ArticleList}
                             component={ArticleStackComponent}
+                            options={({ route, navigation }) => {
+                                const isFocused = navigation.isFocused();
+                                const isHomeRoute = route.name === ArticleRoutes.ArticleList;
+                                navigation.addListener('tabPress', () => {
+                                    if (isFocused && isHomeRoute) {
+                                        return indexStore.scrollToArticleListTop();
+                                    }
+                                });
+                                const routeState = (route as any).state;
+                                const isHomeRoot = !routeState || routeState?.index === 0;
+                                return {
+                                    tabBarVisible: isFocused && isHomeRoute && isHomeRoot,
+                                    tabBarLabel: ({ color }) => (
+                                        <AutoI18nTitle
+                                            i18nKey={LANGUAGE_KEYS.ARTICLE}
+                                            size={12}
+                                            color={color}
+                                            style={labelStyle.text}
+                                        />
+                                    ),
+                                    tabBarIcon: ({ color }) => (
+                                        <Iconfont name="book" size={20} color={color} />
+                                    )
+                                };
+                            }}
                         />
-                        <Tab.Screen name={TodoRoutes.TodoList} component={TodoStackComponent} />
-                        <Tab.Screen name={AboutRoutes.About} component={AboutStackComponent} />
+                        <Tab.Screen
+                            name={TodoRoutes.TodoList}
+                            component={TodoStackComponent}
+                            options={({ route, navigation }) => {
+                                return {
+                                    tabBarLabel: ({ color }) => (
+                                        <AutoI18nTitle
+                                            i18nKey={LANGUAGE_KEYS.ARTICLE}
+                                            size={12}
+                                            color={color}
+                                            style={labelStyle.text}
+                                        />
+                                    ),
+                                    tabBarIcon: ({ color }) => (
+                                        <Iconfont name="xuexi" size={20} color={color} />
+                                    )
+                                };
+                            }}
+                        />
+                        <Tab.Screen
+                            name={AboutRoutes.About}
+                            component={AboutStackComponent}
+                            options={({ route }) => {
+                                const routeState = (route as any).state;
+                                const isAboutRoot = !routeState || routeState?.index === 0;
+                                const isAboutRoute = route.name === AboutRoutes.About;
+                                return {
+                                  tabBarVisible: isAboutRoute && isAboutRoot,
+                                  tabBarLabel: ({ color }) => (
+                                    <AutoI18nTitle
+                                      i18nKey={LANGUAGE_KEYS.ABOUT}
+                                      size={12}
+                                      color={color}
+                                      style={labelStyle.text}
+                                    />
+                                  ),
+                                  tabBarIcon: ({ color }) => (
+                                    <Iconfont name="icon_wode-" size={20} color={color} />
+                                  )
+                                };
+                            }}
+                        />
                     </Tab.Navigator>
                 </NavigationContainer>
             </AppearanceProvider>
