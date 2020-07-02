@@ -23,9 +23,8 @@ import { NavigationProps } from '@app/types/props';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
 import { AutoActivityIndicator } from '@app/components/common/activity-indicator';
-// import { archiveFilterStore, EFilterType, TFilterValue } from './filter';
-import { EFilterType, TFilterValue } from './filter';
-// import { ArticleArchiveHeader } from './header';
+import { filterStore, EFilterType, TFilterValue } from './filter';
+import { Header } from './header';
 import { ListItem } from './item';
 import i18n from '@app/services/i18n';
 import request from '@app/services/request';
@@ -52,16 +51,16 @@ import mixins from '@app/style/mixins';
         super(props);
         this.fetchArticles();
         // 当过滤条件变化时进行重请求
-        // reaction(
-        //     () => [
-        //         archiveFilterStore.filterActive,
-        //         archiveFilterStore.filterType,
-        //         archiveFilterStore.filterValue
-        //     ],
-        //     ([isActive, type, value]: any) => {
-        //         this.handleFilterChanged(isActive, type, value);
-        //     }
-        // );
+        reaction(
+            () => [
+                filterStore.filterActive,
+                filterStore.filterType,
+                filterStore.filterValue
+            ],
+            ([isActive, type, value]: any) => {
+                this.handleFilterChanged(isActive, type, value);
+            }
+        );
     }
 
     private getAricleItemLayout(_: any, index: number) {
@@ -131,9 +130,9 @@ import mixins from '@app/style/mixins';
                 if (type === EFilterType.Search) {
                     params.keyword = value as string;
                 } else if (type === EFilterType.Tag) {
-                    params.tag_slug = (value as ITag).slug; // 啥?
+                    params.tag_slug = (value as ITag).slug;
                 } else if (type === EFilterType.Category) {
-                    params.category_slug = (value as ICategory).slug; // 啥?
+                    params.category_slug = (value as ICategory).slug;
                 }
             }
             this.params = params;
@@ -252,6 +251,7 @@ import mixins from '@app/style/mixins';
     render() {
         return (
             <View style={obStyles.styles.listViewContainer}>
+                <Header />
                 <FlatList
                     style={obStyles.styles.articleListView}
                     data={this.articleListData}

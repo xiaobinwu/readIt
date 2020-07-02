@@ -14,6 +14,7 @@ export interface ICategory {
   pid: string;
   name: string;
   slug: string;
+  icon: string;
   count: number;
   description: string;
   update_at: string;
@@ -26,6 +27,7 @@ export interface ITag {
   _id: string;
   name: string;
   slug: string;
+  icon: string;
   count: number;
   description: string;
   update_at: string;

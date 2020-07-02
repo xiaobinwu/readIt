@@ -5,7 +5,7 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 
-import { StyleSheet, ViewStyle } from 'react-native';
+import { StyleSheet, ViewStyle, TextStyle } from 'react-native';
 import sizes from '@app/style/sizes';
 
 const mixins = StyleSheet.create({
@@ -29,5 +29,13 @@ const mixins = StyleSheet.create({
         paddingHorizontal: sizes.gap
     }
 });
+
+// 自定义头部按钮大小样式
+export const getHeaderButtonStyle = (size?: number | void | null): { size: number, style: TextStyle } => {
+    return {
+        size: size != null ? size : 16,
+        style: mixins.headerButton
+    };
+};
 
 export default mixins;

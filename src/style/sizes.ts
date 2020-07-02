@@ -10,6 +10,8 @@ import { IS_IOS } from '@app/config';
 
 const { width, height } = Dimensions.get('window');
 
+export const defaultHeaderHeight = IS_IOS ? 44 : 56;
+
 export const goldenRatio = 0.618;
 
 export const screen = {

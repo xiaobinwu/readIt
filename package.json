@@ -13,7 +13,8 @@
     "link": "react-native link",
     "start": "react-native start",
     "test": "jest",
-    "lint": "eslint src --ext .js,.jsx,.ts,.tsx"
+    "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
+    "react-devtools": "react-devtools"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.1",
@@ -25,7 +26,8 @@
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "react": "16.9.0",
-    "react-native": "^0.61.5",
+    "react-devtools": "^3",
+    "react-native": "0.61.5",
     "react-native-appearance": "^0.3.3",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-localize": "^1.4.0",

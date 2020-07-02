@@ -154,7 +154,7 @@ const AboutStackComponent = observer(() => {
                                 return {
                                     tabBarLabel: ({ color }) => (
                                         <AutoI18nTitle
-                                            i18nKey={LANGUAGE_KEYS.ARTICLE}
+                                            i18nKey={LANGUAGE_KEYS.LEARN}
                                             size={12}
                                             color={color}
                                             style={labelStyle.text}

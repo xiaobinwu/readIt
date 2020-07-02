@@ -13,7 +13,12 @@ import { LANGUAGE_KEYS } from '@app/constants/language';
 import { IPageProps, NavigationProps } from '@app/types/props';
 import colors from '@app/style/colors';
 import sizes from '@app/style/sizes';
+import { TouchableView } from '@app/components/common/touchable-view';
+import { Remind } from '@app/components/common/remind';
+import { Iconfont } from '@app/components/common/iconfont';
+import { getHeaderButtonStyle } from '@app/style/mixins';
 import List from './components/list';
+import { filterStore, Filter } from './components/filter';
 
 
 export interface IArticleListProps extends IPageProps {}
@@ -41,6 +46,26 @@ class ArticleList extends Component<IArticleListProps> {
                     i18nKey={LANGUAGE_KEYS.ARTICLELIST}
                     onDoubleClick={indexStore.scrollToArticleListTop}
                 />
+            ),
+            headerLeft: () => (
+                <Observer render={() => (
+                    <TouchableView
+                        accessibilityLabel="文章筛选器"
+                        accessibilityHint="切换文章筛选器"
+                        onPress={() => filterStore.updateVisibleState(true)}
+                    >
+                        <Iconfont
+                            name="liebiaolist29" 
+                            color={colors.cardBackground}
+                            {...getHeaderButtonStyle()}
+                        />
+                        {
+                            filterStore.isActiveTagOrCategoryFilter && (
+                                <Remind style={styles.headerCheckedIcon} />
+                            )
+                        }
+                    </TouchableView>
+                )} />
             )
         };
     }
@@ -49,6 +74,7 @@ class ArticleList extends Component<IArticleListProps> {
         const { route, navigation } = this.props;
         return (
             <View style={styles.container}>
+                <Filter />
                 <List
                     route={route}
                     navigation={navigation}

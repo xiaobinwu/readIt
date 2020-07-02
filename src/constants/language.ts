@@ -18,6 +18,16 @@ export enum LANGUAGE_KEYS {
     ARTICLE = 'article',
     LEARN = 'Learn',
     ABOUT='About',
+
+    // 过滤类型
+    SEARCH = 'search',
+    CATEGORY = 'category',
+    TAG = 'tag',
+    TAGS = 'tags',
+    CATEGORIES = 'categories',
+    FILTER_BY_TAG_CATEGORY = 'filterByTagCategory',
+    FILTER_RESULT = 'filterResult',
+
     // 文章列表页
     ARTICLELIST = 'articleList',
     NO_RESULT_RETRY = 'noResultRetry',

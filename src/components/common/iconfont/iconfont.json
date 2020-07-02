@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "363384",
+      "name": "正确",
+      "font_class": "zhengque",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "573775",
+      "name": "分享",
+      "font_class": "fenxiang",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
+    },
+    {
+      "icon_id": "791894",
+      "name": "分类",
+      "font_class": "fenlei-copy",
+      "unicode": "e64e",
+      "unicode_decimal": 58958
+    },
+    {
+      "icon_id": "1063395",
+      "name": "标签",
+      "font_class": "icontag",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "5330144",
+      "name": "评论",
+      "font_class": "pinglun",
+      "unicode": "e763",
+      "unicode_decimal": 59235
+    },
+    {
       "icon_id": "584242",
       "name": "下箭头",
       "font_class": "iconfonticonfonti2",
@@ -151,13 +186,6 @@
       "font_class": "xingxing",
       "unicode": "e60e",
       "unicode_decimal": 58894
-    },
-    {
-      "icon_id": "128958",
-      "name": "git",
-      "font_class": "git",
-      "unicode": "e799",
-      "unicode_decimal": 59289
     },
     {
       "icon_id": "431813",

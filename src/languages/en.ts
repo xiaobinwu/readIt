@@ -25,6 +25,12 @@ export default {
     [LANGUAGE_KEYS.ORIGIN_ORIGINAL]: 'Original',
     [LANGUAGE_KEYS.ORIGIN_REPRINT]: 'Reprint',
     [LANGUAGE_KEYS.AM]: 'AM',
-    [LANGUAGE_KEYS.PM]: 'PM'  
-
+    [LANGUAGE_KEYS.PM]: 'PM',
+    [LANGUAGE_KEYS.TAG]: 'Tag',
+    [LANGUAGE_KEYS.CATEGORY]: 'Category',
+    [LANGUAGE_KEYS.SEARCH]: 'Search',
+    [LANGUAGE_KEYS.TAGS]: 'Tags',
+    [LANGUAGE_KEYS.CATEGORIES]: 'Categories',
+    [LANGUAGE_KEYS.FILTER_BY_TAG_CATEGORY]: 'Filter article by tag or category',
+    [LANGUAGE_KEYS.FILTER_RESULT]: '\'s result'
 };
