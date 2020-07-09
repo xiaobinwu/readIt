@@ -33,4 +33,8 @@ export default {
     [LANGUAGE_KEYS.CATEGORIES]: '分类',
     [LANGUAGE_KEYS.FILTER_BY_TAG_CATEGORY]: '使用标签、分类进行过滤',
     [LANGUAGE_KEYS.FILTER_RESULT]: '的过滤结果',
+    [LANGUAGE_KEYS.CLEAR]: '清空',
+    [LANGUAGE_KEYS.HISTORT]: '历史记录',
+    [LANGUAGE_KEYS.KEYWORD]: '关键词',
+    [LANGUAGE_KEYS.CANCEL]: '取消',
 };

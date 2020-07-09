@@ -18,6 +18,7 @@ import { ArticleRoutes, TodoRoutes, AboutRoutes } from '@app/constants/routes';
 import colors from '@app/style/colors';
 import { headerStyles, AutoI18nTitle } from '@app/components/layout/title';
 import ArticleList, { indexStore } from '@app/pages/article/articleList';
+import ArticleSearch from '@app/pages/article/articleSearch';
 import TodoList from '@app/pages/todo/todoList';
 import { Iconfont } from '@app/components/common/iconfont';
 import About from '@app/pages/about';
@@ -48,6 +49,11 @@ const ArticleStackComponent = observer(() => {
                 name={ArticleRoutes.ArticleList}
                 component={ArticleList}
                 options={ArticleList.getPageScreenOptions}
+            />
+            <ArticleStack.Screen
+                name={ArticleRoutes.ArticleSearch}
+                component={ArticleSearch}
+                options={{ headerShown: false }}
             />
         </ArticleStack.Navigator>
     );

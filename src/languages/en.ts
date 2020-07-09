@@ -32,5 +32,9 @@ export default {
     [LANGUAGE_KEYS.TAGS]: 'Tags',
     [LANGUAGE_KEYS.CATEGORIES]: 'Categories',
     [LANGUAGE_KEYS.FILTER_BY_TAG_CATEGORY]: 'Filter article by tag or category',
-    [LANGUAGE_KEYS.FILTER_RESULT]: '\'s result'
+    [LANGUAGE_KEYS.FILTER_RESULT]: '\'s result',
+    [LANGUAGE_KEYS.CLEAR]: 'Clear',
+    [LANGUAGE_KEYS.HISTORT]: 'History',
+    [LANGUAGE_KEYS.KEYWORD]: 'Keyword',
+    [LANGUAGE_KEYS.CANCEL]: 'Cancel',
 };

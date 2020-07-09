@@ -17,6 +17,7 @@ import { TouchableView } from '@app/components/common/touchable-view';
 import { Remind } from '@app/components/common/remind';
 import { Iconfont } from '@app/components/common/iconfont';
 import { getHeaderButtonStyle } from '@app/style/mixins';
+import { ArticleRoutes } from '@app/constants/routes';
 import List from './components/list';
 import { filterStore, Filter } from './components/filter';
 
@@ -64,6 +65,21 @@ class ArticleList extends Component<IArticleListProps> {
                                 <Remind style={styles.headerCheckedIcon} />
                             )
                         }
+                    </TouchableView>
+                )} />
+            ),
+            headerRight: () => (
+                <Observer render={() => (
+                    <TouchableView
+                        accessibilityLabel="搜索按钮"
+                        accessibilityHint="打开搜索页面"
+                        onPress={() => navigation.push(ArticleRoutes.ArticleSearch)}
+                    >
+                        <Iconfont
+                            name="sousuo"
+                            color={colors.cardBackground}
+                            {...getHeaderButtonStyle(18)}
+                        />
                     </TouchableView>
                 )} />
             )

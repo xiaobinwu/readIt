@@ -44,5 +44,11 @@ export enum LANGUAGE_KEYS {
     ORIGIN_ORIGINAL = 'originOriginal',
     ORIGIN_REPRINT = 'originReprint',
     AM = 'am',
-    PM = 'pm'
+    PM = 'pm',
+
+    // 文章搜索页
+    CLEAR = 'clear',
+    HISTORT = 'history',
+    KEYWORD = 'keyword',
+    CANCEL = 'clearCacheCancelButton',
 }
