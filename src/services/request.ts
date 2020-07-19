@@ -10,6 +10,20 @@ class Request extends HttpService {
         return data;
     }
 
+    // 获取文章详情
+    async fetchArticleDetail<T>(params = {}) {
+        console.log(params);
+        const { data } = await this.post<T>(`${appApi}/article/detail`, params);
+        return data;
+    }
+
+    // 喜欢文章
+    async fetchUpdateArticle<T>(params  = {}) {
+        console.log(params);
+        const { data } = await this.post<T>(`${appApi}/article/like`, params);
+        return data;
+    }
+
     // 获取文章标签列表
     async fetchTags<T>(params = {}) {
         console.log(params);

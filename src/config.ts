@@ -8,6 +8,8 @@ import { Platform } from 'react-native';
 
 export const appApi = 'http://192.168.47.1:8087/api/readIt';
 export const staticApi = 'http://read-it.oss-cn-shenzhen.aliyuncs.com';
+export const appName = 'ReadIt';
+export const webUrl = 'http://wushaobin.top';
 
 export const IS_DEV = __DEV__;
 export const IS_IOS = Object.is(Platform.OS, 'ios');

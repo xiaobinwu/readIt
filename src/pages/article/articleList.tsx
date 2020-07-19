@@ -76,7 +76,7 @@ class ArticleList extends Component<IArticleListProps> {
                         onPress={() => navigation.push(ArticleRoutes.ArticleSearch)}
                     >
                         <Iconfont
-                            name="sousuo"
+                            name="sousuo1"
                             color={colors.cardBackground}
                             {...getHeaderButtonStyle(18)}
                         />

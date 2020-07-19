@@ -34,6 +34,7 @@ export enum LANGUAGE_KEYS {
     LOADING = 'loading',
     LOADMORE = 'loadmore',
     NO_MORE = 'noMore',
+    RENDERING = 'rendering',
 
     // 网络错误
     NETWORK_ERROR = 'networkError',
@@ -51,4 +52,21 @@ export enum LANGUAGE_KEYS {
     HISTORT = 'history',
     KEYWORD = 'keyword',
     CANCEL = 'clearCacheCancelButton',
+
+    // 文章详情页
+    VIEWS = 'views',
+    LIKES = 'likes',
+    LIKE = 'like',
+    COMMENTS = 'comments',
+    COMMENT = 'comment',
+    SHARE = 'share',
+    LAST_UPDATE_AT = 'lastUpdateAt',
+    CREATE_AT = 'createAt',
+    EMPTY = 'empty',
+    RELATED_ARTICLE = 'relatedArticle',
+
+    // 文章WebView
+    OPEN_BY_BROWER = 'openByBrower',
+    COPY_URL = 'copyUrl',
+    URL_OPEN_TYPE = 'urlOpenType',
 }

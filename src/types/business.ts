@@ -43,6 +43,7 @@ export interface IArticle {
   content: string;
   keywords: string[];
   thumb: string;
+  isMarkDown: boolean;
   meta: {
     likes: number,
     views: number,

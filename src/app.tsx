@@ -19,11 +19,13 @@ import colors from '@app/style/colors';
 import { headerStyles, AutoI18nTitle } from '@app/components/layout/title';
 import ArticleList, { indexStore } from '@app/pages/article/articleList';
 import ArticleSearch from '@app/pages/article/articleSearch';
+import ArticleDetail from '@app/pages/article/articleDetail';
 import TodoList from '@app/pages/todo/todoList';
 import { Iconfont } from '@app/components/common/iconfont';
 import About from '@app/pages/about';
 import { IS_ANDROID } from '@app/config';
 import { LANGUAGE_KEYS } from '@app/constants/language';
+import { WebViewPage } from '@app/pages/common/webview';
 import { optionStore } from './stores/option';
 
 
@@ -54,6 +56,16 @@ const ArticleStackComponent = observer(() => {
                 name={ArticleRoutes.ArticleSearch}
                 component={ArticleSearch}
                 options={{ headerShown: false }}
+            />
+            <ArticleStack.Screen
+                name={ArticleRoutes.ArticleDetail}
+                component={ArticleDetail}
+                options={{ headerShown: false }}
+            />
+            <ArticleStack.Screen
+                name={ArticleRoutes.ArticleWebview}
+                component={WebViewPage}
+                options={WebViewPage.getPageScreenOptions}
             />
         </ArticleStack.Navigator>
     );

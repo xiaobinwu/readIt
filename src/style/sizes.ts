@@ -12,24 +12,35 @@ const { width, height } = Dimensions.get('window');
 
 export const defaultHeaderHeight = IS_IOS ? 44 : 56;
 
+export const safeAreaViewTop = 44;
+
 export const goldenRatio = 0.618;
 
+export const safeAreaViewBottom = 34;
+
+const screenHeight = width < height ? height : width;
+const screenWidth = width < height ? width : height;
+
 export const screen = {
-    height,
-    width,
+    height: screenHeight,
+    width: screenWidth,
     widthHalf: width * 0.5,
     widthThird: width * 0.333,
     widthTwoThirds: width * 0.666,
     widthQuarter: width * 0.25,
     widthThreeQuarters: width * 0.75,
     heightTwoThirds: height * 0.666,
-    heightHoldenRatio: height * goldenRatio
+    heightHoldenRatio: height * goldenRatio,
+    heightSafeArea: screenHeight - safeAreaViewTop,
 };
 
 export default {
   gap: 20,
+  goldenRatio,
   goldenRatioGap: 20 * goldenRatio,
+  thumbHeightRatio: 1190 / 420,
   touchOpacity: 0.6,
   screen,
-  borderWidth: StyleSheet.hairlineWidth
+  borderWidth: StyleSheet.hairlineWidth,
+  statusBarHeight: IS_IOS ? 16 : 24
 };

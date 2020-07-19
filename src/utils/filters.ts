@@ -20,3 +20,8 @@
     const hour = date.getHours();
     return `${year}/${month}/${day} ${hour > 11 ? i18n.t(LANGUAGE_KEYS.PM) : i18n.t(LANGUAGE_KEYS.AM)}`;
  };
+
+ // 文本限制
+ export const stringLimit = (description: string, limit: number = 80): string => {
+    return description.length < limit ? description : `${description.slice(0, limit)}...`;
+ };

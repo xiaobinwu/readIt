@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "551841",
+      "name": "省略号",
+      "font_class": "more",
+      "unicode": "e637",
+      "unicode_decimal": 58935
+    },
+    {
+      "icon_id": "10514900",
+      "name": "搜索",
+      "font_class": "sousuo1",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    },
+    {
+      "icon_id": "622958",
+      "name": "ZS返回",
+      "font_class": "fanhui",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
       "icon_id": "363384",
       "name": "正确",
       "font_class": "zhengque",
@@ -88,13 +109,6 @@
       "font_class": "liebiaolist29",
       "unicode": "e771",
       "unicode_decimal": 59249
-    },
-    {
-      "icon_id": "5383657",
-      "name": "搜索",
-      "font_class": "sousuo",
-      "unicode": "e782",
-      "unicode_decimal": 59266
     },
     {
       "icon_id": "10262050",

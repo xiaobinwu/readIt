@@ -13,7 +13,7 @@ import { Observer, observer } from 'mobx-react';
 import { CommonActions } from '@react-navigation/native';
 import { boundMethod } from 'autobind-decorator';
 import { IS_IOS } from '@app/config';
-// import { likeStore } from '@app/stores/like';
+import { likeStore } from '@app/stores/like';
 import { optionStore } from '@app/stores/option';
 import { ArticleRoutes } from '@app/constants/routes';
 import { LANGUAGE_KEYS } from '@app/constants/language';
@@ -281,8 +281,7 @@ import mixins from '@app/style/mixins';
                                 render={() => (
                                     <ListItem
                                         article={article}
-                                        // liked={likeStore.article.includes(article.id)}
-                                        liked={true}
+                                        liked={likeStore.articles.includes(article.id)}
                                         onPress={this.handleToDetailPage}
                                         darkTheme={optionStore.darkTheme}
                                         language={optionStore.language}

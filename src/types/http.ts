@@ -48,6 +48,10 @@ export interface IHttpResultPaginate<T> extends IHttpPaginate {
   }
 }
 
+// 普通数据
+export interface IHttpResultOrdinary<T> extends IBaseResponse {
+  entry: any
+}
 
 
 // 缓存的请求结果-接口定义
