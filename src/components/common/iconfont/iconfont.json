@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "11399524",
+      "name": "时间",
+      "font_class": "shijian1",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "924704",
+      "name": "热度",
+      "font_class": "redu",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "11519582",
+      "name": "评论",
+      "font_class": "pinglun1",
+      "unicode": "e73e",
+      "unicode_decimal": 59198
+    },
+    {
       "icon_id": "551841",
       "name": "省略号",
       "font_class": "more",

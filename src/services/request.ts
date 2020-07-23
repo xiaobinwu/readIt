@@ -38,6 +38,20 @@ class Request extends HttpService {
         return data;
     }
 
+    // 获取评论列表
+    async fetchComments<T>(params = {}) {
+        console.log(params);
+        const { data } = await this.get<T>(`${appApi}/comment/list`, params);
+        return data;
+    }
+
+    // 喜欢评论
+    async fetchUpdateComment<T>(params  = {}) {
+        console.log(params);
+        const { data } = await this.post<T>(`${appApi}/comment/like`, params);
+        return data;
+    }
+
 }
 
 export default new Request();

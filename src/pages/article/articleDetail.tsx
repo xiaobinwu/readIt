@@ -21,6 +21,7 @@ import { TouchableView } from '@app/components/common/touchable-view';
 import { AutoActivityIndicator } from '@app/components/common/activity-indicator';
 import { DoubleClick } from '@app/components/common/double-click';
 import { Text } from '@app/components/common/text';
+import { Comment } from '@app/components/common/comment';
 import { dateToYMD } from '@app/utils/filters';
 import { RichContent } from '@app/components/common/richcontent';
 import { IPageProps } from '@app/types/props';
@@ -413,7 +414,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
                                     onPress={this.handleOpenComment}
                                 >
                                     <Iconfont name="pinglun" style={styles.footerItemIcon} />
-                                    <Text style={styles.footerItemText}>{i18n.t(LANGUAGE_KEYS.COMMENT)} {` (${article.meta.comments})`}</Text>
+                                    <Text style={styles.footerItemText}>{i18n.t(LANGUAGE_KEYS.COMMENTS)} {` (${article.meta.comments})`}</Text>
                                 </TouchableView>
                                 <TouchableView
                                     style={styles.footerItem}
@@ -445,11 +446,21 @@ class ArticleDetail extends Component<IArticleDetailProps> {
                 </View>
                 <BetterModal
                     visible={this.commentModalVisible}
+                    title={i18n.t(LANGUAGE_KEYS.GOODCOMMENTS)}
                     onClose={() => this.updateCommentModalVisible(false)}
                     top={this.isHeaderCollapsed ? headerHeightCollapsed : headerHeight}
+                    extra={(
+                        <TouchableView
+                            accessibilityLabel="添加评论"
+                            onPress={() => {
+                                console.log('开启评论框');
+                            }}
+                        >
+                            <Iconfont name="pinglun1" color={colors.textLink} {...getHeaderButtonStyle()} />
+                        </TouchableView>
+                    )}
                 >
-                    <Text>评论区域</Text>
-                    <Text>评论区域</Text>
+                    <Comment articleId={this.getArticleId()} />
                 </BetterModal>
             </SafeAreaView>
         );

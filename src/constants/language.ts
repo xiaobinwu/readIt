@@ -60,10 +60,12 @@ export enum LANGUAGE_KEYS {
     COMMENTS = 'comments',
     COMMENT = 'comment',
     SHARE = 'share',
+    TOTAL = 'total',
     LAST_UPDATE_AT = 'lastUpdateAt',
     CREATE_AT = 'createAt',
     EMPTY = 'empty',
     RELATED_ARTICLE = 'relatedArticle',
+    GOODCOMMENTS = 'goodComments',
 
     // 文章WebView
     OPEN_BY_BROWER = 'openByBrower',

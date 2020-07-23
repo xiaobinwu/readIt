@@ -56,3 +56,15 @@ export interface IArticle {
   category: ICategory[];
   related: IArticle[];
 }
+
+export interface IComment {
+  article_id: number;
+  id: number;
+  _id: string;
+  content: string;
+  author: string;
+  email: string;
+  likes: number;
+  create_at: string
+  update_at: string
+}

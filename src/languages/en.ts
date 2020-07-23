@@ -44,6 +44,7 @@ export default {
     [LANGUAGE_KEYS.CREATE_AT]: 'Created at',
     [LANGUAGE_KEYS.RELATED_ARTICLE]: 'Related articles',
     [LANGUAGE_KEYS.COMMENTS]: 'comments',
+    [LANGUAGE_KEYS.GOODCOMMENTS]: 'Featured Reviews',
     [LANGUAGE_KEYS.COMMENT]: 'Comment',
     [LANGUAGE_KEYS.LIKE]: 'Like',
     [LANGUAGE_KEYS.SHARE]: 'Share',
@@ -51,4 +52,5 @@ export default {
     [LANGUAGE_KEYS.OPEN_BY_BROWER]: 'By Brower',
     [LANGUAGE_KEYS.COPY_URL]: 'Cpoy url',
     [LANGUAGE_KEYS.URL_OPEN_TYPE]: 'Open url',
+    [LANGUAGE_KEYS.TOTAL]: 'Total',
 };

@@ -44,6 +44,7 @@ export default {
     [LANGUAGE_KEYS.CREATE_AT]: '发布于',
     [LANGUAGE_KEYS.RELATED_ARTICLE]: '相关文章',
     [LANGUAGE_KEYS.COMMENTS]: '评论',
+    [LANGUAGE_KEYS.GOODCOMMENTS]: '精选评论',
     [LANGUAGE_KEYS.COMMENT]: '评论',
     [LANGUAGE_KEYS.LIKE]: '喜欢',
     [LANGUAGE_KEYS.SHARE]: '分享',
@@ -51,4 +52,5 @@ export default {
     [LANGUAGE_KEYS.OPEN_BY_BROWER]: '浏览器',
     [LANGUAGE_KEYS.COPY_URL]: '复制链接',
     [LANGUAGE_KEYS.URL_OPEN_TYPE]: '打开方式',
+    [LANGUAGE_KEYS.TOTAL]: '条数据',
 };
