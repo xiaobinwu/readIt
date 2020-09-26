@@ -90,7 +90,7 @@ export class ListItem extends PureComponent<IArtileListItemProps> {
                         <Text style={styles.metaText}>{article.meta.views}</Text>
                     </View>
                     <View style={styles.metaItem}>
-                        <Iconfont name="chakan" size={13} style={styles.metaIcon} />
+                        <Iconfont name="pinglun" size={15} style={styles.metaIcon} />
                         <Text style={styles.metaText}>{article.meta.comments}</Text>
                     </View>
                     <View style={styles.metaItem}>

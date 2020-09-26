@@ -9,9 +9,7 @@ import { EOriginState } from './state';
 
 // 分类模型，后面待修改
 export interface ICategory {
-  id: number;
   _id: string;
-  pid: string;
   name: string;
   slug: string;
   icon: string;
@@ -23,7 +21,6 @@ export interface ICategory {
 
 // 标签模型，后面待修改
 export interface ITag {
-  id: number;
   _id: string;
   name: string;
   slug: string;
@@ -36,7 +33,6 @@ export interface ITag {
 
 // 文章模型，后面待修改
 export interface IArticle {
-  id: number;
   _id: string;
   title: string;
   description: string;
@@ -59,7 +55,6 @@ export interface IArticle {
 
 export interface IComment {
   article_id: number;
-  id: number;
   _id: string;
   content: string;
   author: string;
