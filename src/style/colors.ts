@@ -17,10 +17,6 @@ export enum Themes {
 type ThemeKey =
 | 'primary'// 主题色
 | 'secondary' // 次要主题色
-
-| 'primary' // 主题色
-| 'secondary' // 次要主题色
-
 | 'accent' // 强调色
 | 'red' // 红色，错误色
 | 'yellow' // 黄色，警告色

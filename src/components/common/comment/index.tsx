@@ -35,7 +35,7 @@ export type TCommentListElement = RefObject<FlatList<IComment>>;
 type THttpResultPaginateComment = IHttpResultPaginate<IComment[]>;
 
 export interface ICommentProps {
-    articleId: number;
+    articleId: string;
     onScroll?(event: NativeSyntheticEvent<NativeScrollEvent>): void
 }
 
@@ -95,7 +95,7 @@ export class Comment extends Component<ICommentProps> {
     }
 
     private getCommentKey(comment: IComment, index?: number): string {
-        return `index:${index}:sep:${comment.id}`;
+        return `index:${index}:sep:${comment._id}`;
     }
 
     @boundMethod
@@ -220,11 +220,11 @@ export class Comment extends Component<ICommentProps> {
     // 喜欢评论
     @boundMethod
     private async handleLikeComment(comment: IComment) {
-        const commentId = comment.id;
+        const commentId = comment._id;
         const data = await request.fetchUpdateComment<TIHttpResultOrdinary>({ commentId });
         if (data.code === 0) {
             action(() => {
-                const targetCommentIndex = this.comments.findIndex(item => item.id === commentId);
+                const targetCommentIndex = this.comments.findIndex(item => item._id === commentId);
                 likeStore.likeComment(commentId);
                 this.comments.splice(targetCommentIndex, 1, {
                     ...comment,
@@ -297,7 +297,7 @@ export class Comment extends Component<ICommentProps> {
                                 darkTheme={optionStore.darkTheme}
                                 language={optionStore.language}
                                 comment={comment}
-                                liked={likeStore.comments.includes(comment.id)}
+                                liked={likeStore.comments.includes(comment._id)}
                                 onLike={this.handleLikeComment}
                             />
                         )

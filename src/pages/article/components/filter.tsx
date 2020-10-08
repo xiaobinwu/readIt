@@ -8,7 +8,7 @@
 import React, { Component } from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import { observable, action, computed } from 'mobx';
-import { observer, observerBatching } from 'mobx-react';
+import { observer } from 'mobx-react';
 import { optionStore } from '@app/stores/option';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
@@ -118,8 +118,9 @@ class Store {
 
     @action.bound
     private async fetchTags(pageNo: number = 1) {
-        const data = await request.fetchTags<THttpResultPaginateTags>({ pageSize: 666, pageNo: 1 });
+        const data = await request.fetchTags<THttpResultPaginateTags>({ noPage: true, pageNo: 1 });
         const { code, message, ...reset } = data;
+        console.log('Tags', data);
         if (code === 0) {
             const { entry, ...resetReuslt } = reset;
             const { list = [] } = entry;
@@ -129,8 +130,9 @@ class Store {
 
     @action.bound
     private async fetchCategories(pageNo: number = 1) {
-        const data = await request.fetchCategories<THttpResultPaginateCategory>({ pageSize: 666, pageNo: 1 });
+        const data = await request.fetchCategories<THttpResultPaginateCategory>({ noPage: true, pageNo: 1 });
         const { code, message, ...reset } = data;
+        console.log('Categories', data);
         if (code === 0) {
             const { entry, ...resetReuslt } = reset;
             const { list = [] } = entry;

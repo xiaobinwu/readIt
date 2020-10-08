@@ -11,8 +11,8 @@ import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 
 class LikeStore {
-    @observable.shallow articles: number[] = []; 
-    @observable.shallow comments: number[] = [];
+    @observable.shallow articles: string[] = []; 
+    @observable.shallow comments: string[] = [];
 
     constructor() {
         this.resetStore();       
@@ -23,15 +23,15 @@ class LikeStore {
         this.initComments();
     }
     private initArticles() {
-        storage.get<number[]>(STORAGE.ARTICLE_LIKES).then(this.updateArticles);
+        storage.get<string[]>(STORAGE.ARTICLE_LIKES).then(this.updateArticles);
     }
     @action.bound
-    updateArticles(articles: number[]) {
+    updateArticles(articles: string[]) {
         this.articles = articles || [];
         this.syncArticles();
     }
     @action.bound
-    likeArticle(articleId: number) {
+    likeArticle(articleId: string) {
         this.articles.push(articleId);
         this.syncArticles();
     }
@@ -41,15 +41,15 @@ class LikeStore {
 
 
     private initComments() {
-        storage.get<number[]>(STORAGE.COMMENT_LIKES).then(this.updateComments);
+        storage.get<string[]>(STORAGE.COMMENT_LIKES).then(this.updateComments);
     }
     @action.bound
-    updateComments(comments: number[]) {
+    updateComments(comments: string[]) {
         this.comments = comments || [];
         this.syncComments();
     }
     @action.bound
-    likeComment(commentId: number) {
+    likeComment(commentId: string) {
         this.comments.push(commentId);
         this.syncComments();
     }

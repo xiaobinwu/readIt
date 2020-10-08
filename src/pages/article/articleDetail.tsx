@@ -172,7 +172,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     private handleToNewArticle(article: IArticle) {
         this.props.navigation.dispatch(
             CommonActions.navigate({
-                key: String(article.id),
+                key: String(article._id),
                 name: ArticleRoutes.ArticleDetail,
                 params: { article }
             })
@@ -180,9 +180,9 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     }
 
     @boundMethod
-    private getArticleId(): number {
+    private getArticleId(): string {
         const { params } = this.props.route;
-        return params?.articleId || params?.article?.id;
+        return params?.articleId || params?.article?._id;
     }
 
     @boundMethod
@@ -212,7 +212,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
             return Promise.reject();
         }
         this.updateLoadingState(true);
-        const data = await request.fetchArticleDetail<TIHttpResultOrdinary>({ articleId });
+        const data = await request.fetchArticleDetail<TIHttpResultOrdinary>({ _id: articleId });
         const { code, message, ...reset } = data;
         if (code === 0) {
             this.updateResultData(reset);
@@ -369,9 +369,9 @@ class ArticleDetail extends Component<IArticleDetailProps> {
                                             {i18n.t(LANGUAGE_KEYS.RELATED_ARTICLE)}
                                         </Text>
                                         {
-                                            article.related.filter(a => a.id !== article.id).slice(0, 3).map((item, index) => (
+                                            article.related.filter(a => a._id !== article._id).slice(0, 3).map((item, index) => (
                                                 <TouchableView
-                                                    key={`${item.id}-${index}`}
+                                                    key={`${item._id}-${index}`}
                                                     style={styles.relatedItem}
                                                     onPress={(() => this.handleToNewArticle(item))}
                                                 >

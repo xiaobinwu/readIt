@@ -73,7 +73,7 @@ import mixins from '@app/style/mixins';
     }
 
     private getArticleIdKey(article: IArticle, index?: number): string {
-        return `index:${index}:sep:${article._id}:${article.id}`;
+        return `index:${index}:sep:${article._id}`;
     }
 
     // 为了不影响FlatList组件渲染，对于引用类型，需要特殊处理
@@ -130,9 +130,9 @@ import mixins from '@app/style/mixins';
                 if (type === EFilterType.Search) {
                     params.keyword = value as string;
                 } else if (type === EFilterType.Tag) {
-                    params.tag_slug = (value as ITag).slug;
+                    params.tag = [(value as ITag)._id];
                 } else if (type === EFilterType.Category) {
-                    params.category_slug = (value as ICategory).slug;
+                    params.category = [(value as ICategory)._id];
                 }
             }
             this.params = params;
@@ -241,7 +241,7 @@ import mixins from '@app/style/mixins';
         // 可以使用navigate
         this.props.navigation.dispatch(
             CommonActions.navigate({
-                key: String(article.id),
+                key: String(article._id),
                 name: ArticleRoutes.ArticleDetail,
                 params: { article }
             })
@@ -281,7 +281,7 @@ import mixins from '@app/style/mixins';
                                 render={() => (
                                     <ListItem
                                         article={article}
-                                        liked={likeStore.articles.includes(article.id)}
+                                        liked={likeStore.articles.includes(article._id)}
                                         onPress={this.handleToDetailPage}
                                         darkTheme={optionStore.darkTheme}
                                         language={optionStore.language}
