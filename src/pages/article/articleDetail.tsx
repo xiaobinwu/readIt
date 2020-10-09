@@ -65,7 +65,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
         this.fetchArticleDatail();
         reaction(
             () => this.isHeaderCollapsed,
-            collapse => this.runHeaderAnimate(false),
+            collapse => this.runHeaderAnimate(collapse),
             { fireImmediately: true }
         );
     }
