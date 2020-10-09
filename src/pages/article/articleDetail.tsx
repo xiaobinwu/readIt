@@ -137,13 +137,13 @@ class ArticleDetail extends Component<IArticleDetailProps> {
         // 是否为markdown
         if (article && article.isMarkDown && article.content) {
             const { content } = article;
-            const thumbContent = `![](${article.thumb})`;
+            // const thumbContent = `![](${article.thumb})`;
             const isBrStart = content.startsWith('\n');
-            const isIncludeThumb = content && content.includes(thumbContent);
-            // 去除内容的缩略图
-            if (isIncludeThumb) {
-                article.content = article.content.replace(thumbContent, '');
-            }
+            // const isIncludeThumb = content && content.includes(thumbContent);
+            // // 去除内容的缩略图
+            // if (isIncludeThumb) {
+            //     article.content = article.content.replace(thumbContent, '');
+            // }
             // 文本内容首位不为\n
             if (isBrStart) {
             article.content = article.content.replace('\n', '');
@@ -195,7 +195,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     private async handleLikeArticle() {
         if (!this.isLikedArticle) {
             const articleId = this.getArticleId();
-            const data = await request.fetchUpdateArticle<TIHttpResultOrdinary>({ articleId });
+            const data = await request.fetchUpdateArticle<TIHttpResultOrdinary>({ _id: articleId });
             if (data.code === 0) {
                 action(() => {
                     likeStore.likeArticle(articleId);
