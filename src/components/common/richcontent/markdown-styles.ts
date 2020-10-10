@@ -5,7 +5,7 @@
  */
 
 import { observable } from 'mobx';
-import { webUrl } from '@app/config';
+import { staticApi } from '@app/config';
 import colors from '@app/style/colors';
 import sizes from '@app/style/sizes';
 import fonts from '@app/style/fonts';
@@ -41,7 +41,7 @@ export const content = observable({
       
       @font-face {
         font-family: ${$fontDINRegular};
-        src: url('${webUrl}/fonts/DIN-Regular.ttf');
+        src: url('${staticApi}/fonts/DIN-Regular.ttf');
       }
 
       body {
@@ -103,7 +103,9 @@ export const content = observable({
       p.text-right {
         text-align: right;
       }
-
+      strong {
+        font-weight: bold;
+      }
       small {
         font-size: 0.85rem;
       }
