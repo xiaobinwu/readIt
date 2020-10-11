@@ -1166,6 +1166,11 @@
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.0.13.tgz#ee1128e881b874c371374c1f72201893616417c9"
   integrity sha512-rouEWBImiRaSJsVA+ITTFM6ZxibuAlTuNOCyxVbwreu6k6+ujs7DfnU9o+PShFhET78pMBl3eH+AGSI5eOTkPA==
 
+"@types/node@^13.13.1":
+  version "13.13.25"
+  resolved "https://registry.npmjs.org/@types/node/-/node-13.13.25.tgz#768d6712b15099a744812a92b84ffde8f4e13cf1"
+  integrity sha512-6ZMK4xRcF2XrPdKmPYQxZkdHKV18xKgUFVvhIgw2iwaaO6weleLPHLBGPZmLhjo+m1N+MZXRAoBEBCCVqgO2zQ==
+
 "@types/node@^8.0.24":
   version "8.10.61"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.61.tgz#d299136ce54bcaf1abaa4a487f9e4bedf6b0d393"
@@ -3701,6 +3706,13 @@ gauge@~2.7.3:
     string-width "^1.0.1"
     strip-ansi "^3.0.1"
     wide-align "^1.1.0"
+
+generate-avatar@^1.4.6:
+  version "1.4.6"
+  resolved "https://registry.npmjs.org/generate-avatar/-/generate-avatar-1.4.6.tgz#b3902425f048e0e8cb37d1f47284543eb1695d73"
+  integrity sha512-PLxDSYQDT2dxJLsmZtSOVApZw/FGN4jMxzPI4UbqUHXcKxAxVKKX+naR3gqMt+1hUj8ctaOPfBJ/a2OVVerffw==
+  dependencies:
+    "@types/node" "^13.13.1"
 
 genfun@^5.0.0:
   version "5.0.0"

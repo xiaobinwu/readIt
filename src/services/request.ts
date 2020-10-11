@@ -45,6 +45,13 @@ class Request extends HttpService {
         return data;
     }
 
+    // 新增评论
+    async addComment<T>(params = {}) {
+        console.log(params);
+        const { data } = await this.post<T>(`${appApi}/comment/add`, params);
+        return data;
+    }
+
     // 喜欢评论
     async fetchUpdateComment<T>(params  = {}) {
         console.log(params);

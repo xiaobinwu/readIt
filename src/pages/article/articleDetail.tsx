@@ -34,6 +34,7 @@ import fonts from '@app/style/fonts';
 import request from '@app/services/request';
 import { staticApi } from '@app/config';
 import { BetterModal } from '@app/components/common/modal';
+import ActionSheet from 'react-native-actionsheet';
 
 const headerHeight = sizes.gap * 3;
 const headerHeightCollapsed = sizes.gap * 2.5;
@@ -51,7 +52,8 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     @observable isLoading: boolean = false;
     @observable article: IArticle | null = null;
     @observable isHeaderCollapsed: boolean = false;
-    @observable commentModalVisible: boolean = false
+    @observable commentModalVisible: boolean = false;
+    @observable isOpenCommentInput: boolean = false;
 
     @observable headerHeight: Animated.Value = new Animated.Value(headerHeight);
     @observable headerDescriptionOpacity: Animated.Value = new Animated.Value(1);
@@ -155,6 +157,11 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     @action
     private updateCommentModalVisible(visible: boolean) {
       this.commentModalVisible = visible;
+    }
+
+    @action
+    private openCommentInput() {
+        this.isOpenCommentInput = !this.isOpenCommentInput;
     }
 
     @boundMethod
@@ -452,15 +459,13 @@ class ArticleDetail extends Component<IArticleDetailProps> {
                     extra={(
                         <TouchableView
                             accessibilityLabel="添加评论"
-                            onPress={() => {
-                                console.log('开启评论框');
-                            }}
+                            onPress={this.openCommentInput}
                         >
                             <Iconfont name="pinglun1" color={colors.textLink} {...getHeaderButtonStyle()} />
                         </TouchableView>
                     )}
                 >
-                    <Comment articleId={this.getArticleId()} />
+                    <Comment articleId={this.getArticleId()} isOpenCommentInput={this.isOpenCommentInput}  />
                 </BetterModal>
             </SafeAreaView>
         );

@@ -6,7 +6,8 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 import React, { Component, RefObject } from 'react';
-import { FlatList, StyleSheet, View, Alert, NativeSyntheticEvent, NativeScrollEvent, Linking } from 'react-native';
+import { FlatList, StyleSheet, View, NativeSyntheticEvent, NativeScrollEvent, TextInput, Button } from 'react-native';
+import { showToast } from '@app/services/toast';
 import { observable, action, computed, runInAction } from 'mobx';
 import { Observer, observer } from 'mobx-react';
 import { boundMethod } from 'autobind-decorator';
@@ -35,6 +36,7 @@ export type TCommentListElement = RefObject<FlatList<IComment>>;
 type THttpResultPaginateComment = IHttpResultPaginate<IComment[]>;
 
 export interface ICommentProps {
+    isOpenCommentInput: boolean;
     articleId: string;
     onScroll?(event: NativeSyntheticEvent<NativeScrollEvent>): void
 }
@@ -53,6 +55,11 @@ export class Comment extends Component<ICommentProps> {
     @observable.ref private isSortByHot: boolean = false;
     @observable.ref private pagination: IHttpPaginate | null = null;
     @observable.shallow private comments: IComment[] = [];
+
+    // 评论框内容
+    @observable private commentAuthor: string = '';
+    @observable private commentContent: string = '';
+    @observable private commentEmail: string = '';
 
     @boundMethod
     scrollToListTop() {
@@ -90,7 +97,44 @@ export class Comment extends Component<ICommentProps> {
         if (resetReuslt.page > 1) {
             this.comments.push(...list);
         } else {
+            console.log(list);
             this.comments = list;
+        }
+    }
+
+    @action.bound
+    private updateCommentAuthor(commentAuthor: string) {
+      this.commentAuthor = commentAuthor;
+    }
+
+    @action.bound
+    private updateCommentEmail(commentEmail: string) {
+        this.commentEmail = commentEmail;
+    }
+
+    @action.bound
+    private updateCommentContent(commentContent: string) {
+        this.commentContent = commentContent;
+    }
+
+    @boundMethod
+    private async submitComment() {
+        const { articleId } = this.props;
+        if (this.commentAuthor && this.commentEmail && this.commentContent) {
+            const params = {
+                author: this.commentAuthor,
+                email: this.commentEmail,
+                content: this.commentContent,
+                article_id: articleId
+            };
+            const data = await request.addComment<TIHttpResultOrdinary>({ ...params });
+            const { code, message, ...reset } = data;
+            if (code === 0) {
+                showToast('评论成功');
+                return data;
+            }
+        } else {
+            showToast('无法评论');
         }
     }
 
@@ -197,7 +241,7 @@ export class Comment extends Component<ICommentProps> {
     @boundMethod
     private handleLoadmoreArticle() {
         if (!this.isNoMoreData && !this.isLoading && this.pagination) {
-        this.fetchComments(this.pagination.page + 1);
+            this.fetchComments(this.pagination.page + 1);
         }
     }
 
@@ -221,7 +265,7 @@ export class Comment extends Component<ICommentProps> {
     @boundMethod
     private async handleLikeComment(comment: IComment) {
         const commentId = comment._id;
-        const data = await request.fetchUpdateComment<TIHttpResultOrdinary>({ commentId });
+        const data = await request.fetchUpdateComment<TIHttpResultOrdinary>({ _id: commentId });
         if (data.code === 0) {
             action(() => {
                 const targetCommentIndex = this.comments.findIndex(item => item._id === commentId);
@@ -262,6 +306,48 @@ export class Comment extends Component<ICommentProps> {
         );
     }
 
+    private reanderCommentInput(): JSX.Element {
+        const { isLoading } = this;
+        const { styles } = obStyles;
+        return (
+            <Observer render={
+                () => (
+                    <View style={styles.commentBox}>
+                        <TextInput
+                            style={styles.input}
+                            value={this.commentAuthor}
+                            maxLength={30}
+                            placeholder={'昵称'}
+                            placeholderTextColor={colors.textSecondary}
+                            onChangeText={this.updateCommentAuthor}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={this.commentEmail}
+                            placeholder={'邮箱'}
+                            placeholderTextColor={colors.textSecondary}
+                            onChangeText={this.updateCommentEmail}
+                        />
+                        <TextInput
+                            style={styles.input}
+                            value={this.commentContent}
+                            placeholder={'友善的评论'}
+                            multiline
+                            numberOfLines={4}
+                            placeholderTextColor={colors.textSecondary}
+                            onChangeText={this.updateCommentContent}
+                        />
+                        <Button
+                            title="发布"
+                            color={colors.primary}
+                            onPress={this.submitComment}
+                        />
+                    </View>
+                )
+            } />
+        );
+    }
+
     render() {
         const { styles } = obStyles;
         return (
@@ -299,10 +385,12 @@ export class Comment extends Component<ICommentProps> {
                                 comment={comment}
                                 liked={likeStore.comments.includes(comment._id)}
                                 onLike={this.handleLikeComment}
+                                seq={index}
                             />
                         )
                     }
                 />
+                {this.reanderCommentInput()}
             </View>
         );
     }
@@ -348,6 +436,33 @@ const obStyles = observable({
             smallTitle: {
                 ...fonts.small,
                 color: colors.textSecondary
+            },
+            commentBox: {
+                paddingHorizontal: sizes.goldenRatioGap,
+                position: 'absolute',
+                left: 0,
+                bottom: 0,
+                width: sizes.screen.width,
+                height: 200,
+                flex: 1,
+                flexDirection: 'column',
+                borderTopColor: colors.border,
+                borderTopWidth: sizes.borderWidth,
+                zIndex: 1,
+                backgroundColor: colors.cardBackground
+            },
+            input: {
+                height: 35,
+                paddingHorizontal: 10,
+                paddingVertical: 5,
+                color: colors.textDefault,
+                width: '100%',
+                borderBottomColor: colors.border,
+                borderBottomWidth: sizes.borderWidth,
+            },
+            commentButton: {
+                marginVertical: sizes.goldenRatio,
+                alignContent: 'flex-end'
             }
         });
     }

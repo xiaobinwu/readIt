@@ -54,7 +54,7 @@ export interface IArticle {
 }
 
 export interface IComment {
-  article_id: number;
+  article_id: string;
   _id: string;
   content: string;
   author: string;
@@ -62,4 +62,5 @@ export interface IComment {
   likes: number;
   create_at: string
   update_at: string
+  isShow: boolean
 }

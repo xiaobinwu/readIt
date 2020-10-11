@@ -8,6 +8,7 @@
 import React, { PureComponent } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { observable } from 'mobx';
+import { generateFromString } from 'generate-avatar';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
 import { TouchableView } from '@app/components/common/touchable-view';
@@ -27,17 +28,18 @@ export interface ICommentListItemProps {
     onLike(comment: IComment): void;
     darkTheme: boolean;
     language: TLanguage;
+    seq: number;
 }
 
 export class CommentItem extends PureComponent<ICommentListItemProps> {
     render() {
         const { props } = this;
-        const { comment, liked } = props;
+        const { comment, liked, seq } = props;
         const { styles } = obStyles;
         return (
             <View style={styles.container}>
                 <Image
-                    source={{ uri: `${staticApi}/images/9909704.jpg` }} 
+                    source={{ uri: `data:image/svg+xml;utf8,${generateFromString(comment._id)}` }} 
                     style={styles.gravatar}
                 />
                 <View style={styles.content}>
@@ -48,7 +50,7 @@ export class CommentItem extends PureComponent<ICommentListItemProps> {
                         >
                             {comment.author}
                         </Text>
-                        <Text style={styles.storey} numberOfLines={1}>#{comment.id}</Text>
+                        <Text style={styles.storey} numberOfLines={1}>#{seq + 1}</Text>
                     </View>
                     <Text style={styles.commentContent}>{comment.content}</Text>
                     <View style={styles.footer}>

@@ -56,3 +56,4 @@
 10、`highlight.js` => 代码高亮工具，[前往](https://www.fenxianglu.cn/highlight.html)
 11、`react-native-autoheight-webview` => React Native的自动高度webview，[前往](https://github.com/iou90/react-native-autoheight-webview)
 12、`react-native-image-viewing` => 图片滑动浏览控件，[前往](https://github.com/jobtoday/react-native-image-viewing)
+13、`react-native-root-toast` => 吐司控件，[前往](https://github.com/magicismight/react-native-root-toast)
