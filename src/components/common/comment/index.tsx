@@ -72,7 +72,7 @@ export class Comment extends Component<ICommentProps> {
     // 为了不影响FlatList组件渲染，对于引用类型，需要特殊处理
     @computed
     private get commentListData(): IComment[] {
-        return this.comments.slice() || [];
+        return (this.comments.slice() || []).filter(item => item.isShow);
     }
 
     // 计算是否已经是最后一页
@@ -120,6 +120,7 @@ export class Comment extends Component<ICommentProps> {
     @boundMethod
     private async submitComment() {
         const { articleId } = this.props;
+        console.log(2);
         if (this.commentAuthor && this.commentEmail && this.commentContent) {
             const params = {
                 author: this.commentAuthor,
@@ -130,11 +131,12 @@ export class Comment extends Component<ICommentProps> {
             const data = await request.addComment<TIHttpResultOrdinary>({ ...params });
             const { code, message, ...reset } = data;
             if (code === 0) {
-                showToast('评论成功');
+                showToast(i18n.t(LANGUAGE_KEYS.COMMENT_SUCESS));
                 return data;
             }
         } else {
-            showToast('无法评论');
+            console.log(1);
+            showToast(i18n.t(LANGUAGE_KEYS.COMMENT_FAIL));
         }
     }
 
@@ -317,31 +319,34 @@ export class Comment extends Component<ICommentProps> {
                             style={styles.input}
                             value={this.commentAuthor}
                             maxLength={30}
-                            placeholder={'昵称'}
+                            placeholder={i18n.t(LANGUAGE_KEYS.NICKNAME)}
                             placeholderTextColor={colors.textSecondary}
                             onChangeText={this.updateCommentAuthor}
                         />
                         <TextInput
                             style={styles.input}
                             value={this.commentEmail}
-                            placeholder={'邮箱'}
+                            placeholder={i18n.t(LANGUAGE_KEYS.EMAIL)}
                             placeholderTextColor={colors.textSecondary}
                             onChangeText={this.updateCommentEmail}
                         />
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, styles.inputContent]}
                             value={this.commentContent}
-                            placeholder={'友善的评论'}
+                            placeholder={i18n.t(LANGUAGE_KEYS.COMMENT_COTENT)}
                             multiline
                             numberOfLines={4}
+                            maxLength={100}
                             placeholderTextColor={colors.textSecondary}
                             onChangeText={this.updateCommentContent}
                         />
-                        <Button
-                            title="发布"
-                            color={colors.primary}
-                            onPress={this.submitComment}
-                        />
+                        <View style={styles.commentButton}>
+                            <Button
+                                title={i18n.t(LANGUAGE_KEYS.COMMENT_PUBLISH)}
+                                color={colors.primary}
+                                onPress={this.submitComment}
+                            />
+                        </View>
                     </View>
                 )
             } />
@@ -443,16 +448,19 @@ const obStyles = observable({
                 left: 0,
                 bottom: 0,
                 width: sizes.screen.width,
-                height: 200,
+                height: 400,
                 flex: 1,
                 flexDirection: 'column',
+                justifyContent: 'space-around',
                 borderTopColor: colors.border,
                 borderTopWidth: sizes.borderWidth,
                 zIndex: 1,
+                paddingTop: 30,
+                paddingBottom: 80,
                 backgroundColor: colors.cardBackground
             },
             input: {
-                height: 35,
+                height: 40,
                 paddingHorizontal: 10,
                 paddingVertical: 5,
                 color: colors.textDefault,
@@ -460,9 +468,11 @@ const obStyles = observable({
                 borderBottomColor: colors.border,
                 borderBottomWidth: sizes.borderWidth,
             },
+            inputContent: {
+                height: 40
+            },
             commentButton: {
-                marginVertical: sizes.goldenRatio,
-                alignContent: 'flex-end'
+                paddingVertical: sizes.goldenRatio
             }
         });
     }

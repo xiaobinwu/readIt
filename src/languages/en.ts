@@ -53,4 +53,10 @@ export default {
     [LANGUAGE_KEYS.COPY_URL]: 'Cpoy url',
     [LANGUAGE_KEYS.URL_OPEN_TYPE]: 'Open url',
     [LANGUAGE_KEYS.TOTAL]: 'Total',
+    [LANGUAGE_KEYS.COMMENT_SUCESS]: 'Comment Sucess',
+    [LANGUAGE_KEYS.COMMENT_FAIL]: 'Comment Fail',
+    [LANGUAGE_KEYS.NICKNAME]: 'NickName',
+    [LANGUAGE_KEYS.EMAIL]: 'Email',
+    [LANGUAGE_KEYS.COMMENT_COTENT]: 'Comment Content',
+    [LANGUAGE_KEYS.COMMENT_PUBLISH]: 'Publish',
 };

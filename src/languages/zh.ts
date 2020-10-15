@@ -53,4 +53,10 @@ export default {
     [LANGUAGE_KEYS.COPY_URL]: '复制链接',
     [LANGUAGE_KEYS.URL_OPEN_TYPE]: '打开方式',
     [LANGUAGE_KEYS.TOTAL]: '条数据',
+    [LANGUAGE_KEYS.COMMENT_SUCESS]: '评论成功',
+    [LANGUAGE_KEYS.COMMENT_FAIL]: '评论失败',
+    [LANGUAGE_KEYS.NICKNAME]: '昵称',
+    [LANGUAGE_KEYS.EMAIL]: '邮箱',
+    [LANGUAGE_KEYS.COMMENT_COTENT]: '友善评论，良好交流',
+    [LANGUAGE_KEYS.COMMENT_PUBLISH]: '发布',
 };

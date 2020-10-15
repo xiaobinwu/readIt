@@ -71,4 +71,12 @@ export enum LANGUAGE_KEYS {
     OPEN_BY_BROWER = 'openByBrower',
     COPY_URL = 'copyUrl',
     URL_OPEN_TYPE = 'urlOpenType',
+
+    // 评论相关
+    COMMENT_SUCESS = 'commentSucess',
+    COMMENT_FAIL = 'commentFail',
+    NICKNAME = 'nickname',
+    COMMENT_COTENT = 'commentContent',
+    COMMENT_PUBLISH = 'commentPublish',
+    EMAIL = 'email'
 }
