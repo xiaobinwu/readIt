@@ -37,7 +37,7 @@ type ThemeKey =
 type Theme = Record<ThemeKey, string>;
 
 export const Default: Theme = {
-  primary: '#0d86ff',
+  primary: '#7cb305',
   secondary: '#262626',
   accent: '#4caf50',
   red: '#ff5722',
@@ -57,7 +57,7 @@ export const Default: Theme = {
 };
 
 export const Dark: Theme = {
-  primary: '#0d86ff',
+  primary: '#fadb14',
   secondary: '#262626',
   accent: '#4caf50',
   red: '#ff5722',
@@ -80,7 +80,7 @@ export const Dark: Theme = {
 export const isDarkSystemTheme = Appearance.getColorScheme() === 'dark';
 
 // observable观察theme主题变量，ts传入泛型Theme
-const colors = observable<Theme>(isDarkSystemTheme ? Dark : Default);
+const colors = observable<Theme>(isDarkSystemTheme ? Default : Dark);
 export default colors;
 
 // 更新主题

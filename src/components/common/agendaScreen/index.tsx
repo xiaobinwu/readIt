@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
-import { Alert, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Agenda } from 'react-native-calendars';
+import { Alert, StyleSheet, View, TouchableOpacity, Image, Text } from 'react-native';
+import { observable } from 'mobx';
+import { observer } from 'mobx-react';
+import { Agenda, LocaleConfig } from 'react-native-calendars';
+import { boundMethod } from 'autobind-decorator';
+import colors from '@app/style/colors';
+import mixins from '@app/style/mixins';
+import fonts from '@app/style/fonts';
 
-export default class AgendaScreen extends Component {
-    constructor(props: any) {
+export interface IAgendaScreenProps {
+}
+
+@observer
+export class AgendaScreen extends Component<IAgendaScreenProps> {
+    constructor(props: IAgendaScreenProps) {
         super(props);
 
         this.state = {
@@ -15,30 +25,36 @@ export default class AgendaScreen extends Component {
         const { items } = this.state;
         return (
             <Agenda
-                items={items}
-                loadItemsForMonth={this.loadItems.bind(this)}
+                // items={items}
+                // loadItemsForMonth={this.loadItems}
                 selected={'2017-05-16'}
-                renderItem={this.renderItem.bind(this)}
-                renderEmptyDate={this.renderEmptyDate.bind(this)}
-                rowHasChanged={this.rowHasChanged.bind(this)}
-                // markingType={'period'}
-                // markedDates={{
-                //    '2017-05-08': {textColor: '#43515c'},
-                //    '2017-05-09': {textColor: '#43515c'},
-                //    '2017-05-14': {startingDay: true, endingDay: true, color: 'blue'},
-                //    '2017-05-21': {startingDay: true, color: 'blue'},
-                //    '2017-05-22': {endingDay: true, color: 'gray'},
-                //    '2017-05-24': {startingDay: true, color: 'gray'},
-                //    '2017-05-25': {color: 'gray'},
-                //    '2017-05-26': {endingDay: true, color: 'gray'}}}
-                // monthFormat={'yyyy'}
-                // theme={{calendarBackground: 'red', agendaKnobColor: 'green'}}
-                // renderDay={(day, item) => (<Text>{day ? day.day: 'item'}</Text>)}
-                // hideExtraDays={false}
+                renderItem={this.renderItem}
+                renderEmptyDate={this.renderEmptyDate}
+                rowHasChanged={this.rowHasChanged}
+                renderEmptyData={this.renderEmptyData}
+                theme={{
+                    backgroundColor: colors.background,
+                    calendarBackground: colors.cardBackground,
+                    textSectionTitleColor: colors.textDefault,
+                    textSectionTitleDisabledColor: colors.textDefault,
+                    selectedDayBackgroundColor: colors.primary,
+                    selectedDayTextColor: colors.cardBackground,
+                    todayTextColor: colors.primary,
+                    dayTextColor: colors.textDefault,
+                    textDisabledColor: colors.textDefault,
+                    dotColor: colors.primary,
+                    selectedDotColor: colors.cardBackground,
+                    monthTextColor: colors.primary,
+                    indicatorColor: colors.primary,
+                    agendaDayTextColor: colors.primary,
+                    agendaDayNumColor: colors.primary,
+                    agendaTodayColor: colors.primary,
+                }}
             />
         );
     }
 
+    @boundMethod
     loadItems(day: any) {
         const { items } = this.state;
         setTimeout(() => {
@@ -67,7 +83,9 @@ export default class AgendaScreen extends Component {
         }, 1000);
     }
 
+    @boundMethod
     renderItem(item: any) {
+        const { styles } = obStyles;
         return (
             <TouchableOpacity
                 testID="item"
@@ -79,7 +97,9 @@ export default class AgendaScreen extends Component {
         );
     }
 
+    @boundMethod
     renderEmptyDate() {
+        const { styles } = obStyles;
         return (
             <View style={styles.emptyDate}>
                 <Text>This is empty date!</Text>
@@ -87,28 +107,72 @@ export default class AgendaScreen extends Component {
         );
     }
 
+    @boundMethod
+    renderEmptyData() {
+        const { styles } = obStyles;
+        return (
+            <View style={styles.emptyDataContainer}>
+                <Image
+                    style={styles.emptyData}
+                    source={require('@app/assets/images/noPlan.png')}
+                />
+                <View style={styles.emptyDataTextContainer}>
+                    <Text style={styles.emptyFirstDataText}>你这一天没有任务</Text>
+                    <Text style={styles.emptyDataText}>想做点什么？点击+按钮记下来</Text>
+                </View>
+            </View>
+        );
+    }
+
+    @boundMethod
     rowHasChanged(r1: any, r2: any) {
         return r1.name !== r2.name;
     }
 
+    @boundMethod
     timeToString(time: any) {
         const date = new Date(time);
         return date.toISOString().split('T')[0];
     }
 }
 
-const styles = StyleSheet.create({
-    item: {
-        backgroundColor: 'white',
-        flex: 1,
-        borderRadius: 5,
-        padding: 10,
-        marginRight: 10,
-        marginTop: 17
-    },
-    emptyDate: {
-        height: 15,
-        flex: 1,
-        paddingTop: 30
+const obStyles = observable({
+    get styles() {
+        return StyleSheet.create({
+            item: {
+                backgroundColor: colors.cardBackground,
+                flex: 1,
+                borderRadius: 5,
+                padding: 10,
+                marginRight: 10,
+                marginTop: 17
+            },
+            emptyDate: {
+                height: 15,
+                flex: 1,
+                paddingTop: 30
+            },
+            emptyDataContainer: {
+                flex: 1,
+                flexDirection: 'column',
+                ...mixins.center
+            },
+            emptyData: {
+                width: 300,
+                height: 300,
+                resizeMode: 'cover'
+            },
+            emptyDataTextContainer: {
+                ...mixins.center
+            },
+            emptyDataText: {
+                color: colors.textDefault,
+                marginTop: 10
+            },
+            emptyFirstDataText: {
+                ...fonts.h4,
+                color: colors.textSecondary,
+            }
+        });
     }
 });

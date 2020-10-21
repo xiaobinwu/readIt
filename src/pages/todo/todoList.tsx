@@ -11,7 +11,7 @@ import { Observer, observer } from 'mobx-react';
 import { CustomHeaderTitle } from '@app/components/layout/title';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { IPageProps, NavigationProps } from '@app/types/props';
-import AgendaScreen from '@app/components/common/agendaScreen';
+import { AgendaScreen } from '@app/components/common/agendaScreen';
 
 
 export interface IIndexProps extends IPageProps {}
