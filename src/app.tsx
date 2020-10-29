@@ -82,6 +82,7 @@ const TodoStackComponent = observer(() => {
             <TodoStack.Screen
                 name={TodoRoutes.TodoList}
                 component={TodoList}
+                options={TodoList.getPageScreenOptions}
             />
         </TodoStack.Navigator>
     );

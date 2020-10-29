@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "12911871",
+      "name": "添加 加号 无边框",
+      "font_class": "tianjiajiahaowubiankuang",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "17412052",
+      "name": "Checkbox Checked",
+      "font_class": "CheckboxChecked",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "17412093",
+      "name": "Checkbox Unchecked",
+      "font_class": "CheckboxUnchecked",
+      "unicode": "e652",
+      "unicode_decimal": 58962
+    },
+    {
+      "icon_id": "1962972",
+      "name": "icon_重大事项预警台账",
+      "font_class": "icon_zhongdashixiangyujingtaizhang",
+      "unicode": "e880",
+      "unicode_decimal": 59520
+    },
+    {
+      "icon_id": "3727378",
+      "name": "学习",
+      "font_class": "xuexi1",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "3877052",
+      "name": "计划",
+      "font_class": "jihua",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
+      "icon_id": "3893476",
+      "name": "工作",
+      "font_class": "gongzuo",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "11742004",
+      "name": "会议室预定",
+      "font_class": "tubiaozhizuomoban",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "13646873",
+      "name": "提醒",
+      "font_class": "tixing",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
       "icon_id": "11399524",
       "name": "时间",
       "font_class": "shijian1",

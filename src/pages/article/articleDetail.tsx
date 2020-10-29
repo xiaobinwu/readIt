@@ -34,7 +34,6 @@ import fonts from '@app/style/fonts';
 import request from '@app/services/request';
 import { staticApi } from '@app/config';
 import { BetterModal } from '@app/components/common/modal';
-import ActionSheet from 'react-native-actionsheet';
 
 const headerHeight = sizes.gap * 3;
 const headerHeightCollapsed = sizes.gap * 2.5;

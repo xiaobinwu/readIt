@@ -59,4 +59,18 @@ export default {
     [LANGUAGE_KEYS.EMAIL]: '邮箱',
     [LANGUAGE_KEYS.COMMENT_COTENT]: '友善评论，良好交流',
     [LANGUAGE_KEYS.COMMENT_PUBLISH]: '发布',
+    [LANGUAGE_KEYS.NOPLANTITLE]: '你这一天没有任务',
+    [LANGUAGE_KEYS.NOPLANDES]: '想做点什么？点击+按钮记下来',
+    [LANGUAGE_KEYS.JANUARY]: '一月',
+    [LANGUAGE_KEYS.FEBRUARY]: '二月',
+    [LANGUAGE_KEYS.MARCH]: '三月', 
+    [LANGUAGE_KEYS.APRIL]: '四月',
+    [LANGUAGE_KEYS.MAY]: '五月',
+    [LANGUAGE_KEYS.JUNE]: '六月',
+    [LANGUAGE_KEYS.JULY]: '七月',
+    [LANGUAGE_KEYS.AUGUST]: '八月',
+    [LANGUAGE_KEYS.SEPTEMBER]: '九月',
+    [LANGUAGE_KEYS.OCTOBER]: '十月',
+    [LANGUAGE_KEYS.NOVEMBER]: '十一月',
+    [LANGUAGE_KEYS.DECEMBER]: '十二月'
 };

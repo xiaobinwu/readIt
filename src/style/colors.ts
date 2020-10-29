@@ -33,6 +33,7 @@ type ThemeKey =
 
 | 'textTitle' // 标题文本
 | 'textLink' // 链接文本
+| 'checked' // 选中
 
 type Theme = Record<ThemeKey, string>;
 
@@ -53,7 +54,9 @@ export const Default: Theme = {
   textMuted: '#eee',
 
   textTitle: '#222',
-  textLink: '#000'
+  textLink: '#000',
+
+  checked: '#7cb305'
 };
 
 export const Dark: Theme = {
@@ -73,14 +76,20 @@ export const Dark: Theme = {
   textMuted: '#333333',
 
   textTitle: '#EEEEEE',
-  textLink: '#FFFFFF'
+  textLink: '#FFFFFF',
+
+  checked: '#fadb14'
+};
+
+export const normalColors = {
+  white: '#fff'
 };
 
 // 导出系统默认主题
 export const isDarkSystemTheme = Appearance.getColorScheme() === 'dark';
 
 // observable观察theme主题变量，ts传入泛型Theme
-const colors = observable<Theme>(isDarkSystemTheme ? Default : Dark);
+const colors = observable<Theme>(isDarkSystemTheme ? Dark : Default);
 export default colors;
 
 // 更新主题

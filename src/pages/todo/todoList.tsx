@@ -8,21 +8,52 @@ import { View, Text, StyleSheet } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
 import { observable } from 'mobx';
 import { Observer, observer } from 'mobx-react';
-import { CustomHeaderTitle } from '@app/components/layout/title';
-import { LANGUAGE_KEYS } from '@app/constants/language';
 import { IPageProps, NavigationProps } from '@app/types/props';
 import { AgendaScreen } from '@app/components/common/agendaScreen';
+import { TouchableView } from '@app/components/common/touchable-view';
+import { Iconfont } from '@app/components/common/iconfont';
+import { getHeaderButtonStyle } from '@app/style/mixins';
+import colors from '@app/style/colors';
+import { TodoButton } from './components/todoButton';
+import { TodoTitle } from './components/todoTitle';
+
 
 
 export interface IIndexProps extends IPageProps {}
-
 @observer
 class TodoList extends Component<IPageProps> {
+    // 静态方法，定义主页（todo列表）屏幕组件的配置
+    static getPageScreenOptions = ({ navigation }: NavigationProps) => {
+        const { styles } = obStyles;
+        return {
+            headerTitle: () => (<TodoTitle />),
+            headerRight: () => (
+                <Observer render={() => (
+                    <TouchableView
+                        accessibilityLabel="学习计划筛选器"
+                        accessibilityHint="切换学习计划筛选器"
+                    >
+                        <Iconfont
+                            name="liebiaolist29" 
+                            color={colors.cardBackground}
+                            {...getHeaderButtonStyle()}
+                        />
+                    </TouchableView>
+                )} />
+            )
+        };
+    }
+    @boundMethod
+    onDayChange() {
+        const { navigation } = this.props;
+        navigation.setParams({title: <TodoTitle />});
+    }
     render() {
         const { styles } = obStyles;
         return (
             <View style={styles.container}>
-                <AgendaScreen />
+                <AgendaScreen onDayChange={this.onDayChange} />
+                <TodoButton />
             </View>
         );
     }
@@ -33,7 +64,8 @@ const obStyles = observable({
         return StyleSheet.create({
             container: {
                 flex: 1,
-                width: '100%'
+                width: '100%',
+                position: 'relative'
             }
         });
     }

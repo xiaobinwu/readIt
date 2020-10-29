@@ -44,16 +44,16 @@
     {
       plugins:  ["@babel/plugin-proposal-decorators", { legacy: true }]
     }
-```
-2、`mobx` / `mobx-react` => 简单、可扩展的状态管理，[前往](https://cn.mobx.js.org/)
-3、`@react-navigation/bottom-tabs` / `@react-navigation/native` / `@react-navigation/stack` => 跨平台导航方案，[前往](https://reactnavigation.org/)
-4、`react-native-appearance` => 在iOS，Android和Web上访问操作系统外观信息。目前支持检测首选配色方案（浅色/深色），[前往](https://github.com/expo/react-native-appearance)
-5、`react-native-localize` => 用于React Native应用本地化的工具箱，[前往](https://github.com/zoontek/react-native-localize)
-6、`@react-native-community/async-storage` => 简单的、异步的、持久化的 Key-Value 存储系统，[前往](https://reactnative.cn/docs/next/asyncstorage.html)
-7、`react-native-actionsheet` => 跨平台ActionSheet，[前往](https://github.com/beefe/react-native-actionsheet)
-8、`react-native-webview` => WebView,旨在替代内置WebView，[前往](https://github.com/react-native-webview/react-native-webview)
-9、`marked` => markdown编译器，[前往](https://marked.js.org/)
-10、`highlight.js` => 代码高亮工具，[前往](https://www.fenxianglu.cn/highlight.html)
-11、`react-native-autoheight-webview` => React Native的自动高度webview，[前往](https://github.com/iou90/react-native-autoheight-webview)
-12、`react-native-image-viewing` => 图片滑动浏览控件，[前往](https://github.com/jobtoday/react-native-image-viewing)
-13、`react-native-root-toast` => 吐司控件，[前往](https://github.com/magicismight/react-native-root-toast)
+```  
+2、`mobx` / `mobx-react` => 简单、可扩展的状态管理，[前往](https://cn.mobx.js.org/)  
+3、`@react-navigation/bottom-tabs` / `@react-navigation/native` / `@react-navigation/stack` => 跨平台导航方案，[前往](https://reactnavigation.org/)  
+4、`react-native-appearance` => 在iOS，Android和Web上访问操作系统外观信息。目前支持检测首选配色方案（浅色/深色），[前往](https://github.com/expo/react-native-appearance)  
+5、`react-native-localize` => 用于React Native应用本地化的工具箱，[前往](https://github.com/zoontek/react-native-localize)  
+6、`@react-native-community/async-storage` => 简单的、异步的、持久化的 Key-Value 存储系统，[前往](https://reactnative.cn/docs/next/asyncstorage.html)  
+7、`react-native-actionsheet` => 跨平台ActionSheet，[前往](https://github.com/beefe/react-native-actionsheet)  
+8、`react-native-webview` => WebView,旨在替代内置WebView，[前往](https://github.com/react-native-webview/react-native-webview)  
+9、`marked` => markdown编译器，[前往](https://marked.js.org/)  
+10、`highlight.js` => 代码高亮工具，[前往](https://www.fenxianglu.cn/highlight.html)  
+11、`react-native-autoheight-webview` => React Native的自动高度webview，[前往](https://github.com/iou90/react-native-autoheight-webview)  
+12、`react-native-image-viewing` => 图片滑动浏览控件，[前往](https://github.com/jobtoday/react-native-image-viewing)  
+13、`react-native-root-toast` => 吐司控件，[前往](https://github.com/magicismight/react-native-root-toast)  

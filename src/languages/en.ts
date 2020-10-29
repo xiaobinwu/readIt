@@ -59,4 +59,18 @@ export default {
     [LANGUAGE_KEYS.EMAIL]: 'Email',
     [LANGUAGE_KEYS.COMMENT_COTENT]: 'Comment Content',
     [LANGUAGE_KEYS.COMMENT_PUBLISH]: 'Publish',
+    [LANGUAGE_KEYS.NOPLANTITLE]: 'You have no task this day',
+    [LANGUAGE_KEYS.NOPLANDES]: 'Want to do something? Click the + button to write down',
+    [LANGUAGE_KEYS.JANUARY]: 'January',
+    [LANGUAGE_KEYS.FEBRUARY]: 'February',
+    [LANGUAGE_KEYS.MARCH]: 'March', 
+    [LANGUAGE_KEYS.APRIL]: 'April',
+    [LANGUAGE_KEYS.MAY]: 'May',
+    [LANGUAGE_KEYS.JUNE]: 'June',
+    [LANGUAGE_KEYS.JULY]: 'July',
+    [LANGUAGE_KEYS.AUGUST]: 'August',
+    [LANGUAGE_KEYS.SEPTEMBER]: 'September',
+    [LANGUAGE_KEYS.OCTOBER]: 'October',
+    [LANGUAGE_KEYS.NOVEMBER]: 'November',
+    [LANGUAGE_KEYS.DECEMBER]: 'December'
 };

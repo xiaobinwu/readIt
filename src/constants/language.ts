@@ -6,6 +6,9 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 
+// 月份
+export const MONTHS = ['JANUARY', 'FEBRUARY', 'MARCH', 'APRIL', 'MAY', 'JUNE', 'JULY', 'AUGUST', 'SEPTEMBER', 'OCTOBER', 'NOVEMBER', 'DECEMBER'];
+
 export enum LANGUAGES {
     EN = 'en',
     ZH = 'zh'
@@ -78,5 +81,24 @@ export enum LANGUAGE_KEYS {
     NICKNAME = 'nickname',
     COMMENT_COTENT = 'commentContent',
     COMMENT_PUBLISH = 'commentPublish',
-    EMAIL = 'email'
+    EMAIL = 'email',
+    
+    // 没有任务
+    NOPLANTITLE = 'noplantitle',
+    NOPLANDES = 'noplandes',
+
+    // 月份
+    JANUARY = 'january',
+    FEBRUARY = 'february',
+    MARCH = 'march', 
+    APRIL = 'april',
+    MAY = 'may',
+    JUNE = 'june',
+    JULY = 'july',
+    AUGUST = 'august',
+    SEPTEMBER = 'september',
+    OCTOBER = 'october',
+    NOVEMBER = 'november',
+    DECEMBER = 'december'
 }
+
