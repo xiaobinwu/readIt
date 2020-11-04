@@ -22,7 +22,7 @@
         },
         assets: ["./src/assets/fonts/"], // stays the same
     };
-```
+```  
 4、运行`npm run link`，将对应`iconfont.ttf`分别添加至`iOS`（`Info.plist`中`Fonts provided by application`下添加一行`iconfont.ttf`）、`Android`（复制至`app/src/main/assets/fonts`文件夹中，并且`app/src/build.gradle`添加配置）
 5、将`iconfont.json`复制至`src/components/common/iconfont`
 6、字体图标封装可参考第4步目录相对应组件文件

@@ -72,5 +72,6 @@ export default {
     [LANGUAGE_KEYS.SEPTEMBER]: '九月',
     [LANGUAGE_KEYS.OCTOBER]: '十月',
     [LANGUAGE_KEYS.NOVEMBER]: '十一月',
-    [LANGUAGE_KEYS.DECEMBER]: '十二月'
+    [LANGUAGE_KEYS.DECEMBER]: '十二月',
+    [LANGUAGE_KEYS.TODOITEM]: '我的计划'
 };

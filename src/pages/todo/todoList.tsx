@@ -4,7 +4,7 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 import React, { Component, RefObject } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
 import { observable } from 'mobx';
 import { Observer, observer } from 'mobx-react';
@@ -49,12 +49,16 @@ class TodoList extends Component<IPageProps> {
         navigation.setParams({title: <TodoTitle />});
     }
     render() {
+        console.log(1111);
         const { styles } = obStyles;
+        const { navigation, route } = this.props;
         return (
-            <View style={styles.container}>
-                <AgendaScreen onDayChange={this.onDayChange} />
-                <TodoButton />
-            </View>
+            <SafeAreaView style={styles.container}>
+                <View style={styles.container}>
+                    <AgendaScreen onDayChange={this.onDayChange} />
+                    <TodoButton navigation={navigation} route={route} />
+                </View>
+            </SafeAreaView>
         );
     }
 }

@@ -20,6 +20,7 @@ type ThemeKey =
 | 'accent' // 强调色
 | 'red' // 红色，错误色
 | 'yellow' // 黄色，警告色
+| 'green' // 绿色， 成功色
 | 'grey' // 银灰色
 | 'inverse' // 反色
 
@@ -43,6 +44,7 @@ export const Default: Theme = {
   accent: '#4caf50',
   red: '#ff5722',
   yellow: '#ffeb3b',
+  green: '#a0d911',
   grey: '#e3e3e3',
   inverse: '#333333',
   border: '#BBBBBB',
@@ -65,6 +67,7 @@ export const Dark: Theme = {
   accent: '#4caf50',
   red: '#ff5722',
   yellow: '#ffeb3b',
+  green: '#a0d911',
   grey: '#3e3e3e',
   inverse: '#FFFFFF',
   border: '#333333',

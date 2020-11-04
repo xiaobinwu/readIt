@@ -23,7 +23,7 @@ export const TodoTitle = observer((props: ITodoTitleProps): JSX.Element | null =
         <Text>
             <AutoI18nTitle
                 i18nKey={LANGUAGE_KEYS[MONTHS[agendaStore.currentSelectedMonth - 1]]}
-                style={styles.title}
+                style={[styles.title, styles.titlePadding]}
             />
             <Text style={styles.title}>{agendaStore.currentSelectedYear}</Text>
         </Text>
@@ -37,6 +37,9 @@ const obStyles = observable({
                 ...fonts.h3,
                 fontWeight: 'bold',
                 color: colors.cardBackground
+            },
+            titlePadding: {
+                marginRight: 2
             }
         });
     }

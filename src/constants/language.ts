@@ -99,6 +99,8 @@ export enum LANGUAGE_KEYS {
     SEPTEMBER = 'september',
     OCTOBER = 'october',
     NOVEMBER = 'november',
-    DECEMBER = 'december'
+    DECEMBER = 'december',
+
+    TODOITEM = 'todoitem'
 }
 

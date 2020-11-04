@@ -72,5 +72,6 @@ export default {
     [LANGUAGE_KEYS.SEPTEMBER]: 'September',
     [LANGUAGE_KEYS.OCTOBER]: 'October',
     [LANGUAGE_KEYS.NOVEMBER]: 'November',
-    [LANGUAGE_KEYS.DECEMBER]: 'December'
+    [LANGUAGE_KEYS.DECEMBER]: 'December',
+    [LANGUAGE_KEYS.TODOITEM]: 'My Todo'
 };

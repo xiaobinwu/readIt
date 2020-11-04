@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "12550391",
+      "name": "重复",
+      "font_class": "zhongfu",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "15779705",
+      "name": "铃铛",
+      "font_class": "lingdang",
+      "unicode": "e705",
+      "unicode_decimal": 59141
+    },
+    {
+      "icon_id": "3930493",
+      "name": "旗子",
+      "font_class": "qizi",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
       "icon_id": "12911871",
       "name": "添加 加号 无边框",
       "font_class": "tianjiajiahaowubiankuang",

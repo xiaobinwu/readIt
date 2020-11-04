@@ -6,7 +6,7 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Alert, StyleSheet, View, Image, Text } from 'react-native';
 import { observable, action } from 'mobx';
 import { observer, Observer } from 'mobx-react';
@@ -33,6 +33,8 @@ class AgendaStore {
     @observable items: AgendaItemsMap<IAgendaItem> = {};
     @observable currentSelectedYear: number = CURRENT_DATE.getFullYear();
     @observable currentSelectedMonth: number = CURRENT_DATE.getMonth() + 1;
+    @observable.ref selectedDate: DateObject | null = null;
+    @observable calendarOpened: boolean = false;
 
     @action.bound
     updateAgendaItems(items: AgendaItemsMap<IAgendaItem>) {
@@ -43,6 +45,12 @@ class AgendaStore {
     updateAgendaSelectDate(date: DateObject) {
         this.currentSelectedYear = date.year;
         this.currentSelectedMonth = date.month;
+        this.selectedDate = date;
+    }
+
+    @action.bound
+    updateCalendarOpened(opened: boolean) {
+        this.calendarOpened = opened;
     }
 }
 
@@ -53,10 +61,12 @@ export interface IAgendaScreenProps {
 }
 
 @observer
-export class AgendaScreen extends Component<IAgendaScreenProps> {
+export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     render() {
+        console.log('渲染');
         return (
             <Agenda
+                testID="calendars"
                 items={agendaStore.items}
                 loadItemsForMonth={this.loadItems}
                 selected={CURRENT_DATE}
@@ -64,6 +74,7 @@ export class AgendaScreen extends Component<IAgendaScreenProps> {
                 renderDay={this.renderDay}
                 rowHasChanged={this.rowHasChanged}
                 renderEmptyData={this.renderEmptyData}
+                onCalendarToggled={this.calendarToggled}
                 theme={{
                     backgroundColor: colors.background,
                     calendarBackground: colors.cardBackground,
@@ -116,7 +127,12 @@ export class AgendaScreen extends Component<IAgendaScreenProps> {
     }
 
     @boundMethod
-    renderItem(item: any) {
+    calendarToggled(calendarOpened: boolean) {
+        agendaStore.updateCalendarOpened(calendarOpened);
+    }
+
+    @boundMethod
+    renderItem(item: IAgendaItem) {
         const { styles } = obStyles;
         return (
             <Observer render={() => (
@@ -124,6 +140,7 @@ export class AgendaScreen extends Component<IAgendaScreenProps> {
                     <TouchableView
                         accessibilityLabel="日程条目"
                         style={styles.item}
+                        testID="item"
                         onPress={() => Alert.alert(item.title)}
                     >
                         <View style={styles.itemIcon}>
@@ -133,7 +150,10 @@ export class AgendaScreen extends Component<IAgendaScreenProps> {
                             />
                         </View>
                         <View style={styles.itemContent}>
-                            <Text style={styles.itemContentTitle} numberOfLines={1}>会议记录</Text>
+                            <Text style={styles.itemContentTitle} numberOfLines={1}>
+                                <Iconfont name="qizi" size={18} color={colors.green}/>
+                                会议记录
+                            </Text>
                             <Text style={styles.itemContentSubTitle} numberOfLines={1}>会议记录详情会议记录详情</Text>
                         </View>
                         <View style={styles.itemCheck}>

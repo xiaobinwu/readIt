@@ -21,6 +21,7 @@ import ArticleList, { indexStore } from '@app/pages/article/articleList';
 import ArticleSearch from '@app/pages/article/articleSearch';
 import ArticleDetail from '@app/pages/article/articleDetail';
 import TodoList from '@app/pages/todo/todoList';
+import TodoDetail from '@app/pages/todo/todoDetail';
 import { Iconfont } from '@app/components/common/iconfont';
 import About from '@app/pages/about';
 import { IS_ANDROID } from '@app/config';
@@ -83,6 +84,11 @@ const TodoStackComponent = observer(() => {
                 name={TodoRoutes.TodoList}
                 component={TodoList}
                 options={TodoList.getPageScreenOptions}
+            />
+            <TodoStack.Screen
+                name={TodoRoutes.TodoDetail}
+                component={TodoDetail}
+                options={TodoDetail.getPageScreenOptions}
             />
         </TodoStack.Navigator>
     );
@@ -170,7 +176,12 @@ const AboutStackComponent = observer(() => {
                             name={TodoRoutes.TodoList}
                             component={TodoStackComponent}
                             options={({ route, navigation }) => {
+                                const isFocused = navigation.isFocused();
+                                const isTodoListRoute = route.name === TodoRoutes.TodoList;
+                                const routeState = (route as any).state;
+                                const isTodoListRoot = !routeState || routeState?.index === 0;
                                 return {
+                                    tabBarVisible: isFocused && isTodoListRoute && isTodoListRoot,
                                     tabBarLabel: ({ color }) => (
                                         <AutoI18nTitle
                                             i18nKey={LANGUAGE_KEYS.LEARN}

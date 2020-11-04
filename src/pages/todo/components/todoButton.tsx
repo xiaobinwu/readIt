@@ -8,34 +8,35 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { observable } from 'mobx';
 import { observer } from 'mobx-react';
-import { optionStore } from '@app/stores/option';
 import { Iconfont } from '@app/components/common/iconfont';
-import { Text } from '@app/components/common/text';
-import { LANGUAGE_KEYS } from '@app/constants/language';
-import { ICategory, ITag } from '@app/types/business';
 import { TouchableView } from '@app/components/common/touchable-view';
-import i18n from '@app/services/i18n';
-import colors, { normalColors } from '@app/style/colors';
-import sizes from '@app/style/sizes';
-import mixins, { getHeaderButtonStyle } from '@app/style/mixins';
+import colors from '@app/style/colors';
+import { agendaStore } from '@app/components/common/agendaScreen';
+import mixins from '@app/style/mixins';
+import { IPageProps } from '@app/types/props';
+import { CommonActions } from '@react-navigation/native';
+import { TodoRoutes } from '@app/constants/routes';
 
-export interface ITodoButtonProps {}
+export interface ITodoButtonProps extends IPageProps {}
 
 export const TodoButton = observer((props: ITodoButtonProps): JSX.Element | null => {
-    const { styles } = obStyles; 
-    return (
+    const { styles } = obStyles;
+
+    const todobutton = !agendaStore.calendarOpened ? (
         <View style={styles.container}>
             <TouchableView
                 accessibilityLabel="添加计划按钮"
+                onPress={() => { props.navigation.push(TodoRoutes.TodoDetail); }}
             >
                 <Iconfont
                     name="tianjiajiahaowubiankuang"
-                    color={normalColors.white}
+                    color={colors.cardBackground}
                     size={30}
                 />
             </TouchableView>
         </View>
-    );
+    ) : null;
+    return todobutton;
 });
 
 const obStyles = observable({
@@ -46,6 +47,7 @@ const obStyles = observable({
                 position: 'absolute',
                 right: 20,
                 bottom: 20,
+                zIndex: 1,
                 width: 60,
                 height: 60,
                 borderRadius: 100,
