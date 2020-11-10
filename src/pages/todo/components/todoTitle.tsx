@@ -18,7 +18,8 @@ import fonts from '@app/style/fonts';
 export interface ITodoTitleProps {}
 
 export const TodoTitle = observer((props: ITodoTitleProps): JSX.Element | null => {
-    const { styles } = obStyles; 
+    const { styles } = obStyles;
+    // console.log('当前月份', agendaStore.currentSelectedMonth);
     return (
         <Text>
             <AutoI18nTitle

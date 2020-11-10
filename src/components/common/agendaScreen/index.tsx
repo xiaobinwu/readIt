@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 /**
  * Comment list component
  * @file 评论列表组件
@@ -19,26 +18,36 @@ import { Iconfont } from '@app/components/common/iconfont';
 import i18n from '@app/services/i18n';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { TouchableView } from '@app/components/common/touchable-view';
+import { ETodoIconType, ETodoPriority } from '@app/types/state';
+import { STORAGE } from '@app/constants/storage';
+import storage from '@app/services/storage';
+import sizes from '@app/style/sizes';
 
 const CURRENT_DATE = new Date();
 
 export interface IAgendaItem {
     title: string;
-    description?: string;
-    dateTime?: string;
-    hasClock?: boolean;
+    description: string;
+    dateTime: string;
+    hasClock: boolean;
+    iconType: ETodoIconType;
+    priority: ETodoPriority;
+    checked: boolean;
 }
 
 class AgendaStore {
-    @observable items: AgendaItemsMap<IAgendaItem> = {};
+    @observable.ref items: AgendaItemsMap<IAgendaItem> = {};
     @observable currentSelectedYear: number = CURRENT_DATE.getFullYear();
     @observable currentSelectedMonth: number = CURRENT_DATE.getMonth() + 1;
+    @observable currentSelectedDay: number = CURRENT_DATE.getDate();
     @observable.ref selectedDate: DateObject | null = null;
     @observable calendarOpened: boolean = false;
 
     @action.bound
     updateAgendaItems(items: AgendaItemsMap<IAgendaItem>) {
-        this.items = items;
+        if (items) {
+            this.items = items;
+        }
     }
 
     @action.bound
@@ -62,68 +71,36 @@ export interface IAgendaScreenProps {
 
 @observer
 export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
-    render() {
-        console.log('渲染');
-        return (
-            <Agenda
-                testID="calendars"
-                items={agendaStore.items}
-                loadItemsForMonth={this.loadItems}
-                selected={CURRENT_DATE}
-                renderItem={this.renderItem}
-                renderDay={this.renderDay}
-                rowHasChanged={this.rowHasChanged}
-                renderEmptyData={this.renderEmptyData}
-                onCalendarToggled={this.calendarToggled}
-                theme={{
-                    backgroundColor: colors.background,
-                    calendarBackground: colors.cardBackground,
-                    textSectionTitleColor: colors.textDefault,
-                    selectedDayBackgroundColor: colors.primary,
-                    selectedDayTextColor: colors.cardBackground,
-                    todayTextColor: colors.primary,
-                    dayTextColor: colors.textDefault,
-                    textDisabledColor: colors.textDefault,
-                    dotColor: colors.primary,
-                    selectedDotColor: colors.cardBackground,
-                    monthTextColor: colors.primary,
-                    indicatorColor: colors.primary,
-                    agendaDayTextColor: colors.primary,
-                    agendaDayNumColor: colors.primary,
-                    agendaTodayColor: colors.primary,
-                }}
-            />
-        );
+    constructor(props: IAgendaScreenProps) {
+        super(props);
+        this.initAgendaScreen();
+        // storage.remove(STORAGE.AGENDA_ITEMS_MAP);
     }
 
     @boundMethod
-    loadItems(day: DateObject) {
-        console.log('选中时间', day);
+    initAgendaScreen() {
+        this.getAgendaItems();
+    }
+
+    @boundMethod
+    async getAgendaItems() {
+        const agendaItems = await storage.get<AgendaItemsMap<IAgendaItem>>(STORAGE.AGENDA_ITEMS_MAP);
+        // if (day) {
+        //     const { dateString } = day;
+        //     console.log(agendaItems[dateString]);
+        //     if (!(agendaItems && agendaItems[dateString] && Array.isArray(agendaStore[dateString]) &&  agendaStore[dateString].length > 0)) {
+        //         agendaItems[dateString] = [];
+        //     }
+        // }
+        agendaStore.updateAgendaItems(agendaItems);
+    }
+
+    @boundMethod
+    dayPress(day: DateObject) {
+        console.log('选中日期', day);
         const { onDayChange } = this.props;
         agendaStore.updateAgendaSelectDate(day);
         onDayChange && onDayChange(day);
-
-        const items = agendaStore.items;
-            
-            items[day.dateString] = [
-                {
-                    title: `Item for ${day.dateString} #${0}`,
-                },
-                // {
-                //     title: `Item for ${day.dateString} #${1}`,
-                // }
-            ];
-
-            const newItems: any = {};
-            Object.keys(items).forEach((key) => { newItems[key] = items[key]; });
-            agendaStore.updateAgendaItems(items);
-    }
-
-
-    // 隐藏左侧日期列
-    @boundMethod
-    renderDay() {
-        return null;
     }
 
     @boundMethod
@@ -132,8 +109,40 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     }
 
     @boundMethod
+    renderItemIcon(item: IAgendaItem): JSX.Element {
+        const { styles } = obStyles;
+        const source = {
+            [ETodoIconType.Learn]: require('@app/assets/images/learn.png'),
+            [ETodoIconType.Matter]: require('@app/assets/images/shixiang.png'),
+            [ETodoIconType.Meeting]: require('@app/assets/images/huiyi.png'),
+            [ETodoIconType.Plan]: require('@app/assets/images/plan.png'),
+            [ETodoIconType.Remind]: require('@app/assets/images/tixing.png'),
+            [ETodoIconType.Work]: require('@app/assets/images/work.png')
+        };
+        return (
+            <Image
+                style={styles.itemIconImg}
+                source={source[item.iconType]}
+            />
+        );
+    }
+
+    @boundMethod
+    getPriorityColor(item: IAgendaItem): string {
+        const priorityColor = {
+            [ETodoPriority.None]: colors.grey,
+            [ETodoPriority.First]: colors.green,
+            [ETodoPriority.Second]: colors.yellow,
+            [ETodoPriority.Third]: colors.red
+        };
+        return priorityColor[item.priority];
+    }
+    
+
+    @boundMethod
     renderItem(item: IAgendaItem) {
         const { styles } = obStyles;
+        console.log('渲染条目');
         return (
             <Observer render={() => (
                 <View>
@@ -144,21 +153,32 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
                         onPress={() => Alert.alert(item.title)}
                     >
                         <View style={styles.itemIcon}>
-                            <Image
-                                style={styles.itemIconImg}
-                                source={require('@app/assets/images/learn.png')}
-                            />
+                            {this.renderItemIcon(item)}
                         </View>
                         <View style={styles.itemContent}>
                             <Text style={styles.itemContentTitle} numberOfLines={1}>
-                                <Iconfont name="qizi" size={18} color={colors.green}/>
-                                会议记录
+                                {
+                                    item.priority !== ETodoPriority.None ? (
+                                        <Iconfont name="qizi" size={18} color={this.getPriorityColor(item)}/>
+                                    ) : null
+                                }
+                                {
+                                    item.hasClock ? (
+                                        <Iconfont name="shijian1" size={18}/>
+                                    ) : null
+                                }
+                                { item.title }
                             </Text>
-                            <Text style={styles.itemContentSubTitle} numberOfLines={1}>会议记录详情会议记录详情</Text>
+                            <Text style={styles.itemContentSubTitle} numberOfLines={1}>{item.description}</Text>
                         </View>
                         <View style={styles.itemCheck}>
-                            {/* <Iconfont name="CheckboxChecked" size={25} color={colors.checked} /> */}
-                            <Iconfont name="CheckboxUnchecked" size={25} color={colors.textSecondary} />
+                            {
+                                item.checked ? (
+                                    <Iconfont name="CheckboxChecked" size={25} color={colors.checked} /> 
+                                ) : (
+                                    <Iconfont name="CheckboxUnchecked" size={25} color={colors.textSecondary} />
+                                )
+                            }                            
                         </View>
                     </TouchableView>
                 </View>
@@ -198,24 +218,62 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     rowHasChanged(r1: IAgendaItem, r2: IAgendaItem) {
         return r1.title !== r2.title;
     }
+
+    render() {
+        console.log('渲染');
+        const { styles } = obStyles;
+        return (
+            <Agenda
+                style={styles.agendaContainer}
+                testID="calendars"
+                items={agendaStore.items}
+                selected={CURRENT_DATE}
+                renderItem={this.renderItem}
+                onDayPress={this.dayPress}
+                rowHasChanged={this.rowHasChanged}
+                renderEmptyData={this.renderEmptyData}
+                onCalendarToggled={this.calendarToggled}
+                theme={{
+                    backgroundColor: colors.background,
+                    calendarBackground: colors.cardBackground,
+                    textSectionTitleColor: colors.textDefault,
+                    selectedDayBackgroundColor: colors.primary,
+                    selectedDayTextColor: colors.cardBackground,
+                    todayTextColor: colors.primary,
+                    dayTextColor: colors.textDefault,
+                    textDisabledColor: colors.textDefault,
+                    dotColor: colors.primary,
+                    selectedDotColor: colors.cardBackground,
+                    monthTextColor: colors.primary,
+                    indicatorColor: colors.primary,
+                    agendaDayTextColor: colors.primary,
+                    agendaDayNumColor: colors.primary,
+                    agendaTodayColor: colors.primary,
+                }}
+            />
+        );
+    }
+
 }
 
 const obStyles = observable({
     get styles() {
         return StyleSheet.create({
+            agendaContainer: {
+                width: sizes.screen.width
+            },
             itemContainer: {
                 flexDirection: 'column',
             },
             item: {
-                width: '100%',
                 backgroundColor: colors.cardBackground,
                 flex: 1,
                 borderRadius: 5,
-                marginHorizontal: 10,
                 marginTop: 17,
                 height: 100,
                 flexDirection: 'row',
-                justifyContent: 'space-around'
+                justifyContent: 'space-around',
+                marginRight: 10,
             },
             itemIcon: {
                 width: 100,

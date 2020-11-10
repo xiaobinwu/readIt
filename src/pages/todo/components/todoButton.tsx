@@ -23,18 +23,24 @@ export const TodoButton = observer((props: ITodoButtonProps): JSX.Element | null
     const { styles } = obStyles;
 
     const todobutton = !agendaStore.calendarOpened ? (
-        <View style={styles.container}>
-            <TouchableView
-                accessibilityLabel="添加计划按钮"
-                onPress={() => { props.navigation.push(TodoRoutes.TodoDetail); }}
-            >
-                <Iconfont
-                    name="tianjiajiahaowubiankuang"
-                    color={colors.cardBackground}
-                    size={30}
-                />
-            </TouchableView>
-        </View>
+        <TouchableView
+            style={styles.container}
+            accessibilityLabel="添加计划按钮"
+            onPress={() => {
+                // 可以使用navigate
+                props.navigation.dispatch(
+                    CommonActions.navigate({
+                        name: TodoRoutes.TodoDetail
+                    })
+                );
+            }}
+        >
+            <Iconfont
+                name="tianjiajiahaowubiankuang"
+                color={colors.cardBackground}
+                size={30}
+            />
+        </TouchableView>
     ) : null;
     return todobutton;
 });

@@ -7211,6 +7211,11 @@ react-native-actionsheet@^2.4.2:
   resolved "https://registry.yarnpkg.com/react-native-actionsheet/-/react-native-actionsheet-2.4.2.tgz#6a00dd51a75ef2c8974312130e405af73191500f"
   integrity sha512-DBoWIvVwuWXuptF4t46pBqkFxaUxS+rsIdHiA05t0n4BdTIDV2R4s9bLEUVOGzb94D7VxIamsXZPA/3mmw+SXg==
 
+react-native-alarm-clock@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/react-native-alarm-clock/-/react-native-alarm-clock-2.0.0.tgz#1c780a97e580a66bb964a99f35618c3b3f77b744"
+  integrity sha512-LT9ke6zXz3Qfqe0WqrwWvlDfrd2TiRA4fLxHUOqjlv/csJNOVUG+/RGeAb3hlRKPKX6ishWr3XtTTJpvU2AeEQ==
+
 react-native-appearance@^0.3.3:
   version "0.3.4"
   resolved "https://registry.yarnpkg.com/react-native-appearance/-/react-native-appearance-0.3.4.tgz#2cbcbc5142cdc1898c116684f519b16c879cbec2"

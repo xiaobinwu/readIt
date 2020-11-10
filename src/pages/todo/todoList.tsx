@@ -16,6 +16,7 @@ import { getHeaderButtonStyle } from '@app/style/mixins';
 import colors from '@app/style/colors';
 import { TodoButton } from './components/todoButton';
 import { TodoTitle } from './components/todoTitle';
+import sizes from '@app/style/sizes';
 
 
 
@@ -49,16 +50,13 @@ class TodoList extends Component<IPageProps> {
         navigation.setParams({title: <TodoTitle />});
     }
     render() {
-        console.log(1111);
         const { styles } = obStyles;
         const { navigation, route } = this.props;
         return (
-            <SafeAreaView style={styles.container}>
-                <View style={styles.container}>
-                    <AgendaScreen onDayChange={this.onDayChange} />
-                    <TodoButton navigation={navigation} route={route} />
-                </View>
-            </SafeAreaView>
+            <View style={styles.container}>
+                <AgendaScreen onDayChange={this.onDayChange} />
+                <TodoButton navigation={navigation} route={route} />
+            </View>
         );
     }
 }
@@ -68,7 +66,7 @@ const obStyles = observable({
         return StyleSheet.create({
             container: {
                 flex: 1,
-                width: '100%',
+                width: sizes.screen.width,
                 position: 'relative'
             }
         });

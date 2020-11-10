@@ -10,3 +10,19 @@
     Reprint = 1, // 转载
     Hybrid = 2, // 混合
  }
+
+ export enum ETodoIconType {
+    Meeting = 0, // 会议
+    Learn = 1, // 学习
+    Plan = 2, // 计划
+    Matter = 3, // 事项
+    Remind = 4, // 提醒
+    Work = 5, // 工作
+ }
+ 
+ export enum ETodoPriority {
+    None = 0,
+    First = 1,
+    Second = 2,
+    Third = 3
+ }

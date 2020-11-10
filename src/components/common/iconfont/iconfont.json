@@ -6,18 +6,32 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "12550391",
-      "name": "重复",
-      "font_class": "zhongfu",
-      "unicode": "e628",
-      "unicode_decimal": 58920
+      "icon_id": "297678",
+      "name": "文本编辑_填充",
+      "font_class": "wenbenbianjitianchong",
+      "unicode": "e6d4",
+      "unicode_decimal": 59092
     },
     {
-      "icon_id": "15779705",
+      "icon_id": "705712",
+      "name": "重复",
+      "font_class": "zhongfu1",
+      "unicode": "e636",
+      "unicode_decimal": 58934
+    },
+    {
+      "icon_id": "15625586",
       "name": "铃铛",
-      "font_class": "lingdang",
-      "unicode": "e705",
-      "unicode_decimal": 59141
+      "font_class": "lingdangbeifen",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "16516752",
+      "name": "旗子",
+      "font_class": "qizi1",
+      "unicode": "e6b5",
+      "unicode_decimal": 59061
     },
     {
       "icon_id": "3930493",
