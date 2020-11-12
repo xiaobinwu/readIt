@@ -1,7 +1,7 @@
 /**
  * Comment list component
- * @file 评论列表组件
- * @module app/components/comment
+ * @file 日程组件
+ * @module app/components/common/agendaScreen
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 
@@ -23,6 +23,8 @@ import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 import sizes from '@app/style/sizes';
 
+import { getPriorityColor, getTagIcon } from './agendsFilter';
+
 const CURRENT_DATE = new Date();
 
 export interface IAgendaItem {
@@ -30,7 +32,7 @@ export interface IAgendaItem {
     description: string;
     dateTime: string;
     hasClock: boolean;
-    iconType: ETodoIconType;
+    tag: ETodoIconType;
     priority: ETodoPriority;
     checked: boolean;
 }
@@ -96,7 +98,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     }
 
     @boundMethod
-    dayPress(day: DateObject) {
+    dayChange(day: DateObject) {
         console.log('选中日期', day);
         const { onDayChange } = this.props;
         agendaStore.updateAgendaSelectDate(day);
@@ -111,33 +113,14 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     @boundMethod
     renderItemIcon(item: IAgendaItem): JSX.Element {
         const { styles } = obStyles;
-        const source = {
-            [ETodoIconType.Learn]: require('@app/assets/images/learn.png'),
-            [ETodoIconType.Matter]: require('@app/assets/images/shixiang.png'),
-            [ETodoIconType.Meeting]: require('@app/assets/images/huiyi.png'),
-            [ETodoIconType.Plan]: require('@app/assets/images/plan.png'),
-            [ETodoIconType.Remind]: require('@app/assets/images/tixing.png'),
-            [ETodoIconType.Work]: require('@app/assets/images/work.png')
-        };
+        const icon = getTagIcon(item.tag);
         return (
             <Image
                 style={styles.itemIconImg}
-                source={source[item.iconType]}
+                source={icon}
             />
         );
     }
-
-    @boundMethod
-    getPriorityColor(item: IAgendaItem): string {
-        const priorityColor = {
-            [ETodoPriority.None]: colors.grey,
-            [ETodoPriority.First]: colors.green,
-            [ETodoPriority.Second]: colors.yellow,
-            [ETodoPriority.Third]: colors.red
-        };
-        return priorityColor[item.priority];
-    }
-    
 
     @boundMethod
     renderItem(item: IAgendaItem) {
@@ -159,7 +142,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
                             <Text style={styles.itemContentTitle} numberOfLines={1}>
                                 {
                                     item.priority !== ETodoPriority.None ? (
-                                        <Iconfont name="qizi" size={18} color={this.getPriorityColor(item)}/>
+                                        <Iconfont name="qizi" size={18} color={getPriorityColor(item.priority)}/>
                                     ) : null
                                 }
                                 {
@@ -229,7 +212,8 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
                 items={agendaStore.items}
                 selected={CURRENT_DATE}
                 renderItem={this.renderItem}
-                onDayPress={this.dayPress}
+                onDayPress={this.dayChange}
+                onDayChange={this.dayChange}
                 rowHasChanged={this.rowHasChanged}
                 renderEmptyData={this.renderEmptyData}
                 onCalendarToggled={this.calendarToggled}

@@ -73,5 +73,15 @@ export default {
     [LANGUAGE_KEYS.OCTOBER]: '十月',
     [LANGUAGE_KEYS.NOVEMBER]: '十一月',
     [LANGUAGE_KEYS.DECEMBER]: '十二月',
-    [LANGUAGE_KEYS.TODOITEM]: '我的计划'
+    [LANGUAGE_KEYS.TODOITEM]: '我的计划',
+    [LANGUAGE_KEYS.LEARNING]: '学习',
+    [LANGUAGE_KEYS.MATTER]: '事项',
+    [LANGUAGE_KEYS.MEETING]: '会议',
+    [LANGUAGE_KEYS.PLAN]: '计划',
+    [LANGUAGE_KEYS.REMIND]: '提醒',
+    [LANGUAGE_KEYS.WORK]: '工作',
+    [LANGUAGE_KEYS.NOPRIORITY]: '无优先级',
+    [LANGUAGE_KEYS.FIRST]: '低优先级',
+    [LANGUAGE_KEYS.SECOND]: '中优先级',
+    [LANGUAGE_KEYS.THIRD]: '高优先级'
 };

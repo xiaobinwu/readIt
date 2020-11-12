@@ -73,5 +73,15 @@ export default {
     [LANGUAGE_KEYS.OCTOBER]: 'October',
     [LANGUAGE_KEYS.NOVEMBER]: 'November',
     [LANGUAGE_KEYS.DECEMBER]: 'December',
-    [LANGUAGE_KEYS.TODOITEM]: 'My Todo'
+    [LANGUAGE_KEYS.TODOITEM]: 'My Todo',
+    [LANGUAGE_KEYS.LEARNING]: 'Learning',
+    [LANGUAGE_KEYS.MATTER]: 'Matter',
+    [LANGUAGE_KEYS.MEETING]: 'Meeting',
+    [LANGUAGE_KEYS.PLAN]: 'Plan',
+    [LANGUAGE_KEYS.REMIND]: 'Remind',
+    [LANGUAGE_KEYS.WORK]: 'Work',
+    [LANGUAGE_KEYS.NOPRIORITY]: 'No Priority',
+    [LANGUAGE_KEYS.FIRST]: 'Low Priority',
+    [LANGUAGE_KEYS.SECOND]: 'Medium Priority',
+    [LANGUAGE_KEYS.THIRD]: 'High Priority'
 };

@@ -13,7 +13,7 @@
 
  export enum ETodoIconType {
     Meeting = 0, // 会议
-    Learn = 1, // 学习
+    Learning = 1, // 学习
     Plan = 2, // 计划
     Matter = 3, // 事项
     Remind = 4, // 提醒

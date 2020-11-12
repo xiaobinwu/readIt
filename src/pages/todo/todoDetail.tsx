@@ -6,19 +6,21 @@
  */
 
 import React, { Component, RefObject } from 'react';
-import {  ScrollView, StyleSheet, View, SafeAreaView, TextInput, Button, Picker } from 'react-native';
-import { observable, action } from 'mobx';
+import {  ScrollView, StyleSheet, View, SafeAreaView, TextInput, Button, Image } from 'react-native';
+import { observable, action, values } from 'mobx';
 import { observer, Observer } from 'mobx-react';
 import { boundMethod } from 'autobind-decorator';   
 import { Iconfont } from '@app/components/common/iconfont';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { Text } from '@app/components/common/text';
+import RNPickerSelect from 'react-native-picker-select';
 import { DateObject, AgendaItemsMap } from 'react-native-calendars';
 import { IPageProps, NavigationProps } from '@app/types/props';
 import mixins, { getHeaderButtonStyle } from '@app/style/mixins';
 import sizes, { safeAreaViewBottom } from '@app/style/sizes';
 import DatePicker from 'react-native-datepicker';
 import { agendaStore, IAgendaItem } from '@app/components/common/agendaScreen';
+import { ICON_TYPES, PRIORITYS, getTagIcon } from '@app/components/common/agendaScreen/agendsFilter';
 import colors from '@app/style/colors';
 import { CustomHeaderTitle } from '@app/components/layout/title';
 import AlarmClock from "react-native-alarm-clock";
@@ -27,8 +29,15 @@ import fonts from '@app/style/fonts';
 import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 import { showToast } from '@app/services/toast';
+import i18n from '@app/services/i18n';
 
 export interface ITodoDetailProps extends IPageProps {}
+
+export enum ETodoPickerType {
+    TAG = 0,
+    PRIORITY = 1,
+}
+
 
 const baseFontSize = 16;
 
@@ -36,6 +45,8 @@ class ToDoStore {
     @observable dateStr: string = '';
     @observable title: string = '';
     @observable description: string = '';
+    @observable tag: number = 3;
+    @observable priority: number = 0;
 
     @action.bound
     updateDateStr(dateStr: string) {
@@ -50,6 +61,16 @@ class ToDoStore {
     @action.bound
     updateInputDescrption(description: string) {
         this.description = description;
+    }
+
+    @action.bound
+    updateTag(tag: number) {
+        this.tag = tag;
+    }
+
+    @action.bound
+    updatePriority(priority: number) {
+        this.priority = priority;
     }
 }
 
@@ -87,6 +108,16 @@ class TodoDetail extends Component<ITodoDetailProps> {
     }
 
     @boundMethod
+    pickerChange(value: number, type: ETodoPickerType) {
+        if (type === ETodoPickerType.TAG) {
+            toDoStore.updateTag(value);
+        }
+        if (type === ETodoPickerType.PRIORITY) {
+            toDoStore.updatePriority(value);
+        }
+    }
+
+    @boundMethod
     async submitTodo() {
         console.log('提交内容');
         const dateObject: DateObject | null = agendaStore.selectedDate;
@@ -105,8 +136,8 @@ class TodoDetail extends Component<ITodoDetailProps> {
             params.title = toDoStore.title;
             params.description = toDoStore.description;
             params.datetime = dateObject.dateString;
-            params.iconType = 0;
-            params.priority = 0;
+            params.tag = toDoStore.tag;
+            params.priority = toDoStore.priority;
             const agendaItems = await storage.get<AgendaItemsMap<IAgendaItem>>(STORAGE.AGENDA_ITEMS_MAP);
             if (agendaItems) {
                 if (agendaItems && agendaItems[dateObject.dateString] && Array.isArray(agendaItems[dateObject.dateString])) {
@@ -182,12 +213,17 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                     />
                                 </View>
                                 <View style={styles.totdoItemInputContainer}>
-                                    <Picker
-                                        style={{ height: 40, width: '100%' }}
-                                    >
-                                        <Picker.Item label="Java" value="java" />
-                                        <Picker.Item label="JavaScript" value="js" />
-                                    </Picker>
+                                    <RNPickerSelect
+                                        onValueChange={(value) => { this.pickerChange(value, ETodoPickerType.TAG); }}
+                                        value={toDoStore.tag}
+                                        items={ICON_TYPES}
+                                        Icon={() => (
+                                            <Image
+                                                style={styles.itemIconImg}
+                                                source={getTagIcon(toDoStore.tag)}
+                                            />
+                                        )}
+                                    />
                                 </View>
                             </View>
                             <View style={styles.totdoItemContainer}>
@@ -199,12 +235,14 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                     />
                                 </View>
                                 <View style={styles.totdoItemInputContainer}>
-                                    <Picker
-                                        style={{ height: 40, width: '100%' }}
-                                    >
-                                        <Picker.Item label="Java" value="java" />
-                                        <Picker.Item label="JavaScript" value="js" />
-                                    </Picker>
+                                    <RNPickerSelect
+                                        onValueChange={(value) => { this.pickerChange(value, ETodoPickerType.PRIORITY); }}
+                                        placeholder={{
+                                            label: i18n.t(LANGUAGE_KEYS.NOPRIORITY),
+                                            value: ''
+                                        }}
+                                        items={PRIORITYS}
+                                    />
                                 </View>
                             </View>
                             <View style={styles.totdoItemContainer}>
@@ -317,6 +355,11 @@ const obStyles = observable({
             },
             textInput: {
                 fontSize: baseFontSize
+            },
+            itemIconImg: {
+                width: 35,
+                height: 35,
+                marginTop: 8
             }
         });
     }

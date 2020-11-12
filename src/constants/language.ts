@@ -101,6 +101,18 @@ export enum LANGUAGE_KEYS {
     NOVEMBER = 'november',
     DECEMBER = 'december',
 
-    TODOITEM = 'todoitem'
+    TODOITEM = 'todoitem',
+
+    LEARNING = 'learn',
+    MATTER = 'matter',
+    MEETING = 'meeting',
+    PLAN = 'plan',
+    REMIND = 'remind',
+    WORK = 'work',
+
+    NOPRIORITY = 'none',
+    FIRST = 'first',
+    SECOND = 'second',
+    THIRD = 'third'
 }
 
