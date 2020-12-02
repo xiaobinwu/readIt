@@ -6,8 +6,8 @@
  */
 
 import React, { Component, RefObject } from 'react';
-import {  ScrollView, StyleSheet, View, SafeAreaView, TextInput, Button, Image } from 'react-native';
-import { observable, action, values } from 'mobx';
+import {  ScrollView, StyleSheet, View, SafeAreaView, TextInput, Image } from 'react-native';
+import { observable, action } from 'mobx';
 import { observer, Observer } from 'mobx-react';
 import { boundMethod } from 'autobind-decorator';   
 import { Iconfont } from '@app/components/common/iconfont';
@@ -18,9 +18,9 @@ import { DateObject, AgendaItemsMap } from 'react-native-calendars';
 import { IPageProps, NavigationProps } from '@app/types/props';
 import mixins, { getHeaderButtonStyle } from '@app/style/mixins';
 import sizes, { safeAreaViewBottom } from '@app/style/sizes';
-import DatePicker from 'react-native-datepicker';
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { agendaStore, IAgendaItem } from '@app/components/common/agendaScreen';
-import { ICON_TYPES, PRIORITYS, getTagIcon } from '@app/components/common/agendaScreen/agendsFilter';
+import { ICON_TYPES, PRIORITYS, getTagImg } from '@app/components/common/agendaScreen/agendsFilter';
 import colors from '@app/style/colors';
 import { CustomHeaderTitle } from '@app/components/layout/title';
 import AlarmClock from "react-native-alarm-clock";
@@ -30,6 +30,7 @@ import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 import { showToast } from '@app/services/toast';
 import i18n from '@app/services/i18n';
+import { padNumber } from '@app/utils/filters';
 
 export interface ITodoDetailProps extends IPageProps {}
 
@@ -47,10 +48,23 @@ class ToDoStore {
     @observable description: string = '';
     @observable tag: number = 3;
     @observable priority: number = 0;
+    @observable isDatePickerVisible: boolean = false;
 
     @action.bound
-    updateDateStr(dateStr: string) {
-        this.dateStr = dateStr;
+    initParams() {
+        this.dateStr = '';
+        this.title = '';
+        this.description = '';
+        this.tag = 3;
+        this.priority = 0;
+        this.isDatePickerVisible = false;
+    }
+
+    @action.bound
+    updateDate(date: Date) {
+        const hour = padNumber(date.getHours());
+        const minute = padNumber(date.getMinutes());
+        this.dateStr = `${hour}:${minute}`;
     }
     
     @action.bound
@@ -71,6 +85,11 @@ class ToDoStore {
     @action.bound
     updatePriority(priority: number) {
         this.priority = priority;
+    }
+
+    @action.bound
+    updateDatePickerVisibility(visible: boolean) {
+        this.isDatePickerVisible = visible;
     }
 }
 
@@ -119,10 +138,9 @@ class TodoDetail extends Component<ITodoDetailProps> {
 
     @boundMethod
     async submitTodo() {
-        console.log('提交内容');
         const dateObject: DateObject | null = agendaStore.selectedDate;
         const dateStr = toDoStore.dateStr;
-        const params = { hasClock: false, checked: false };
+        const params: any = { hasClock: false, checked: false };
         if (dateObject) {
             if (dateStr) {
                 const dateStrArr = dateStr.split(':');
@@ -142,30 +160,46 @@ class TodoDetail extends Component<ITodoDetailProps> {
             if (agendaItems) {
                 if (agendaItems && agendaItems[dateObject.dateString] && Array.isArray(agendaItems[dateObject.dateString])) {
                     agendaItems[dateObject.dateString].push(params);
-                    storage.set(STORAGE.AGENDA_ITEMS_MAP, agendaItems);
-                    agendaStore.updateAgendaItems(agendaItems);
                 } else {
                     agendaItems[dateObject.dateString] = [params];
-                    storage.set(STORAGE.AGENDA_ITEMS_MAP, agendaItems);
-                    agendaStore.updateAgendaItems(agendaItems);
                 }
-                console.log(agendaItems);
+                storage.set(STORAGE.AGENDA_ITEMS_MAP, agendaItems);
+                agendaStore.updateAgendaItems(agendaItems);
+                console.log('更新的Item', agendaItems);
             } else {
-                const items = {};
+                const items: any = {};
                 items[dateObject.dateString] = [params];
                 storage.set(STORAGE.AGENDA_ITEMS_MAP, items);
                 agendaStore.updateAgendaItems(items);
             }
-            showToast('提交成功', {
+            showToast(i18n.t(LANGUAGE_KEYS.SUBMITSUCCESS), {
                 onHidden: () => {
                     this.props.navigation.goBack();
+                    toDoStore.initParams();
                 }
             });
         }
     }
 
+    @boundMethod
+    showDatePicker() {
+        toDoStore.updateDatePickerVisibility(true);
+    }
+    
+    @boundMethod
+    hideDatePicker() {
+        toDoStore.updateDatePickerVisibility(false);
+    }
+    
+    @boundMethod
+    handleConfirm(date: Date) {
+        toDoStore.updateDate(date);
+        this.hideDatePicker();
+    }
+
     render() {
         const { styles } = obStyles;
+        const { pickStylesObj } = pickerStyles;
         return (
             <SafeAreaView style={styles.container}>
                 <View style={[styles.container, styles.todo]}>
@@ -189,7 +223,8 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                 </View>
                                 <View style={styles.totdoItemInputContainer}>
                                     <TextInput
-                                        placeholder="写点什么？"
+                                        placeholderTextColor={colors.textSecondary}
+                                        placeholder={i18n.t(LANGUAGE_KEYS.WIRTEWATH)}
                                         style={styles.textInput}
                                         onChangeText={text => toDoStore.updateInputTitle(text)}
                                     />
@@ -199,7 +234,8 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                 <TextInput
                                     multiline
                                     numberOfLines={6}
-                                    placeholder="描述"
+                                    placeholder={i18n.t(LANGUAGE_KEYS.DESCRIPTION)}
+                                    placeholderTextColor={colors.textSecondary}
                                     style={styles.textInput}
                                     onChangeText={text => toDoStore.updateInputDescrption(text)}
                                 />
@@ -214,15 +250,17 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                 </View>
                                 <View style={styles.totdoItemInputContainer}>
                                     <RNPickerSelect
+                                        style={pickStylesObj}
                                         onValueChange={(value) => { this.pickerChange(value, ETodoPickerType.TAG); }}
                                         value={toDoStore.tag}
                                         items={ICON_TYPES}
                                         Icon={() => (
                                             <Image
                                                 style={styles.itemIconImg}
-                                                source={getTagIcon(toDoStore.tag)}
+                                                source={getTagImg(toDoStore.tag)}
                                             />
                                         )}
+                                        placeholder={{}}
                                     />
                                 </View>
                             </View>
@@ -236,12 +274,10 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                 </View>
                                 <View style={styles.totdoItemInputContainer}>
                                     <RNPickerSelect
+                                        value={toDoStore.priority}
                                         onValueChange={(value) => { this.pickerChange(value, ETodoPickerType.PRIORITY); }}
-                                        placeholder={{
-                                            label: i18n.t(LANGUAGE_KEYS.NOPRIORITY),
-                                            value: ''
-                                        }}
                                         items={PRIORITYS}
+                                        placeholder={{}}
                                     />
                                 </View>
                             </View>
@@ -253,34 +289,25 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                         size={23}
                                     />
                                 </View>
-                                {/* <View style={styles.totdoItemInputContainer}>
-                                    <DatePicker
-                                        mode="time"
-                                        placeholder="请选择时间"
-                                        androidMode="spinner"
-                                        showIcon={false}
-                                        date={toDoStore.dateStr}
-                                        customStyles={{
-                                            dateInput: {
-                                              borderWidth: 0,
-                                              alignItems: 'flex-start'
-                                            },
-                                            dateText: {
-                                                color: colors.textSecondary,
-                                                textAlign: 'left',
-                                                fontSize: baseFontSize
-                                            },
-                                            placeholderText: {
-                                                color: colors.textSecondary,
-                                                textAlign: 'left',
-                                                fontSize: baseFontSize
-                                            }
-                                        }}
-                                        onDateChange={(dateStr, date) => { toDoStore.updateDateStr(dateStr); }}
-                                    />
-                                </View> */}
+                                <TouchableView
+                                    accessibilityLabel="选择时间"
+                                    accessibilityHint="选择时间"
+                                    onPress={this.showDatePicker}
+                                    style={styles.timeTouchContainer}
+                                >
+                                    <View style={styles.totdoItemInputContainer}>
+                                        <TextInput
+                                            editable={false}
+                                            placeholder={i18n.t(LANGUAGE_KEYS.TIPTIME)}
+                                            style={[styles.textInput, styles.textSelected]}
+                                            value={toDoStore.dateStr}
+                                            onChangeText={text => toDoStore.updateInputDescrption(text)}
+                                            placeholderTextColor={colors.textSecondary}
+                                        />
+                                    </View>
+                                </TouchableView>
                             </View>
-                            <View style={styles.totdoItemContainer}>
+                            {/* <View style={styles.totdoItemContainer}>
                                 <View style={styles.todoIcon}>
                                     <Iconfont
                                         name="zhongfu1"
@@ -294,22 +321,43 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                         style={styles.textInput}
                                     />
                                 </View>
-                            </View>
+                            </View> */}
                             <View style={styles.todoButtonContainer}>
-                                <Button
+                                <TouchableView
                                     accessibilityLabel="Todo添加修改按钮"
-                                    title="提交"
-                                    color={colors.primary}
+                                    accessibilityHint="提交"
                                     onPress={this.submitTodo}
-                                />
+                                    style={styles.btnContainer}
+                                >
+                                    <Text style={styles.btnText}>{i18n.t(LANGUAGE_KEYS.SUBMIT)}</Text>
+                                </TouchableView>
                             </View>
                         </View>
                     </ScrollView>
                 </View>
+                <DateTimePickerModal
+                    isVisible={toDoStore.isDatePickerVisible}
+                    mode="time"
+                    onConfirm={this.handleConfirm}
+                    onCancel={this.hideDatePicker}
+                />
             </SafeAreaView>
         );
     }
 }
+
+const pickerStyles = observable({
+    get pickStylesObj() {
+        return StyleSheet.create({
+            inputIOS: {
+                color: colors.textDefault
+            },
+            inputAndroid: {
+                color: colors.textDefault
+            },
+        });
+    }
+});
 
 const obStyles = observable({
     get styles() {
@@ -331,7 +379,6 @@ const obStyles = observable({
                 borderRadius: 2,
                 marginLeft: 40,
                 marginBottom: 40,
-                color: colors.textSecondary
             },
             totdoItemContainer: {
                 ...mixins.rowCenter,
@@ -346,7 +393,6 @@ const obStyles = observable({
                 borderBottomWidth: sizes.borderWidth,
                 flex: 1,
                 marginLeft: 10,
-                color: colors.textSecondary
             },
             todoButtonContainer: {
                 paddingVertical: 20,
@@ -354,12 +400,30 @@ const obStyles = observable({
                 alignSelf: 'center'
             },
             textInput: {
-                fontSize: baseFontSize
+                fontSize: baseFontSize,
+                color: colors.textDefault
             },
             itemIconImg: {
                 width: 35,
                 height: 35,
                 marginTop: 8
+            },
+            timeTouchContainer: {
+                flex: 1
+            },
+            textSelected: {
+                color: colors.textDefault
+            },
+            btnContainer: {
+                backgroundColor: colors.primary,
+                flex: 1,
+                ...mixins.center,
+                height: 40,
+                borderRadius: 2,
+            },
+            btnText: {
+                fontSize: baseFontSize,
+                color: colors.cardBackground,
             }
         });
     }

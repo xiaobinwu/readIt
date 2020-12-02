@@ -83,5 +83,10 @@ export default {
     [LANGUAGE_KEYS.NOPRIORITY]: 'No Priority',
     [LANGUAGE_KEYS.FIRST]: 'Low Priority',
     [LANGUAGE_KEYS.SECOND]: 'Medium Priority',
-    [LANGUAGE_KEYS.THIRD]: 'High Priority'
+    [LANGUAGE_KEYS.THIRD]: 'High Priority',
+    [LANGUAGE_KEYS.SUBMITSUCCESS]: 'Submit Success', 
+    [LANGUAGE_KEYS.WIRTEWATH]: 'Write something?',
+    [LANGUAGE_KEYS.DESCRIPTION]: 'Describe...',
+    [LANGUAGE_KEYS.TIPTIME]: 'Reminder Time',
+    [LANGUAGE_KEYS.SUBMIT]: 'Submit',
 };

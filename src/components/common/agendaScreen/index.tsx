@@ -22,8 +22,9 @@ import { ETodoIconType, ETodoPriority } from '@app/types/state';
 import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 import sizes from '@app/style/sizes';
+import { dateToDateObject } from '@app/utils/filters';
 
-import { getPriorityColor, getTagIcon } from './agendsFilter';
+import { PRIORITY_COLOR, TAG_IMGS } from './agendsFilter';
 
 const CURRENT_DATE = new Date();
 
@@ -38,11 +39,12 @@ export interface IAgendaItem {
 }
 
 class AgendaStore {
+    currentDate: Date = new Date();
     @observable.ref items: AgendaItemsMap<IAgendaItem> = {};
     @observable currentSelectedYear: number = CURRENT_DATE.getFullYear();
     @observable currentSelectedMonth: number = CURRENT_DATE.getMonth() + 1;
     @observable currentSelectedDay: number = CURRENT_DATE.getDate();
-    @observable.ref selectedDate: DateObject | null = null;
+    @observable.ref selectedDate: DateObject = dateToDateObject(this.currentDate);
     @observable calendarOpened: boolean = false;
 
     @action.bound
@@ -87,13 +89,6 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     @boundMethod
     async getAgendaItems() {
         const agendaItems = await storage.get<AgendaItemsMap<IAgendaItem>>(STORAGE.AGENDA_ITEMS_MAP);
-        // if (day) {
-        //     const { dateString } = day;
-        //     console.log(agendaItems[dateString]);
-        //     if (!(agendaItems && agendaItems[dateString] && Array.isArray(agendaStore[dateString]) &&  agendaStore[dateString].length > 0)) {
-        //         agendaItems[dateString] = [];
-        //     }
-        // }
         agendaStore.updateAgendaItems(agendaItems);
     }
 
@@ -113,7 +108,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     @boundMethod
     renderItemIcon(item: IAgendaItem): JSX.Element {
         const { styles } = obStyles;
-        const icon = getTagIcon(item.tag);
+        const icon = TAG_IMGS[item.tag];
         return (
             <Image
                 style={styles.itemIconImg}
@@ -125,7 +120,6 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     @boundMethod
     renderItem(item: IAgendaItem) {
         const { styles } = obStyles;
-        console.log('渲染条目');
         return (
             <Observer render={() => (
                 <View>
@@ -136,13 +130,16 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
                         onPress={() => Alert.alert(item.title)}
                     >
                         <View style={styles.itemIcon}>
-                            {this.renderItemIcon(item)}
+                            <Image
+                                style={styles.itemIconImg}
+                                source={TAG_IMGS[item.tag]}
+                            />
                         </View>
                         <View style={styles.itemContent}>
                             <Text style={styles.itemContentTitle} numberOfLines={1}>
                                 {
                                     item.priority !== ETodoPriority.None ? (
-                                        <Iconfont name="qizi" size={18} color={getPriorityColor(item.priority)}/>
+                                        <Iconfont name="qizi" size={18} color={PRIORITY_COLOR[item.priority]}/>
                                     ) : null
                                 }
                                 {
@@ -203,7 +200,6 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     }
 
     render() {
-        console.log('渲染');
         const { styles } = obStyles;
         return (
             <Agenda

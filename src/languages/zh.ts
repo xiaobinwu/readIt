@@ -83,5 +83,10 @@ export default {
     [LANGUAGE_KEYS.NOPRIORITY]: '无优先级',
     [LANGUAGE_KEYS.FIRST]: '低优先级',
     [LANGUAGE_KEYS.SECOND]: '中优先级',
-    [LANGUAGE_KEYS.THIRD]: '高优先级'
+    [LANGUAGE_KEYS.THIRD]: '高优先级',
+    [LANGUAGE_KEYS.SUBMITSUCCESS]: '提交成功', 
+    [LANGUAGE_KEYS.WIRTEWATH]: '写点什么？',
+    [LANGUAGE_KEYS.DESCRIPTION]: '描述...',
+    [LANGUAGE_KEYS.TIPTIME]: '提醒时间',
+    [LANGUAGE_KEYS.SUBMIT]: '提交',
 };

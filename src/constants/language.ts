@@ -113,6 +113,12 @@ export enum LANGUAGE_KEYS {
     NOPRIORITY = 'none',
     FIRST = 'first',
     SECOND = 'second',
-    THIRD = 'third'
+    THIRD = 'third',
+
+    SUBMITSUCCESS = 'submitsuccess',
+    WIRTEWATH = 'writewhat',
+    DESCRIPTION = 'description',
+    TIPTIME = 'tiptime',
+    SUBMIT = 'submit',
 }
 

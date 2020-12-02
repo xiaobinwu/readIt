@@ -27,3 +27,23 @@
  export const stringLimit = (description: string, limit: number = 80): string => {
     return description.length < limit ? description : `${description.slice(0, limit)}...`;
  };
+
+// 补0
+export const padNumber = (n) => {
+   if (n < 10) {
+     return `0${n}`;
+   }
+   return n;
+};
+ 
+
+ // 获取DateObject
+ export const dateToDateObject = (date: Date) => {
+    return {
+      dateString: date.getFullYear() + '-' + padNumber((date.getMonth() + 1)) + '-' + padNumber(date.getDate()),
+      day: date.getDate(),
+      month: date.getMonth() + 1,
+      timestamp: date.getTime(),
+      year: date.getFullYear()
+    };
+ };
