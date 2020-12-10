@@ -7,15 +7,15 @@
 
 import React, { PureComponent } from 'react';
 import { Alert, StyleSheet, View, Image, Text } from 'react-native';
-import { observable, action } from 'mobx';
+import { observable, action, reaction } from 'mobx';
 import { observer, Observer } from 'mobx-react';
-import { Agenda, AgendaItemsMap, DateObject } from 'react-native-calendars';
+import { Agenda, AgendaItemsMap, DateObject, LocaleConfig } from 'react-native-calendars';
 import { boundMethod } from 'autobind-decorator';
 import colors, { isDarkSystemTheme } from '@app/style/colors';
 import mixins from '@app/style/mixins';
 import fonts from '@app/style/fonts';
 import { Iconfont } from '@app/components/common/iconfont';
-import i18n from '@app/services/i18n';
+import i18n, { TLanguage } from '@app/services/i18n';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { ETodoIconType, ETodoPriority } from '@app/types/state';
@@ -23,10 +23,14 @@ import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 import sizes from '@app/style/sizes';
 import { dateToDateObject } from '@app/utils/filters';
-
+import { optionStore } from '@app/stores/option';
+import { LOCALES_EN } from '@app/languages/en';
+import { LOCALES_ZH } from '@app/languages/zh';
+import { LANGUAGES } from '@app/constants/language';
 import { PRIORITY_COLOR, TAG_IMGS } from './agendsFilter';
 
 const CURRENT_DATE = new Date();
+const currentDateObject = dateToDateObject(CURRENT_DATE);
 
 export interface IAgendaItem {
     title: string;
@@ -39,12 +43,11 @@ export interface IAgendaItem {
 }
 
 class AgendaStore {
-    currentDate: Date = new Date();
     @observable.ref items: AgendaItemsMap<IAgendaItem> = {};
-    @observable currentSelectedYear: number = CURRENT_DATE.getFullYear();
-    @observable currentSelectedMonth: number = CURRENT_DATE.getMonth() + 1;
-    @observable currentSelectedDay: number = CURRENT_DATE.getDate();
-    @observable.ref selectedDate: DateObject = dateToDateObject(this.currentDate);
+    @observable currentSelectedYear: number = currentDateObject.year;
+    @observable currentSelectedMonth: number = currentDateObject.month;
+    @observable currentSelectedDay: number = currentDateObject.day;
+    @observable.ref selectedDate: DateObject = currentDateObject;
     @observable calendarOpened: boolean = false;
 
     @action.bound
@@ -77,8 +80,38 @@ export interface IAgendaScreenProps {
 export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     constructor(props: IAgendaScreenProps) {
         super(props);
+        this.setAgendLocale(optionStore.language);
         this.initAgendaScreen();
-        // storage.remove(STORAGE.AGENDA_ITEMS_MAP);
+        reaction(
+            () => optionStore.isEnlang,
+            (isEnlang) => {
+                if (isEnlang) {
+                   this.setAgendLocale(LANGUAGES.EN);
+                   this.forceUpdate();
+                } else {
+                   this.setAgendLocale(LANGUAGES.ZH);
+                   this.forceUpdate();
+                }
+            },
+            { fireImmediately: true }
+        );
+        setTimeout(() => {
+            optionStore.updateLanguage(LANGUAGES.ZH);
+        }, 7000);
+    }
+
+    @boundMethod
+    setAgendLocale(lang: TLanguage) {
+        if (lang === LANGUAGES.EN) {
+            // 设置中文日历
+            LocaleConfig.defaultLocale = LANGUAGES.EN;
+            LocaleConfig.locales.en = LOCALES_EN;
+        }
+        if (lang === LANGUAGES.ZH) {
+            // 设置英文日历
+            LocaleConfig.defaultLocale = LANGUAGES.ZH;
+            LocaleConfig.locales.zh = LOCALES_ZH;
+        }
     }
 
     @boundMethod
@@ -206,7 +239,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
                 style={styles.agendaContainer}
                 testID="calendars"
                 items={agendaStore.items}
-                selected={CURRENT_DATE}
+                selected={this.selectedDate}
                 renderItem={this.renderItem}
                 onDayPress={this.dayChange}
                 onDayChange={this.dayChange}

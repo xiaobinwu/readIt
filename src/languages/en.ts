@@ -7,6 +7,8 @@
 
 import { LANGUAGE_KEYS } from '@app/constants/language';
 
+
+
 export default {
     [LANGUAGE_KEYS.ENGLISH]: 'English',
     [LANGUAGE_KEYS.CHINESE]: 'Chinese, Simplified',
@@ -89,4 +91,12 @@ export default {
     [LANGUAGE_KEYS.DESCRIPTION]: 'Describe...',
     [LANGUAGE_KEYS.TIPTIME]: 'Reminder Time',
     [LANGUAGE_KEYS.SUBMIT]: 'Submit',
+};
+
+export const LOCALES_EN = {
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+    monthNamesShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    dayNames: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    dayNamesShort: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+    today: 'Today'
 };

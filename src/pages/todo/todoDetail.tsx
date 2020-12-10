@@ -142,6 +142,7 @@ class TodoDetail extends Component<ITodoDetailProps> {
         const dateStr = toDoStore.dateStr;
         const params: any = { hasClock: false, checked: false };
         if (dateObject) {
+            // 设置闹钟
             if (dateStr) {
                 const dateStrArr = dateStr.split(':');
                 const date = new Date(dateObject.dateString);
