@@ -7,6 +7,7 @@ import { ETodoIconType, ETodoPriority } from '@app/types/state';
 import colors from '@app/style/colors';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import i18n from '@app/services/i18n';
+import { observable } from 'mobx';
 
 // 优先级color对象
 export const PRIORITY_COLOR = {
@@ -36,18 +37,23 @@ export const getTagImg = (index: number): any => {
     return TAG_IMGS[index];
 };
 
-export const ICON_TYPES = [
-    { label: i18n.t(LANGUAGE_KEYS.LEARNING), value: ETodoIconType.Learning },
-    { label: i18n.t(LANGUAGE_KEYS.MATTER), value: ETodoIconType.Matter },
-    { label: i18n.t(LANGUAGE_KEYS.MEETING), value: ETodoIconType.Meeting },
-    { label: i18n.t(LANGUAGE_KEYS.PLAN), value: ETodoIconType.Plan },
-    { label: i18n.t(LANGUAGE_KEYS.REMIND), value: ETodoIconType.Remind },
-    { label: i18n.t(LANGUAGE_KEYS.WORK), value: ETodoIconType.Work }
-];
+export const getIconTypes = () => {
+    return [
+        { label: i18n.t(LANGUAGE_KEYS.LEARNING), value: ETodoIconType.Learning },
+        { label: i18n.t(LANGUAGE_KEYS.MATTER), value: ETodoIconType.Matter },
+        { label: i18n.t(LANGUAGE_KEYS.MEETING), value: ETodoIconType.Meeting },
+        { label: i18n.t(LANGUAGE_KEYS.PLAN), value: ETodoIconType.Plan },
+        { label: i18n.t(LANGUAGE_KEYS.REMIND), value: ETodoIconType.Remind },
+        { label: i18n.t(LANGUAGE_KEYS.WORK), value: ETodoIconType.Work }
+    ];
+};
 
-export const PRIORITYS = [
-    { label: i18n.t(LANGUAGE_KEYS.NOPRIORITY), value: ETodoPriority.None, color: colors.textSecondary },
-    { label: i18n.t(LANGUAGE_KEYS.FIRST), value: ETodoPriority.First, color: colors.green },
-    { label: i18n.t(LANGUAGE_KEYS.SECOND), value: ETodoPriority.Second, color: colors.yellow },
-    { label: i18n.t(LANGUAGE_KEYS.THIRD), value: ETodoPriority.Third, color: colors.red }
-];
+export const getPrioritys = () => {
+    return [
+        { label: i18n.t(LANGUAGE_KEYS.NOPRIORITY), value: ETodoPriority.None, color: colors.textSecondary },
+        { label: i18n.t(LANGUAGE_KEYS.FIRST), value: ETodoPriority.First, color: colors.green },
+        { label: i18n.t(LANGUAGE_KEYS.SECOND), value: ETodoPriority.Second, color: colors.yellow },
+        { label: i18n.t(LANGUAGE_KEYS.THIRD), value: ETodoPriority.Third, color: colors.red }
+    ];
+};
+

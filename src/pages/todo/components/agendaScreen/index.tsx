@@ -6,7 +6,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { Alert, StyleSheet, View, Image, Text } from 'react-native';
+import { Alert, StyleSheet, View, Image, Text, TouchableWithoutFeedback } from 'react-native';
 import { observable, action, reaction } from 'mobx';
 import { observer, Observer } from 'mobx-react';
 import { Agenda, AgendaItemsMap, DateObject, LocaleConfig } from 'react-native-calendars';
@@ -27,6 +27,9 @@ import { optionStore } from '@app/stores/option';
 import { LOCALES_EN } from '@app/languages/en';
 import { LOCALES_ZH } from '@app/languages/zh';
 import { LANGUAGES } from '@app/constants/language';
+import { IPageProps } from '@app/types/props';
+import { CommonActions } from '@react-navigation/native';
+import { TodoRoutes } from '@app/constants/routes';
 import { PRIORITY_COLOR, TAG_IMGS } from './agendsFilter';
 
 const CURRENT_DATE = new Date();
@@ -40,6 +43,8 @@ export interface IAgendaItem {
     tag: ETodoIconType;
     priority: ETodoPriority;
     checked: boolean;
+    index: number;
+    dateStr: string;
 }
 
 class AgendaStore {
@@ -52,6 +57,7 @@ class AgendaStore {
 
     @action.bound
     updateAgendaItems(items: AgendaItemsMap<IAgendaItem>) {
+        console.log(items);
         if (items) {
             this.items = items;
         }
@@ -72,7 +78,7 @@ class AgendaStore {
 
 export const agendaStore = new AgendaStore();
 
-export interface IAgendaScreenProps {
+export interface IAgendaScreenProps extends IPageProps {
     onDayChange?: (date: DateObject) => void; 
 }
 
@@ -95,9 +101,10 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
             },
             { fireImmediately: true }
         );
-        setTimeout(() => {
-            optionStore.updateLanguage(LANGUAGES.ZH);
-        }, 7000);
+        // storage.remove(STORAGE.AGENDA_ITEMS_MAP);
+        // setTimeout(() => {
+        //     optionStore.updateLanguage(LANGUAGES.ZH);
+        // }, 7000);
     }
 
     @boundMethod
@@ -151,6 +158,25 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
     }
 
     @boundMethod
+    async switchChecked(item: IAgendaItem) {
+        const agendaItems = await storage.get<AgendaItemsMap<IAgendaItem>>(STORAGE.AGENDA_ITEMS_MAP);
+        agendaItems[item.dateTime][item.index].checked = !item.checked;
+        storage.set(STORAGE.AGENDA_ITEMS_MAP, agendaItems);
+        agendaStore.updateAgendaItems(agendaItems);
+    }
+
+    @boundMethod
+    modAgendaItem(item: IAgendaItem) {
+        // 可以使用navigate
+        this.props.navigation.dispatch(
+            CommonActions.navigate({
+                name: TodoRoutes.TodoDetail,
+                params: { item }
+            })
+        );
+    }
+
+    @boundMethod
     renderItem(item: IAgendaItem) {
         const { styles } = obStyles;
         return (
@@ -160,7 +186,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
                         accessibilityLabel="日程条目"
                         style={styles.item}
                         testID="item"
-                        onPress={() => Alert.alert(item.title)}
+                        onPress={() => { this.modAgendaItem(item); }}
                     >
                         <View style={styles.itemIcon}>
                             <Image
@@ -184,15 +210,17 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
                             </Text>
                             <Text style={styles.itemContentSubTitle} numberOfLines={1}>{item.description}</Text>
                         </View>
-                        <View style={styles.itemCheck}>
-                            {
-                                item.checked ? (
-                                    <Iconfont name="CheckboxChecked" size={25} color={colors.checked} /> 
-                                ) : (
-                                    <Iconfont name="CheckboxUnchecked" size={25} color={colors.textSecondary} />
-                                )
-                            }                            
-                        </View>
+                        <TouchableWithoutFeedback onPress={() => { this.switchChecked(item); }}>
+                            <View style={styles.itemCheck}>
+                                {
+                                    item.checked ? (
+                                        <Iconfont name="CheckboxChecked" size={25} color={colors.checked} /> 
+                                    ) : (
+                                        <Iconfont name="CheckboxUnchecked" size={25} color={colors.textSecondary} />
+                                    )
+                                }                            
+                            </View>
+                        </TouchableWithoutFeedback>
                     </TouchableView>
                 </View>
             )} />
@@ -229,7 +257,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
 
     @boundMethod
     rowHasChanged(r1: IAgendaItem, r2: IAgendaItem) {
-        return r1.title !== r2.title;
+        return JSON.stringify(r1) !== JSON.stringify(r2);
     }
 
     render() {
@@ -307,7 +335,8 @@ const obStyles = observable({
             },
             itemContentSubTitle: {
                 color: colors.textSecondary,
-                marginTop: 2
+                marginTop: 2,
+                marginLeft: 2
             },
             itemCheck: {
                 width: 50,
@@ -333,7 +362,7 @@ const obStyles = observable({
             emptyFirstText: {
                 ...fonts.h4,
                 color: colors.textDefault
-            }
+            },
         });
     }
 });

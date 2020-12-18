@@ -9,7 +9,6 @@ import { boundMethod } from 'autobind-decorator';
 import { observable } from 'mobx';
 import { Observer, observer } from 'mobx-react';
 import { IPageProps, NavigationProps } from '@app/types/props';
-import { AgendaScreen } from '@app/components/common/agendaScreen';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { Iconfont } from '@app/components/common/iconfont';
 import { getHeaderButtonStyle } from '@app/style/mixins';
@@ -17,6 +16,7 @@ import colors from '@app/style/colors';
 import { TodoButton } from './components/todoButton';
 import { TodoTitle } from './components/todoTitle';
 import sizes from '@app/style/sizes';
+import { AgendaScreen } from './components/agendaScreen';
 
 
 
@@ -54,7 +54,7 @@ class TodoList extends Component<IPageProps> {
         const { navigation, route } = this.props;
         return (
             <View style={styles.container}>
-                <AgendaScreen onDayChange={this.onDayChange} />
+                <AgendaScreen onDayChange={this.onDayChange} navigation={navigation} route={route} />
                 <TodoButton navigation={navigation} route={route} />
             </View>
         );

@@ -11,11 +11,11 @@ import { observer } from 'mobx-react';
 import { Iconfont } from '@app/components/common/iconfont';
 import { TouchableView } from '@app/components/common/touchable-view';
 import colors from '@app/style/colors';
-import { agendaStore } from '@app/components/common/agendaScreen';
 import mixins from '@app/style/mixins';
 import { IPageProps } from '@app/types/props';
 import { CommonActions } from '@react-navigation/native';
 import { TodoRoutes } from '@app/constants/routes';
+import { agendaStore } from './agendaScreen';
 
 export interface ITodoButtonProps extends IPageProps {}
 

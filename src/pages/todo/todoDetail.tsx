@@ -19,8 +19,6 @@ import { IPageProps, NavigationProps } from '@app/types/props';
 import mixins, { getHeaderButtonStyle } from '@app/style/mixins';
 import sizes, { safeAreaViewBottom } from '@app/style/sizes';
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { agendaStore, IAgendaItem } from '@app/components/common/agendaScreen';
-import { ICON_TYPES, PRIORITYS, getTagImg } from '@app/components/common/agendaScreen/agendsFilter';
 import colors from '@app/style/colors';
 import { CustomHeaderTitle } from '@app/components/layout/title';
 import AlarmClock from "react-native-alarm-clock";
@@ -31,6 +29,8 @@ import storage from '@app/services/storage';
 import { showToast } from '@app/services/toast';
 import i18n from '@app/services/i18n';
 import { padNumber } from '@app/utils/filters';
+import { agendaStore, IAgendaItem } from './components/agendaScreen';
+import { getPrioritys, getIconTypes, getTagImg } from './components/agendaScreen/agendsFilter';
 
 export interface ITodoDetailProps extends IPageProps {}
 
@@ -51,13 +51,13 @@ class ToDoStore {
     @observable isDatePickerVisible: boolean = false;
 
     @action.bound
-    initParams() {
-        this.dateStr = '';
-        this.title = '';
-        this.description = '';
-        this.tag = 3;
-        this.priority = 0;
-        this.isDatePickerVisible = false;
+    initParams(item: any = {}) {
+        this.dateStr = item.dateStr || '';
+        this.title = item.title || '';
+        this.description = item.description || '';
+        this.tag = (item.tag || item.tag === 0) ? item.tag : 3;
+        this.priority = (item.priority || item.priority === 0) ? item.priority : 0;
+        this.isDatePickerVisible = !!item.isDatePickerVisible;
     }
 
     @action.bound
@@ -126,6 +126,11 @@ class TodoDetail extends Component<ITodoDetailProps> {
         };
     }
 
+    constructor(props: ITodoDetailProps) {
+        super(props);
+        toDoStore.initParams(this.props.route.params?.item);
+    }
+
     @boundMethod
     pickerChange(value: number, type: ETodoPickerType) {
         if (type === ETodoPickerType.TAG) {
@@ -154,14 +159,23 @@ class TodoDetail extends Component<ITodoDetailProps> {
             }
             params.title = toDoStore.title;
             params.description = toDoStore.description;
-            params.datetime = dateObject.dateString;
+            params.dateTime = dateObject.dateString;
             params.tag = toDoStore.tag;
             params.priority = toDoStore.priority;
+            params.dateStr = toDoStore.dateStr;
             const agendaItems = await storage.get<AgendaItemsMap<IAgendaItem>>(STORAGE.AGENDA_ITEMS_MAP);
             if (agendaItems) {
                 if (agendaItems && agendaItems[dateObject.dateString] && Array.isArray(agendaItems[dateObject.dateString])) {
-                    agendaItems[dateObject.dateString].push(params);
+                    const len = agendaItems[dateObject.dateString].length;
+                    const { params: { item = undefined } } = this.props.route;
+                    if (item) {
+                        agendaItems[dateObject.dateString][item.index] = { ...params, index: item.index };
+                    } else {
+                        params.index = len;
+                        agendaItems[dateObject.dateString].push(params);
+                    }
                 } else {
+                    params.index = 0;
                     agendaItems[dateObject.dateString] = [params];
                 }
                 storage.set(STORAGE.AGENDA_ITEMS_MAP, agendaItems);
@@ -169,6 +183,7 @@ class TodoDetail extends Component<ITodoDetailProps> {
                 console.log('更新的Item', agendaItems);
             } else {
                 const items: any = {};
+                params.index = 0;
                 items[dateObject.dateString] = [params];
                 storage.set(STORAGE.AGENDA_ITEMS_MAP, items);
                 agendaStore.updateAgendaItems(items);
@@ -201,6 +216,10 @@ class TodoDetail extends Component<ITodoDetailProps> {
     render() {
         const { styles } = obStyles;
         const { pickStylesObj } = pickerStyles;
+        const ICON_TYPES = getIconTypes();
+        const PRIORITYS = getPrioritys();
+        console.log('ICON_TYPES', ICON_TYPES);
+        console.log('PRIORITYS', PRIORITYS);
         return (
             <SafeAreaView style={styles.container}>
                 <View style={[styles.container, styles.todo]}>
@@ -227,6 +246,7 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                         placeholderTextColor={colors.textSecondary}
                                         placeholder={i18n.t(LANGUAGE_KEYS.WIRTEWATH)}
                                         style={styles.textInput}
+                                        value={toDoStore.title}
                                         onChangeText={text => toDoStore.updateInputTitle(text)}
                                     />
                                 </View>
@@ -238,6 +258,7 @@ class TodoDetail extends Component<ITodoDetailProps> {
                                     placeholder={i18n.t(LANGUAGE_KEYS.DESCRIPTION)}
                                     placeholderTextColor={colors.textSecondary}
                                     style={styles.textInput}
+                                    value={toDoStore.description}
                                     onChangeText={text => toDoStore.updateInputDescrption(text)}
                                 />
                             </View>

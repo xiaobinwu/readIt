@@ -12,8 +12,8 @@ import { Text } from '@app/components/common/text';
 import { AutoI18nTitle } from '@app/components/layout/title';
 import { LANGUAGE_KEYS, MONTHS } from '@app/constants/language';
 import colors from '@app/style/colors';
-import { agendaStore } from '@app/components/common/agendaScreen';
 import fonts from '@app/style/fonts';
+import { agendaStore } from './agendaScreen';
 
 export interface ITodoTitleProps {}
 
