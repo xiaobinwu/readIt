@@ -167,8 +167,8 @@ class TodoDetail extends Component<ITodoDetailProps> {
             if (agendaItems) {
                 if (agendaItems && agendaItems[dateObject.dateString] && Array.isArray(agendaItems[dateObject.dateString])) {
                     const len = agendaItems[dateObject.dateString].length;
-                    const { params: { item = undefined } } = this.props.route;
-                    if (item) {
+                    if (this.props?.route?.params?.item) {
+                        const item = this.props?.route?.params?.item;
                         agendaItems[dateObject.dateString][item.index] = { ...params, index: item.index };
                     } else {
                         params.index = len;
