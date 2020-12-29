@@ -28,20 +28,21 @@ class TodoList extends Component<IPageProps> {
         const { styles } = obStyles;
         return {
             headerTitle: () => (<TodoTitle />),
-            headerRight: () => (
-                <Observer render={() => (
-                    <TouchableView
-                        accessibilityLabel="学习计划筛选器"
-                        accessibilityHint="切换学习计划筛选器"
-                    >
-                        <Iconfont
-                            name="liebiaolist29" 
-                            color={colors.cardBackground}
-                            {...getHeaderButtonStyle()}
-                        />
-                    </TouchableView>
-                )} />
-            )
+            // headerRight: () => (
+            //     <Observer render={() => (
+            //         <TouchableView
+            //             accessibilityLabel="学习计划筛选器"
+            //             accessibilityHint="切换学习计划筛选器"
+            //             onPress={}
+            //         >
+            //             <Iconfont
+            //                 name="liebiaolist29" 
+            //                 color={colors.cardBackground}
+            //                 {...getHeaderButtonStyle()}
+            //             />
+            //         </TouchableView>
+            //     )} />
+            // )
         };
     }
     @boundMethod
