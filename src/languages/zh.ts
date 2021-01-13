@@ -12,7 +12,7 @@ export default {
     [LANGUAGE_KEYS.CHINESE]: '简体中文',
     [LANGUAGE_KEYS.ARTICLE]: '知识库',
     [LANGUAGE_KEYS.LEARN]: '学习计划',
-    [LANGUAGE_KEYS.ABOUT]: '关于我',
+    [LANGUAGE_KEYS.ABOUT]: '关于',
     [LANGUAGE_KEYS.ARTICLELIST]: '文章列表',
     [LANGUAGE_KEYS.LOADING]: '加载中...',
     [LANGUAGE_KEYS.NO_RESULT_RETRY]: '暂无数据，下拉刷新重试',
@@ -89,6 +89,12 @@ export default {
     [LANGUAGE_KEYS.DESCRIPTION]: '描述...',
     [LANGUAGE_KEYS.TIPTIME]: '提醒时间',
     [LANGUAGE_KEYS.SUBMIT]: '提交',
+    [LANGUAGE_KEYS.GITHUB]: 'GitHub',
+    [LANGUAGE_KEYS.WECHAT]: '微信',
+    [LANGUAGE_KEYS.QQ]: 'QQ',
+    [LANGUAGE_KEYS.SPONSOR]: '一杯咖啡',
+    [LANGUAGE_KEYS.EMAILTOME]: '给我邮件',
+    [LANGUAGE_KEYS.VLOG]: '博客'
 };
 
 export const LOCALES_ZH = {

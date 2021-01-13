@@ -17,5 +17,9 @@ export enum TodoRoutes {
 }
 
 export enum AboutRoutes {
-    About = 'About'
+    About = 'About',
+    Github = 'Github',
+    Wechat = 'Wechat',
+    Qq = 'Qq',
+    Sponsor = 'Sponsor'
 }

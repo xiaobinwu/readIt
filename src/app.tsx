@@ -16,7 +16,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppearanceProvider } from 'react-native-appearance';
 import { ArticleRoutes, TodoRoutes, AboutRoutes } from '@app/constants/routes';
 import colors from '@app/style/colors';
-import { headerStyles, AutoI18nTitle } from '@app/components/layout/title';
+import { headerStyles, AutoI18nTitle, CustomHeaderTitle } from '@app/components/layout/title';
 import ArticleList, { indexStore } from '@app/pages/article/articleList';
 import ArticleSearch from '@app/pages/article/articleSearch';
 import ArticleDetail from '@app/pages/article/articleDetail';
@@ -24,6 +24,10 @@ import TodoList from '@app/pages/todo/todoList';
 import TodoDetail from '@app/pages/todo/todoDetail';
 import { Iconfont } from '@app/components/common/iconfont';
 import About from '@app/pages/about';
+import Github from '@app/pages/about/github';
+import Qq from '@app/pages/about/qq';
+import Wechat from '@app/pages/about/wechat';
+import Sponsor from '@app/pages/about/sponsor';
 import { IS_ANDROID } from '@app/config';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { WebViewPage } from '@app/pages/common/webview';
@@ -106,6 +110,37 @@ const AboutStackComponent = observer(() => {
             <AboutStack.Screen
                 name={AboutRoutes.About}
                 component={About}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.ABOUT} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.Github}
+                component={Github}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.GITHUB} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.Qq}
+                component={Qq}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.QQ} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.Wechat}
+                component={Wechat}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.WECHAT} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.Sponsor}
+                component={Sponsor}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.SPONSOR} />
+                }}
             />
         </AboutStack.Navigator>
     );

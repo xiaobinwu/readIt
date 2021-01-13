@@ -91,6 +91,12 @@ export default {
     [LANGUAGE_KEYS.DESCRIPTION]: 'Describe...',
     [LANGUAGE_KEYS.TIPTIME]: 'Reminder Time',
     [LANGUAGE_KEYS.SUBMIT]: 'Submit',
+    [LANGUAGE_KEYS.GITHUB]: 'GitHub',
+    [LANGUAGE_KEYS.WECHAT]: 'Wechat',
+    [LANGUAGE_KEYS.QQ]: 'QQ',
+    [LANGUAGE_KEYS.SPONSOR]: 'Sponsor Me',
+    [LANGUAGE_KEYS.EMAILTOME]: 'Email Me',
+    [LANGUAGE_KEYS.VLOG]: 'Blog'
 };
 
 export const LOCALES_EN = {

@@ -6,6 +6,76 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1172649",
+      "name": "箭头",
+      "font_class": "jiantou",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "356478",
+      "name": "微博",
+      "font_class": "weibo",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "844638",
+      "name": "美元2",
+      "font_class": "meiyuan2",
+      "unicode": "e734",
+      "unicode_decimal": 59188
+    },
+    {
+      "icon_id": "986226",
+      "name": "微信",
+      "font_class": "weixin-copy",
+      "unicode": "e65c",
+      "unicode_decimal": 58972
+    },
+    {
+      "icon_id": "2041684",
+      "name": "CN_cnblogs",
+      "font_class": "CN_cnblogs",
+      "unicode": "e64d",
+      "unicode_decimal": 58957
+    },
+    {
+      "icon_id": "6626233",
+      "name": "email",
+      "font_class": "email",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "9412343",
+      "name": "sf-logo",
+      "font_class": "sf-logo",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "12160549",
+      "name": "social-2_round-blogger",
+      "font_class": "social-_round-blogger",
+      "unicode": "e694",
+      "unicode_decimal": 59028
+    },
+    {
+      "icon_id": "12443502",
+      "name": "qq",
+      "font_class": "sign_qq",
+      "unicode": "e638",
+      "unicode_decimal": 58936
+    },
+    {
+      "icon_id": "15218181",
+      "name": "github",
+      "font_class": "github1",
+      "unicode": "e639",
+      "unicode_decimal": 58937
+    },
+    {
       "icon_id": "297678",
       "name": "文本编辑_填充",
       "font_class": "wenbenbianjitianchong",

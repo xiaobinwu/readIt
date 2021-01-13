@@ -120,5 +120,12 @@ export enum LANGUAGE_KEYS {
     DESCRIPTION = 'description',
     TIPTIME = 'tiptime',
     SUBMIT = 'submit',
+
+    GITHUB = 'github',
+    QQ = 'qq',
+    WECHAT = 'wechat',
+    SPONSOR = 'sponsor',
+    EMAILTOME = 'emailtome',
+    VLOG = 'vlog',
 }
 
