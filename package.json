@@ -14,7 +14,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint src --ext .js,.jsx,.ts,.tsx",
-    "react-devtools": "react-devtools"
+    "react-devtools": "adb reverse tcp:8097 tcp:8097 && react-devtools"
   },
   "dependencies": {
     "@react-native-community/async-storage": "^1.8.1",

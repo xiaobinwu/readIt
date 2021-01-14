@@ -127,5 +127,6 @@ export enum LANGUAGE_KEYS {
     SPONSOR = 'sponsor',
     EMAILTOME = 'emailtome',
     VLOG = 'vlog',
+    ABOUTME = 'aboutme'
 }
 

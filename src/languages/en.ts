@@ -96,7 +96,8 @@ export default {
     [LANGUAGE_KEYS.QQ]: 'QQ',
     [LANGUAGE_KEYS.SPONSOR]: 'Sponsor Me',
     [LANGUAGE_KEYS.EMAILTOME]: 'Email Me',
-    [LANGUAGE_KEYS.VLOG]: 'Blog'
+    [LANGUAGE_KEYS.VLOG]: 'Blog',
+    [LANGUAGE_KEYS.ABOUTME]: 'About Author',
 };
 
 export const LOCALES_EN = {

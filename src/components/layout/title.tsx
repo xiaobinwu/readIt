@@ -45,7 +45,7 @@ interface IHeaderTitleProps extends I18nTitleProps {
 // 自定义头部
 export const CustomHeaderTitle = observer((props: IHeaderTitleProps): JSX.Element => {
     const { title, i18nKey, style, onDoubleClick, ...i18nProps } = props;
-    const styles = [style, headerStyles.styles.title];
+    const styles = [headerStyles.styles.title, style];
     const handleClick = () => {
         onDoubleClick && onDoubleClick();
     };

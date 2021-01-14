@@ -6,7 +6,7 @@
 import React, { Component, RefObject } from 'react';
 import { View, Text, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
-import { observable, computed } from 'mobx';
+import { observable, computed, values } from 'mobx';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { Observer, observer } from 'mobx-react';
 import { LANGUAGE_KEYS } from '@app/constants/language';
@@ -20,6 +20,7 @@ import mixins from '@app/style/mixins';
 import i18n from '@app/services/i18n';
 import { webUrl, email } from '@app/config';
 import { AboutRoutes } from '@app/constants/routes';
+import { AutoI18nTitle, } from '@app/components/layout/title';
 
 export interface IAboutProps extends IPageProps {}
 
@@ -167,10 +168,65 @@ class About extends Component<IAboutProps> {
         });
     }
 
+    @boundMethod
+    renderSection(data: any): JSX.Element {
+        const { styles } = obStyles;
+        const { index, section, item } = data;
+        return (
+            <Observer render={() => (
+                <TouchableView
+                    style={[
+                        styles.line,
+                        index === 0 ? styles.firstLineSeparator : null,
+                        index === section.data.length - 1 ? styles.lastLineSeparator : null
+                    ]}
+                    onPress={
+                        () => {
+                            if (section.key === Sections.Social && item.url) {
+                                this.openUrl(item.url);
+                            } else if (item.onPress) {
+                                item.onPress();
+                            }
+                        }
+                    }
+                >
+                    <View style={styles.lineContent}>
+                        <Iconfont style={styles.lineIcon} name={item.iconName} />
+                        <Text>{item.name}</Text>
+                        {item.remind && (<Remind style={styles.lineRemindIcon} />)}
+                    </View>
+                    <Iconfont style={styles.lineDetailIcon} name="jiantou" />
+                </TouchableView>
+            )} />
+        );
+    }
+
+    @boundMethod
+    renderTitle(languageKey: LANGUAGE_KEYS): JSX.Element {
+        const { styles } = obStyles;
+        return (
+            <Observer render={
+                () => (
+                    <View style={styles.headerTitle}>
+                        <View style={styles.titleBadge} />
+                        <AutoI18nTitle
+                            i18nKey={languageKey}
+                            size={15}
+                            color={colors.textDefault}
+                        />
+                    </View>
+
+                )
+            } />
+        );
+    }
+
     render() {
         const { styles } = obStyles;
-        const sections = [
-            { key: Sections.Setting, data: this.settings.slice() },
+        const sections1 = [
+            { key: Sections.Setting, data: this.settings.slice() }
+        ];
+        const sections2 = [
             { key: Sections.Follow, data: this.follows.slice() },
             { key: Sections.Social, data: this.socials.slice() }
         ];
@@ -213,38 +269,23 @@ class About extends Component<IAboutProps> {
                 </View>
                 <View style={styles.section}>
                     <SectionList<ISectionItem>
-                        sections={sections}
+                        sections={sections1}
                         ListHeaderComponent={<View style={styles.listHeaderAndFooter} />}
                         ListFooterComponent={<View style={styles.listHeaderAndFooter} />}
                         SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
                         ItemSeparatorComponent={() =>  <View style={styles.lineItemSeparator} />}
-                        renderItem={
-                            ({ item, index, section }) => (
-                                <TouchableView
-                                    style={[
-                                        styles.line,
-                                        index === 0 ? styles.firstLineSeparator : null,
-                                        index === section.data.length - 1 ? styles.lastLineSeparator : null
-                                    ]}
-                                    onPress={
-                                        () => {
-                                            if (section.key === Sections.Social && item.url) {
-                                                this.openUrl(item.url);
-                                            } else if (item.onPress) {
-                                                item.onPress();
-                                            }
-                                        }
-                                    }
-                                >
-                                    <View style={styles.lineContent}>
-                                        <Iconfont style={styles.lineIcon} name={item.iconName} />
-                                        <Text>{item.name}</Text>
-                                        {item.remind && (<Remind style={styles.lineRemindIcon} />)}
-                                    </View>
-                                    <Iconfont style={styles.lineDetailIcon} name="jiantou" />
-                                </TouchableView>
-                            )
-                        }
+                        renderItem={this.renderSection}
+                    />
+                </View>
+                {this.renderTitle(LANGUAGE_KEYS.ABOUTME)}
+                <View style={styles.section}>
+                    <SectionList<ISectionItem>
+                        sections={sections2}
+                        ListHeaderComponent={<View style={styles.listHeaderAndFooter} />}
+                        ListFooterComponent={<View style={styles.listHeaderAndFooter} />}
+                        SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
+                        ItemSeparatorComponent={() =>  <View style={styles.lineItemSeparator} />}
+                        renderItem={this.renderSection}
                     />
                 </View>
             </View>
@@ -331,38 +372,54 @@ const obStyles = observable({
             line: {
                 ...mixins.rowCenter,
                 justifyContent: 'space-between',
-                height: sizes.gap * 2,
+                height: sizes.gap * 2.5,
                 paddingHorizontal: sizes.gap * 0.8,
                 backgroundColor: colors.cardBackground
-              },
-              firstLineSeparator: {
+            },
+            firstLineSeparator: {
                 borderTopWidth: sizes.borderWidth,
                 borderTopColor: colors.border
-              },
-              lastLineSeparator: {
+            },
+            lastLineSeparator: {
                 borderBottomWidth: sizes.borderWidth,
                 borderBottomColor: colors.border
-              },
-              lineContent: {
+            },
+            lineContent: {
                 ...mixins.rowCenter
-              },
-              lineTitle: {
-              },
-              lineIcon: {
+            },
+            lineTitle: {
+            },
+            lineIcon: {
                 width: sizes.gap,
                 marginRight: sizes.gap / 2,
                 color: colors.textDefault
-              },
-              lineDetailIcon: {
+            },
+            lineDetailIcon: {
                 color: colors.textSecondary
-              },
-              lineRemindIcon: {
+            },
+            lineRemindIcon: {
                 marginLeft: sizes.gap / 2
-              },
-              lineItemSeparator: {
+            },
+            lineItemSeparator: {
                 height: sizes.borderWidth,
                 backgroundColor: colors.border
-              }
+            },
+            headerTitle: {
+                flexDirection: 'row',
+                justifyContent: 'flex-start',
+                alignItems: 'center',
+                color: colors.textTitle,
+                marginTop: sizes.gap,
+                marginHorizontal: sizes.gap * 0.8,
+                width: sizes.screen.width - sizes.gap * 1.6,
+                ...fonts.h5,
+            },
+            titleBadge: {
+                width: 5,
+                height: 15,
+                backgroundColor: colors.primary,
+                marginRight: 5
+            }
         });
     }
 });

@@ -94,7 +94,8 @@ export default {
     [LANGUAGE_KEYS.QQ]: 'QQ',
     [LANGUAGE_KEYS.SPONSOR]: '一杯咖啡',
     [LANGUAGE_KEYS.EMAILTOME]: '给我邮件',
-    [LANGUAGE_KEYS.VLOG]: '博客'
+    [LANGUAGE_KEYS.VLOG]: '博客',
+    [LANGUAGE_KEYS.ABOUTME]: '关于作者',
 };
 
 export const LOCALES_ZH = {
