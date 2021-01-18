@@ -151,11 +151,11 @@ class About extends Component<IAboutProps> {
     private get settings() {
       return [
         {
-          name: 'setting',
+          name: i18n.t(LANGUAGE_KEYS.SETTING),
           key: 'setting',
-          iconName: 'webpack',
+          iconName: 'shezhi',
           onPress: () => {
-            // this.props.navigation.push(AboutRoutes.Setting)
+            this.props.navigation.push(AboutRoutes.Setting);
           }
         }
       ];
@@ -267,9 +267,10 @@ class About extends Component<IAboutProps> {
                         <Text style={styles.statisticTitle}>查看</Text>
                     </View>
                 </View>
-                <View style={styles.section}>
+                {this.renderTitle(LANGUAGE_KEYS.ABOUTME)}
+                <View>
                     <SectionList<ISectionItem>
-                        sections={sections1}
+                        sections={sections2}
                         ListHeaderComponent={<View style={styles.listHeaderAndFooter} />}
                         ListFooterComponent={<View style={styles.listHeaderAndFooter} />}
                         SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
@@ -277,10 +278,10 @@ class About extends Component<IAboutProps> {
                         renderItem={this.renderSection}
                     />
                 </View>
-                {this.renderTitle(LANGUAGE_KEYS.ABOUTME)}
-                <View style={styles.section}>
+                {this.renderTitle(LANGUAGE_KEYS.MORESETTING)}
+                <View>
                     <SectionList<ISectionItem>
-                        sections={sections2}
+                        sections={sections1}
                         ListHeaderComponent={<View style={styles.listHeaderAndFooter} />}
                         ListFooterComponent={<View style={styles.listHeaderAndFooter} />}
                         SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
@@ -356,12 +357,6 @@ const obStyles = observable({
                 height: sizes.gap * 2,
                 marginTop: sizes.gap / 2,
                 backgroundColor: colors.border
-            },
-            section: {
-                flex: 1,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'flex-start'
             },
             listHeaderAndFooter: {
                 height: sizes.gap / 2

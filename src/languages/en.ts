@@ -98,6 +98,14 @@ export default {
     [LANGUAGE_KEYS.EMAILTOME]: 'Email Me',
     [LANGUAGE_KEYS.VLOG]: 'Blog',
     [LANGUAGE_KEYS.ABOUTME]: 'About Author',
+    [LANGUAGE_KEYS.MORESETTING]: 'More Setting',
+    [LANGUAGE_KEYS.SETTING]: 'Setting',
+    [LANGUAGE_KEYS.CLEAR_CACHE]: 'Clear cache',
+    [LANGUAGE_KEYS.CLEAR_CACHE_TEXT]: 'The action will clear some local data, go on?',
+    [LANGUAGE_KEYS.OK]: 'Sure',
+    [LANGUAGE_KEYS.SUCCESS]: 'Success',
+    [LANGUAGE_KEYS.DARK_THEME]: 'Dark Theme',
+    [LANGUAGE_KEYS.SWITCH_LANGUAGE]: 'Language',
 };
 
 export const LOCALES_EN = {

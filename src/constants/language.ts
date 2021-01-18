@@ -127,6 +127,15 @@ export enum LANGUAGE_KEYS {
     SPONSOR = 'sponsor',
     EMAILTOME = 'emailtome',
     VLOG = 'vlog',
-    ABOUTME = 'aboutme'
+    ABOUTME = 'aboutme',
+    MORESETTING = 'moresetting',
+    SETTING = 'setting',
+
+    CLEAR_CACHE = 'clearCache',
+    CLEAR_CACHE_TEXT = 'clearCacheText',
+    OK = 'ok',
+    SUCCESS = 'success',
+    DARK_THEME = 'darkTheme',
+    SWITCH_LANGUAGE = 'switchLanguage',
 }
 

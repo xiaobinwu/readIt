@@ -28,6 +28,7 @@ import Github from '@app/pages/about/github';
 import Qq from '@app/pages/about/qq';
 import Wechat from '@app/pages/about/wechat';
 import Sponsor from '@app/pages/about/sponsor';
+import Setting from '@app/pages/about/setting';
 import { IS_ANDROID } from '@app/config';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { WebViewPage } from '@app/pages/common/webview';
@@ -140,6 +141,13 @@ const AboutStackComponent = observer(() => {
                 component={Sponsor}
                 options={{
                     headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.SPONSOR} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.Setting}
+                component={Setting}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.SETTING} />
                 }}
             />
         </AboutStack.Navigator>
