@@ -95,7 +95,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
 
     // 缩略图
     private getThumbSource(thumb: string): string {
-        return thumb || `${staticApi}/images/thumb-carrousel.jpg`;
+        return thumb || `${staticApi}/sys/.gif`;
     }
 
     @computed

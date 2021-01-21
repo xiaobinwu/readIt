@@ -1,4 +1,4 @@
-import { appApi } from '@app/config';
+import { appApi, weatherKey, weatherUrl } from '@app/config';
 import { HttpService } from './http';
 
 
@@ -56,6 +56,16 @@ class Request extends HttpService {
     async fetchUpdateComment<T>(params  = {}) {
         console.log(params);
         const { data } = await this.post<T>(`${appApi}/comment/like`, params);
+        return data;
+    }
+
+    // 获取实况天气
+    async fetchCurrentWeatherMessage<T>(params = {}) {
+        const finalParams = {
+            key: weatherKey,
+            ...params,
+        };
+        const { data } = await this.get<T>(weatherUrl, finalParams);
         return data;
     }
 

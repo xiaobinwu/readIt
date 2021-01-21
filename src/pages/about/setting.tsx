@@ -72,11 +72,11 @@ export interface ISettingProps extends IPageProps {}
 
     @action.bound
     private updateLanguageBoxCollapsedState(collapsed: boolean) {
-        this.isLanguageBoxCollapsed = collapsed;
+      this.isLanguageBoxCollapsed = collapsed;
     }
-
-    private handleToggleLanguages() {
-        this.updateLanguageBoxCollapsedState(!this.isLanguageBoxCollapsed);
+  
+    private handleToggleLanguages = () => {
+      this.updateLanguageBoxCollapsedState(!this.isLanguageBoxCollapsed);
     }
 
     private handleUpdateLanguage(lang: TLanguage): void {

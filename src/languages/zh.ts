@@ -95,7 +95,7 @@ export default {
     [LANGUAGE_KEYS.SPONSOR]: '一杯咖啡',
     [LANGUAGE_KEYS.EMAILTOME]: '给我邮件',
     [LANGUAGE_KEYS.VLOG]: '博客',
-    [LANGUAGE_KEYS.ABOUTME]: '关于作者',
+    [LANGUAGE_KEYS.ABOUTME]: '关于开发者',
     [LANGUAGE_KEYS.MORESETTING]: '更多设置',
     [LANGUAGE_KEYS.SETTING]: '设置',
     [LANGUAGE_KEYS.CLEAR_CACHE]: '清理缓存',
@@ -104,6 +104,9 @@ export default {
     [LANGUAGE_KEYS.SUCCESS]: '操作成功',
     [LANGUAGE_KEYS.DARK_THEME]: '深色模式',
     [LANGUAGE_KEYS.SWITCH_LANGUAGE]: '切换语言',
+    [LANGUAGE_KEYS.JUEJIN]: '掘金',
+    [LANGUAGE_KEYS.CNBLOG]: '博客园',
+    [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault'
 };
 
 export const LOCALES_ZH = {

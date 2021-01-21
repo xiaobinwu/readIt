@@ -4,7 +4,7 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 import React, { Component, RefObject } from 'react';
-import { View, Text, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert } from 'react-native';
+import { View, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
 import { observable, computed, values } from 'mobx';
 import { TouchableView } from '@app/components/common/touchable-view';
@@ -19,8 +19,13 @@ import { Remind } from '@app/components/common/remind';
 import mixins from '@app/style/mixins';
 import i18n from '@app/services/i18n';
 import { webUrl, email } from '@app/config';
+import { Text } from '@app/components/common/text';
+import { IWeather, Weather } from '@app/components/common/weather';
 import { AboutRoutes } from '@app/constants/routes';
 import { AutoI18nTitle, } from '@app/components/layout/title';
+import request from '@app/services/request';
+import { optionStore } from '@app/stores/option';
+import { staticApi } from '@app/config';
 
 export interface IAboutProps extends IPageProps {}
 
@@ -56,11 +61,29 @@ interface IStatistic {
 @observer
 class About extends Component<IAboutProps> {
 
+    constructor(props: IAboutProps) {
+        super(props);
+        this.fetchCurrentWeatherMessage();
+        // navigator.geolocation.getCurrentPosition((location: any) => { console.log(location); });
+    }
+
     @observable.ref
     private userInfo: IUserInfo = {
       gravatar: require('@app/assets/images/gravatar.png'),
       name: '-',
       slogan: '-'
+    }
+
+    @observable.ref
+    private currentWeather: IWeather = {
+        updateTime: '-',
+        temp: '-',
+        icon: '-',
+        text: '-',
+        tempMax: '-',
+        tempMin: '-',
+        feelsLike: '-',
+        fxLink: '-'
     }
 
     @observable.ref
@@ -75,19 +98,19 @@ class About extends Component<IAboutProps> {
     private get socials() {
       return [
         {
-            name: '掘金',
+            name: i18n.t(LANGUAGE_KEYS.JUEJIN),
             key: 'juejin',
             iconName: 'social-_round-blogger',
             url: 'https://juejin.cn/user/1468603262840910'
         },
         {
-            name: '博客园',
+            name: i18n.t(LANGUAGE_KEYS.CNBLOG),
             key: 'bokeyuan',
             iconName: 'CN_cnblogs',
             url: 'https://www.cnblogs.com/wuxiaobin/'
         },
         {
-            name: 'Segmentfault',
+            name: i18n.t(LANGUAGE_KEYS.SEGMENTFAULT),
             key: 'segmentfault',
             iconName: 'sf-logo',
             url: 'https://segmentfault.com/u/xiaobinwu'
@@ -161,6 +184,28 @@ class About extends Component<IAboutProps> {
       ];
     }
 
+    // 获取实况天气预报
+    private fetchCurrentWeatherMessage() {
+        request.fetchCurrentWeatherMessage<any>({ location: '114.05,22.55', lang: optionStore.language }).then((data) => {
+            console.log(data);
+            if (data.code === '200') {
+                const { fxLink, updateTime, now = {}, daily = {} } = data;
+                const { temp, feelsLike, icon, text, } = now;
+                const { tempMax, tempMin } = daily;
+                this.currentWeather = {
+                    ...(fxLink ? { fxLink } : {}),
+                    ...(updateTime ? { updateTime } : {}),
+                    ...(temp ? { temp } : {}),
+                    ...(feelsLike ? { feelsLike } : {}),
+                    ...(icon ? { icon } : {}),
+                    ...(text ? { text } : {}),
+                    ...(tempMax ? { tempMax } : {}),
+                    ...(tempMin ? { tempMin } : {}),
+                };
+            }
+        });
+    }
+
     private openUrl(url: string): Promise<any> {
         return Linking.openURL(url).catch(error => {
             console.warn('Open url failed:', error);
@@ -192,7 +237,7 @@ class About extends Component<IAboutProps> {
                 >
                     <View style={styles.lineContent}>
                         <Iconfont style={styles.lineIcon} name={item.iconName} />
-                        <Text>{item.name}</Text>
+                        <Text style={styles.lineContentText}>{item.name}</Text>
                         {item.remind && (<Remind style={styles.lineRemindIcon} />)}
                     </View>
                     <Iconfont style={styles.lineDetailIcon} name="jiantou" />
@@ -234,17 +279,20 @@ class About extends Component<IAboutProps> {
             <View style={styles.container}>
                 <ImageBackground
                     style={styles.user}
-                    source={this.userInfo.gravatar}
-                    blurRadius={90}
+                    source={{ uri: `${staticApi}/sys/green-bg.jpg` }}
+                    // blurRadius={90}
                 >
-                    <Image
-                        style={styles.userGravatar}
-                        source={this.userInfo.gravatar}
-                    />
-                    <View>
-                        <Text style={styles.userName}>{this.userInfo.name}</Text>
-                        <Text style={styles.userSlogan}>{this.userInfo.slogan}</Text>
+                    <View style={styles.userContent}>
+                        <Image
+                            style={styles.userGravatar}
+                            source={this.userInfo.gravatar}
+                        />
+                        <View>
+                            <Text style={styles.userName}>{this.userInfo.name}</Text>
+                            <Text style={styles.userSlogan}>{this.userInfo.slogan}</Text>
+                        </View>
                     </View>
+                    <Weather { ...this.currentWeather } />
                 </ImageBackground>
                 <View style={styles.statistic}>
                     <View style={styles.statisticItem}>
@@ -304,12 +352,15 @@ const obStyles = observable({
             user: {
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'flex-start',
-                paddingVertical: sizes.gap / 2,
+                justifyContent: 'space-between',
+                paddingVertical: sizes.gap * 1.5,
                 paddingHorizontal: sizes.gap,
                 backgroundColor: colors.cardBackground,
                 borderBottomColor: colors.border,
                 borderBottomWidth: sizes.borderWidth
+            },
+            userContent: {
+                ...mixins.rowCenter
             },
             userGravatar: {
                 width: 70,
@@ -394,6 +445,9 @@ const obStyles = observable({
             },
             lineRemindIcon: {
                 marginLeft: sizes.gap / 2
+            },
+            lineContentText: {
+                color: colors.textTitle
             },
             lineItemSeparator: {
                 height: sizes.borderWidth,

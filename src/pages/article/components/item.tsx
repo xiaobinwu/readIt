@@ -55,7 +55,7 @@ export class ListItem extends PureComponent<IArtileListItemProps> {
 
     // 缩略图
     private getThumbSource(thumb: string): ImageSourcePropType {
-        return { uri: thumb || `${staticApi}/images/thumb-carrousel.jpg` };
+        return { uri: thumb || `${staticApi}/sys/thumb-carrousel.gif` };
     }
 
     render() {

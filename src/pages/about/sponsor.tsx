@@ -21,11 +21,11 @@ export default class Sponsor extends PureComponent<ISponsorProps> {
       <View style={styles.container}>
         <Image
             style={styles.image1}
-            source={{ uri: `${staticApi}/images/wechatPay.jpg` }}
+            source={{ uri: `${staticApi}/sys/wechatPay.jpg` }}
         />
         <Image
             style={styles.image2}
-            source={{ uri: `${staticApi}/images/antdPay.jpg` }}
+            source={{ uri: `${staticApi}/sys/antdPay.jpg` }}
         />
       </View>
     );

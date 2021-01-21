@@ -137,5 +137,8 @@ export enum LANGUAGE_KEYS {
     SUCCESS = 'success',
     DARK_THEME = 'darkTheme',
     SWITCH_LANGUAGE = 'switchLanguage',
+    JUEJIN = 'juejin',
+    CNBLOG = 'cnblog',
+    SEGMENTFAULT = 'segmentfault'
 }
 

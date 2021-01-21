@@ -21,7 +21,7 @@ export default class Qq extends PureComponent<IQqProps> {
       <View style={styles.container}>
         <Image
             style={styles.image}
-            source={{ uri: `${staticApi}/images/qq.jpg` }}
+            source={{ uri: `${staticApi}/sys/qq.jpg` }}
         />
       </View>
     );

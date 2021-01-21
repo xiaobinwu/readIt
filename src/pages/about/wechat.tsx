@@ -21,7 +21,7 @@ export default class Wechat extends PureComponent<IWechatProps> {
       <View style={styles.container}>
         <Image
             style={styles.image}
-            source={{ uri: `${staticApi}/images/wechat.jpg` }}
+            source={{ uri: `${staticApi}/sys/wechat.jpg` }}
         />
       </View>
     );

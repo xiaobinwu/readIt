@@ -97,7 +97,7 @@ export default {
     [LANGUAGE_KEYS.SPONSOR]: 'Sponsor Me',
     [LANGUAGE_KEYS.EMAILTOME]: 'Email Me',
     [LANGUAGE_KEYS.VLOG]: 'Blog',
-    [LANGUAGE_KEYS.ABOUTME]: 'About Author',
+    [LANGUAGE_KEYS.ABOUTME]: 'About The Developer',
     [LANGUAGE_KEYS.MORESETTING]: 'More Setting',
     [LANGUAGE_KEYS.SETTING]: 'Setting',
     [LANGUAGE_KEYS.CLEAR_CACHE]: 'Clear cache',
@@ -106,6 +106,9 @@ export default {
     [LANGUAGE_KEYS.SUCCESS]: 'Success',
     [LANGUAGE_KEYS.DARK_THEME]: 'Dark Theme',
     [LANGUAGE_KEYS.SWITCH_LANGUAGE]: 'Language',
+    [LANGUAGE_KEYS.JUEJIN]: 'JUEJIN',
+    [LANGUAGE_KEYS.CNBLOG]: 'CN Blog',
+    [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault'
 };
 
 export const LOCALES_EN = {
