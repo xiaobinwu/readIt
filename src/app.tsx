@@ -25,6 +25,7 @@ import TodoDetail from '@app/pages/todo/todoDetail';
 import { Iconfont } from '@app/components/common/iconfont';
 import About from '@app/pages/about';
 import Github from '@app/pages/about/github';
+import Weather from '@app/pages/about/weather';
 import Qq from '@app/pages/about/qq';
 import Wechat from '@app/pages/about/wechat';
 import Sponsor from '@app/pages/about/sponsor';
@@ -120,6 +121,13 @@ const AboutStackComponent = observer(() => {
                 component={Github}
                 options={{
                     headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.GITHUB} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.Weather}
+                component={Weather}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.WEATHER} />
                 }}
             />
             <AboutStack.Screen

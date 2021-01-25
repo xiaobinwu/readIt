@@ -90,6 +90,7 @@ export default {
     [LANGUAGE_KEYS.TIPTIME]: '提醒时间',
     [LANGUAGE_KEYS.SUBMIT]: '提交',
     [LANGUAGE_KEYS.GITHUB]: 'GitHub',
+    [LANGUAGE_KEYS.WEATHER]: '天气预报',
     [LANGUAGE_KEYS.WECHAT]: '微信',
     [LANGUAGE_KEYS.QQ]: 'QQ',
     [LANGUAGE_KEYS.SPONSOR]: '一杯咖啡',
@@ -106,7 +107,8 @@ export default {
     [LANGUAGE_KEYS.SWITCH_LANGUAGE]: '切换语言',
     [LANGUAGE_KEYS.JUEJIN]: '掘金',
     [LANGUAGE_KEYS.CNBLOG]: '博客园',
-    [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault'
+    [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault',
+    [LANGUAGE_KEYS.FELLIKE]: '体感温度'
 };
 
 export const LOCALES_ZH = {

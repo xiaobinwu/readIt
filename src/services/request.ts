@@ -1,4 +1,4 @@
-import { appApi, weatherKey, weatherUrl } from '@app/config';
+import { appApi, weatherKey, weatherCurUrl, weather3dUrl } from '@app/config';
 import { HttpService } from './http';
 
 
@@ -65,7 +65,17 @@ class Request extends HttpService {
             key: weatherKey,
             ...params,
         };
-        const { data } = await this.get<T>(weatherUrl, finalParams);
+        const { data } = await this.get<T>(weatherCurUrl, finalParams);
+        return data;
+    }
+
+    // 获取未来三天的天气
+    async fetch3dWeatherMessage<T>(params = {}) {
+        const finalParams = {
+            key: weatherKey,
+            ...params,
+        };
+        const { data } = await this.get<T>(weather3dUrl, finalParams);
         return data;
     }
 

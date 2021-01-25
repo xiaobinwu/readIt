@@ -22,5 +22,6 @@ export enum AboutRoutes {
     Wechat = 'Wechat',
     Qq = 'Qq',
     Sponsor = 'Sponsor',
-    Setting = 'Setting'
+    Setting = 'Setting',
+    Weather = 'Weather'
 }

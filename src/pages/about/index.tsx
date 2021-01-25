@@ -63,7 +63,7 @@ class About extends Component<IAboutProps> {
 
     constructor(props: IAboutProps) {
         super(props);
-        this.fetchCurrentWeatherMessage();
+        this.fetchWeatherMessage();
         // navigator.geolocation.getCurrentPosition((location: any) => { console.log(location); });
     }
 
@@ -75,7 +75,7 @@ class About extends Component<IAboutProps> {
     }
 
     @observable.ref
-    private currentWeather: IWeather = {
+    private currentWeather: IWeather | undefined = {
         updateTime: '-',
         temp: '-',
         icon: '-',
@@ -185,25 +185,34 @@ class About extends Component<IAboutProps> {
     }
 
     // 获取实况天气预报
-    private fetchCurrentWeatherMessage() {
-        request.fetchCurrentWeatherMessage<any>({ location: '114.05,22.55', lang: optionStore.language }).then((data) => {
-            console.log(data);
-            if (data.code === '200') {
-                const { fxLink, updateTime, now = {}, daily = {} } = data;
-                const { temp, feelsLike, icon, text, } = now;
-                const { tempMax, tempMin } = daily;
-                this.currentWeather = {
-                    ...(fxLink ? { fxLink } : {}),
-                    ...(updateTime ? { updateTime } : {}),
-                    ...(temp ? { temp } : {}),
-                    ...(feelsLike ? { feelsLike } : {}),
-                    ...(icon ? { icon } : {}),
-                    ...(text ? { text } : {}),
+    private async fetchWeatherMessage() {
+        let currentWeather;
+        const curWeatherData = await request.fetchCurrentWeatherMessage<any>({ location: '114.05,22.55', lang: optionStore.language });
+        const tdWeatherData = await request.fetch3dWeatherMessage<any>({ location: '114.05,22.55', lang: optionStore.language });
+        if (curWeatherData.code === '200') {
+            const { fxLink, updateTime, now = {} } = curWeatherData;
+            const { temp, feelsLike, icon, text, } = now;
+            currentWeather = {
+                ...(fxLink ? { fxLink } : {}),
+                ...(updateTime ? { updateTime } : {}),
+                ...(temp ? { temp } : {}),
+                ...(feelsLike ? { feelsLike } : {}),
+                ...(icon ? { icon } : {}),
+                ...(text ? { text } : {})
+            };
+        }
+        if (tdWeatherData.code === '200') {
+            const { daily = [] } = tdWeatherData;
+            if (daily.length > 0) {
+                const { tempMax, tempMin } = daily[0];
+                currentWeather = {
+                    ...currentWeather,
                     ...(tempMax ? { tempMax } : {}),
-                    ...(tempMin ? { tempMin } : {}),
+                    ...(tempMin ? { tempMin } : {})
                 };
             }
-        });
+        }
+        this.currentWeather = currentWeather;
     }
 
     private openUrl(url: string): Promise<any> {
@@ -279,8 +288,8 @@ class About extends Component<IAboutProps> {
             <View style={styles.container}>
                 <ImageBackground
                     style={styles.user}
-                    source={{ uri: `${staticApi}/sys/green-bg.jpg` }}
-                    // blurRadius={90}
+                    source={{ uri: `${staticApi}/sys/black-bg.png` }}
+                    blurRadius={3}
                 >
                     <View style={styles.userContent}>
                         <Image
@@ -292,7 +301,12 @@ class About extends Component<IAboutProps> {
                             <Text style={styles.userSlogan}>{this.userInfo.slogan}</Text>
                         </View>
                     </View>
-                    <Weather { ...this.currentWeather } />
+                    <Weather { ...this.currentWeather }  onPress={() => {
+                        // 可以使用navigate
+                        this.props.navigation.navigate(AboutRoutes.Weather, {
+                            fxLink: this.currentWeather?.fxLink
+                        });
+                    }} />
                 </ImageBackground>
                 <View style={styles.statistic}>
                     <View style={styles.statisticItem}>

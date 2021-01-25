@@ -92,6 +92,7 @@ export default {
     [LANGUAGE_KEYS.TIPTIME]: 'Reminder Time',
     [LANGUAGE_KEYS.SUBMIT]: 'Submit',
     [LANGUAGE_KEYS.GITHUB]: 'GitHub',
+    [LANGUAGE_KEYS.WEATHER]: 'Weather',
     [LANGUAGE_KEYS.WECHAT]: 'Wechat',
     [LANGUAGE_KEYS.QQ]: 'QQ',
     [LANGUAGE_KEYS.SPONSOR]: 'Sponsor Me',
@@ -108,7 +109,8 @@ export default {
     [LANGUAGE_KEYS.SWITCH_LANGUAGE]: 'Language',
     [LANGUAGE_KEYS.JUEJIN]: 'JUEJIN',
     [LANGUAGE_KEYS.CNBLOG]: 'CN Blog',
-    [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault'
+    [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault',
+    [LANGUAGE_KEYS.FELLIKE]: 'FeelLike'
 };
 
 export const LOCALES_EN = {

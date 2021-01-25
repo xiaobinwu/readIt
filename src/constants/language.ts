@@ -139,6 +139,8 @@ export enum LANGUAGE_KEYS {
     SWITCH_LANGUAGE = 'switchLanguage',
     JUEJIN = 'juejin',
     CNBLOG = 'cnblog',
-    SEGMENTFAULT = 'segmentfault'
+    SEGMENTFAULT = 'segmentfault',
+    FELLIKE = 'feellike',
+    WEATHER = 'weather'
 }
 

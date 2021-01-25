@@ -14,7 +14,8 @@ export const webUrl = 'http://wushaobin.top';
 export const email = 'xiaobin_wu@yahoo.com';
 export const GitHubUrl = 'https://github.com/xiaobinwu';
 export const version = packageJSON.version;
-export const weatherUrl = 'https://devapi.qweather.com/v7/weather/now';
+export const weatherCurUrl = 'https://devapi.qweather.com/v7/weather/now';
+export const weather3dUrl = 'https://devapi.qweather.com/v7/weather/3d';
 export const weatherKey = 'f51675abaa1840548d4fcce778828437'; // https://dev.qweather.com/docs/api/weather/
 
 export const IS_DEV = __DEV__;
