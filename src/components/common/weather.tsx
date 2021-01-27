@@ -28,13 +28,14 @@ export interface IWeather {
     tempMin?: number | string;
     feelsLike?: number | string;
     fxLink?: string;
+    currentCity?: string;
     onPress? : (event: any) => void
 }
 
 interface IWeatherProps extends IWeather {}
 
 export const Weather = observer((props: IWeatherProps): JSX.Element => {
-    const { temp = '-', icon, text = '-', tempMax = '-', tempMin = '-', feelsLike = '-', fxLink = '', onPress } = props;
+    const { temp = '-', icon, text = '-', tempMax = '-', tempMin = '-', feelsLike = '-', fxLink = '', currentCity = '-', onPress } = props;
     const { styles } = obStyles;
     return (
         <TouchableView
@@ -47,6 +48,7 @@ export const Weather = observer((props: IWeatherProps): JSX.Element => {
                     <Image style={styles.icon} source={{ uri: `${staticApi}/weather/${icon}.png` }} />
                     <Text style={[styles.fontColor, styles.weatherDec]}>{text}</Text>
                     <Text style={[styles.tempValue, styles.fontColor]}>{temp}{'°'}</Text>
+                    <Text style={[styles.cityValue, styles.fontColor]}>{currentCity}</Text>
                 </View>
                 <View style={styles.tempRnage}>
                     <Text style={styles.fontColor}>{tempMin}{'°'}</Text>
@@ -90,6 +92,9 @@ const obStyles = observable({
             },
             tempValue: {
                 ...fonts.h3
+            },
+            cityValue: {
+                marginLeft: 8
             }
         });
     }

@@ -78,6 +78,7 @@ export interface IRequestConfig extends TAxiosRequestConfig {
   errorPopCall?: (params: any) => void;
   prefix?: string;
   jsonpCallback?: string;
+  key?: string;
 }
 
 // 兼容Jsonp CancelToken

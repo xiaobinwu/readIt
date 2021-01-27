@@ -1,4 +1,4 @@
-import { appApi, weatherKey, weatherCurUrl, weather3dUrl } from '@app/config';
+import { appApi, weatherKey, weatherCurUrl, weather3dUrl, geocodeRegeoUrl, geocodeRegeoKey } from '@app/config';
 import { HttpService } from './http';
 
 
@@ -79,6 +79,15 @@ class Request extends HttpService {
         return data;
     }
 
+    // 逆地理编码API
+    async fetchGeocodeRegeo<T>(params = {}) {
+        const finalParams = {
+            key: geocodeRegeoKey,
+            ...params,
+        };
+        const { data } = await this.get<T>(geocodeRegeoUrl, finalParams);
+        return data;
+    }
 }
 
 export default new Request();

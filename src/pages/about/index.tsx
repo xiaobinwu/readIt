@@ -3,11 +3,11 @@
  * @module pages/about/index
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
-import React, { Component, RefObject } from 'react';
+import React, { Component } from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import { View, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
-import { observable, computed, values } from 'mobx';
+import { observable, computed, reaction } from 'mobx';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { Observer, observer } from 'mobx-react';
 import { LANGUAGE_KEYS } from '@app/constants/language';
@@ -66,6 +66,10 @@ class About extends Component<IAboutProps> {
 
     constructor(props: IAboutProps) {
         super(props);
+        reaction(
+            () => optionStore.language,
+            (language) => this.getLocation()
+        );
         this.getLocation();
     }
 
@@ -87,6 +91,7 @@ class About extends Component<IAboutProps> {
         feelsLike: '-',
         fxLink: '-'
     }
+    @observable private currentCity = '-';
 
     @observable.ref
     private statistic: IStatistic = {
@@ -190,9 +195,24 @@ class About extends Component<IAboutProps> {
     private getLocation() {
         locationService.getLocation((position) => {
             this.fetchWeatherMessage(position);
+            this.fetchGeocodeRegeo(position);
         }, (error) => {
             showToast(error.message);
         });
+    }
+
+    // 获取当前城市
+    private async fetchGeocodeRegeo(position: Geolocation.GeoPosition) {
+        const { coords } = position;
+        const { longitude, latitude } = coords;
+        const curGeoData = await request.fetchGeocodeRegeo<any>({ location: `${longitude},${latitude}` });
+        const { status, info } = curGeoData;
+        if (status !== '0') {
+            const { regeocode: { addressComponent: { city } } } = curGeoData;
+            this.currentCity = city;
+        } else {
+            showToast(info);
+        }
     }
 
     // 获取实况天气预报
@@ -314,7 +334,7 @@ class About extends Component<IAboutProps> {
                             <Text style={styles.userSlogan}>{this.userInfo.slogan}</Text>
                         </View>
                     </View>
-                    <Weather { ...this.currentWeather }  onPress={() => {
+                    <Weather { ...this.currentWeather } currentCity={this.currentCity}  onPress={() => {
                         // 可以使用navigate
                         this.props.navigation.navigate(AboutRoutes.Weather, {
                             fxLink: this.currentWeather?.fxLink
