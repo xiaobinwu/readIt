@@ -4,6 +4,7 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 import React, { Component, RefObject } from 'react';
+import Geolocation from 'react-native-geolocation-service';
 import { View, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
 import { observable, computed, values } from 'mobx';
@@ -26,6 +27,8 @@ import { AutoI18nTitle, } from '@app/components/layout/title';
 import request from '@app/services/request';
 import { optionStore } from '@app/stores/option';
 import { staticApi } from '@app/config';
+import locationService from '@app/services/location';
+import { showToast } from '@app/services/toast';
 
 export interface IAboutProps extends IPageProps {}
 
@@ -63,8 +66,7 @@ class About extends Component<IAboutProps> {
 
     constructor(props: IAboutProps) {
         super(props);
-        this.fetchWeatherMessage();
-        // navigator.geolocation.getCurrentPosition((location: any) => { console.log(location); });
+        this.getLocation();
     }
 
     @observable.ref
@@ -184,11 +186,22 @@ class About extends Component<IAboutProps> {
       ];
     }
 
+    // 获取定位信息
+    private getLocation() {
+        locationService.getLocation((position) => {
+            this.fetchWeatherMessage(position);
+        }, (error) => {
+            showToast(error.message);
+        });
+    }
+
     // 获取实况天气预报
-    private async fetchWeatherMessage() {
+    private async fetchWeatherMessage(position: Geolocation.GeoPosition) {
+        const { coords } = position;
+        const { longitude, latitude } = coords;
         let currentWeather;
-        const curWeatherData = await request.fetchCurrentWeatherMessage<any>({ location: '114.05,22.55', lang: optionStore.language });
-        const tdWeatherData = await request.fetch3dWeatherMessage<any>({ location: '114.05,22.55', lang: optionStore.language });
+        const curWeatherData = await request.fetchCurrentWeatherMessage<any>({ location: `${longitude},${latitude}`, lang: optionStore.language });
+        const tdWeatherData = await request.fetch3dWeatherMessage<any>({ location: `${longitude},${latitude}`, lang: optionStore.language });
         if (curWeatherData.code === '200') {
             const { fxLink, updateTime, now = {} } = curWeatherData;
             const { temp, feelsLike, icon, text, } = now;
@@ -311,7 +324,7 @@ class About extends Component<IAboutProps> {
                 <View style={styles.statistic}>
                     <View style={styles.statisticItem}>
                         <Text style={styles.statisticCount}>{this.statistic.articles}</Text>
-                        <Text style={styles.statisticTitle}>文章</Text>
+                        <Text style={styles.statisticTitle}>喜欢</Text>
                     </View>
                     <View style={styles.statisticSeparator} />
                     <View style={styles.statisticItem}>
