@@ -33,8 +33,14 @@ import Setting from '@app/pages/about/setting';
 import { IS_ANDROID } from '@app/config';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { WebViewPage } from '@app/pages/common/webview';
+import request from '@app/services/request';
+import { getUniqueId, getBaseOs, getDeviceName, getManufacturer, getBrand, getSystemVersion  } from 'react-native-device-info';
+import { Iuser } from '@app/types/business';
+import { IHttpResultOrdinary } from '@app/types/http';
 import { optionStore } from './stores/option';
 
+
+type TIHttpResultOrdinary = IHttpResultOrdinary<Iuser>;
 
 const Tab = createBottomTabNavigator();
 
@@ -164,7 +170,36 @@ const AboutStackComponent = observer(() => {
 
 @observer export class App extends Component {
 
+    constructor(props: Readonly<{}>) {
+        super(props);
+        this.fetchLogin();
+    }
+
     @observable.ref private navigationState: NavigationState | undefined;
+
+    // 请求签名牌，创建用户
+    private async fetchLogin() {
+        const { code, entry } = await this.fetchHasLogin();
+        if (code === 0 && entry.length === 0) {
+            const os = await getBaseOs();
+            const deviceName = await getDeviceName();
+            const manufacturer = await getManufacturer();
+            const data = await request.fetchAddUser<TIHttpResultOrdinary>({
+                deviceId: getUniqueId(),
+                os,
+                brand: getBrand(),
+                deviceName,
+                manufacturer,
+                systemVersion: getSystemVersion()
+            });
+        }
+    }
+
+    // 判断是否已经有用户
+    private async fetchHasLogin(): Promise<any> {
+        const data = await request.fetchHasLogin<TIHttpResultOrdinary>({ deviceId: getUniqueId() });
+        return data;
+    }
 
     @boundMethod
     @action

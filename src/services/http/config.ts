@@ -8,7 +8,8 @@ const defaultConfig: IRequestConfig = {
   errorPop: true, // 是否弹出默认错误信息
   useLocalCache: 0, // 通过本地缓存cache接口数据，0 不缓存，单位（s） 3 * 24 * 60 * 60
   usePreResult: false, // 多次请求同一个接口，皆返回第一次请求的数据，不会判断参数变更，谨慎使用
-  enabledUrlConfigure: true // 是否开启url转化
+  enabledUrlConfigure: true, // 是否开启url转化
+  encrypt: false, // 是否请求加密
   // 等待前置条件完成，再发起请求
   // additional: (params) => { return params },
 };

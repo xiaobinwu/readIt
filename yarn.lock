@@ -7253,6 +7253,11 @@ react-native-calendars@^1.505.0:
     react-native-swipe-gestures "^1.0.5"
     xdate "^0.8.0"
 
+react-native-device-info@^8.0.1:
+  version "8.0.1"
+  resolved "https://registry.npm.taobao.org/react-native-device-info/download/react-native-device-info-8.0.1.tgz#23a038ab39a9fe3ea8963feb366361ee7c03a2a1"
+  integrity sha1-I6A4qzmp/j6olj/rNmNh7nwDoqE=
+
 react-native-geolocation-service@^5.1.1:
   version "5.1.1"
   resolved "https://registry.npm.taobao.org/react-native-geolocation-service/download/react-native-geolocation-service-5.1.1.tgz#21b4aba54c5ce00a2180b2807581131d31bec48b"

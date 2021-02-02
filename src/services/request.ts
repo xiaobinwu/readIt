@@ -88,6 +88,36 @@ class Request extends HttpService {
         const { data } = await this.get<T>(geocodeRegeoUrl, finalParams);
         return data;
     }
+
+    // 判断是否创建用户
+    async fetchHasLogin<T>(params = {}) {
+        console.log(params);
+        const { data } = await this.post<T>(`${appApi}/users/detail`, params);
+        console.log(data, '111');
+        return data;
+    }
+
+    // 获取签名牌
+    async fetchRegEncrypt<T>(params = {}) {
+        console.log(params);
+        const { data } = await this.post<T>(`${appApi}/users/encrypt`, params);
+        return data;
+    }
+
+    // 添加用户
+    async fetchAddUser<T>(params = {}) {
+        console.log(params);
+        const {  code, encrypt } = await this.fetchRegEncrypt<any>(params);
+        const { encoded, md5Str } = encrypt;
+        params.e = encoded;
+        if (code === 0) {
+            const { data } = await this.post<T>(`${appApi}/users/create`, params, { headers: {
+                signature: md5Str
+            } });
+            return data;
+        }
+
+    }
 }
 
 export default new Request();

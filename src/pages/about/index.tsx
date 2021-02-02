@@ -29,6 +29,7 @@ import { optionStore } from '@app/stores/option';
 import { staticApi } from '@app/config';
 import locationService from '@app/services/location';
 import { showToast } from '@app/services/toast';
+import { getUniqueId } from 'react-native-device-info';
 
 export interface IAboutProps extends IPageProps {}
 
@@ -344,22 +345,17 @@ class About extends Component<IAboutProps> {
                 <View style={styles.statistic}>
                     <View style={styles.statisticItem}>
                         <Text style={styles.statisticCount}>{this.statistic.articles}</Text>
-                        <Text style={styles.statisticTitle}>喜欢</Text>
-                    </View>
-                    <View style={styles.statisticSeparator} />
-                    <View style={styles.statisticItem}>
-                        <Text style={styles.statisticCount}>{this.statistic.tags}</Text>
-                        <Text style={styles.statisticTitle}>标签</Text>
+                        <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.LIKE)}</Text>
                     </View>
                     <View style={styles.statisticSeparator} />
                     <View style={styles.statisticItem}>
                         <Text style={styles.statisticCount}>{this.statistic.comments}</Text>
-                        <Text style={styles.statisticTitle}>评论</Text>
+                        <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.COMMENT)}</Text>
                     </View>
                     <View style={styles.statisticSeparator} />
                     <View style={styles.statisticItem}>
                         <Text style={styles.statisticCount}>{this.statistic.views}</Text>
-                        <Text style={styles.statisticTitle}>查看</Text>
+                        <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.VIEW)}</Text>
                     </View>
                 </View>
                 {this.renderTitle(LANGUAGE_KEYS.ABOUTME)}

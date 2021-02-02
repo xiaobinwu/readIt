@@ -79,6 +79,7 @@ export interface IRequestConfig extends TAxiosRequestConfig {
   prefix?: string;
   jsonpCallback?: string;
   key?: string;
+  encrypt?: boolean;
 }
 
 // 兼容Jsonp CancelToken

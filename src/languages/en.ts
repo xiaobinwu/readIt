@@ -49,6 +49,7 @@ export default {
     [LANGUAGE_KEYS.GOODCOMMENTS]: 'Featured Reviews',
     [LANGUAGE_KEYS.COMMENT]: 'Comment',
     [LANGUAGE_KEYS.LIKE]: 'Like',
+    [LANGUAGE_KEYS.VIEW]: 'View',
     [LANGUAGE_KEYS.SHARE]: 'Share',
     [LANGUAGE_KEYS.RENDERING]: 'Rendering...',
     [LANGUAGE_KEYS.OPEN_BY_BROWER]: 'By Brower',

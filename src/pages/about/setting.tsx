@@ -100,10 +100,10 @@ export interface ISettingProps extends IPageProps {}
                     text: i18n.t(LANGUAGE_KEYS.OK),
                     onPress: () => {
                         const done = () => {
-                            // likeStore.resetStore();
+                            likeStore.resetStore();
                             Alert.alert(i18n.t(LANGUAGE_KEYS.SUCCESS));
                         };
-                        // storage.clear().then(done).catch(done);
+                        storage.clear().then(done).catch(done);
                     }
                 }
             ],

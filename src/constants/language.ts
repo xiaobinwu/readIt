@@ -60,6 +60,7 @@ export enum LANGUAGE_KEYS {
     VIEWS = 'views',
     LIKES = 'likes',
     LIKE = 'like',
+    VIEW = 'view',
     COMMENTS = 'comments',
     COMMENT = 'comment',
     SHARE = 'share',

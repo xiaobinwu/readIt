@@ -60,7 +60,27 @@ export interface IComment {
   author: string;
   email: string;
   likes: number;
-  create_at: string
-  update_at: string
-  isShow: boolean
+  create_at: string;
+  update_at: string;
+  isShow: boolean;
+}
+
+
+export interface Iuser {
+  deviceId: string;
+  _id: string;
+  nickName: string;
+  motto: string;
+  email: string;
+  avatar: string;
+  os: string;
+  brand: string;
+  deviceName: string;
+  manufacturer: string;
+  systemVersion: string;
+  likeArticles: IArticle[];
+  commentArticles: IArticle[];
+  viewArticles: IArticle[];
+  update_at: string;
+  create_at: string;
 }

@@ -47,6 +47,7 @@ export default {
     [LANGUAGE_KEYS.GOODCOMMENTS]: '精选评论',
     [LANGUAGE_KEYS.COMMENT]: '评论',
     [LANGUAGE_KEYS.LIKE]: '喜欢',
+    [LANGUAGE_KEYS.VIEW]: '阅读',
     [LANGUAGE_KEYS.SHARE]: '分享',
     [LANGUAGE_KEYS.RENDERING]: '渲染中...',
     [LANGUAGE_KEYS.OPEN_BY_BROWER]: '浏览器',
