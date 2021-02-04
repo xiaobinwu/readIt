@@ -22,6 +22,7 @@ import i18n from '@app/services/i18n';
 import { webUrl, email } from '@app/config';
 import { Text } from '@app/components/common/text';
 import { IWeather, Weather } from '@app/components/common/weather';
+import { Gravatar } from '@app/components/common/gravatar';
 import { AboutRoutes } from '@app/constants/routes';
 import { AutoI18nTitle, } from '@app/components/layout/title';
 import request from '@app/services/request';
@@ -29,7 +30,7 @@ import { optionStore } from '@app/stores/option';
 import { staticApi } from '@app/config';
 import locationService from '@app/services/location';
 import { showToast } from '@app/services/toast';
-import { getUniqueId } from 'react-native-device-info';
+
 
 export interface IAboutProps extends IPageProps {}
 
@@ -76,7 +77,7 @@ class About extends Component<IAboutProps> {
 
     @observable.ref
     private userInfo: IUserInfo = {
-      gravatar: require('@app/assets/images/gravatar.png'),
+      gravatar: { uri: `${staticApi}/sys/green-bg.jpg` },
       name: '-',
       slogan: '-'
     }
@@ -326,11 +327,12 @@ class About extends Component<IAboutProps> {
                     blurRadius={3}
                 >
                     <View style={styles.userContent}>
-                        <Image
+                        <Gravatar
                             style={styles.userGravatar}
                             source={this.userInfo.gravatar}
+                            picker={true}
                         />
-                        <View>
+                        <View style={styles.userMessage}>
                             <Text style={styles.userName}>{this.userInfo.name}</Text>
                             <Text style={styles.userSlogan}>{this.userInfo.slogan}</Text>
                         </View>
@@ -408,10 +410,12 @@ const obStyles = observable({
             userGravatar: {
                 width: 70,
                 height: 70,
-                marginRight: sizes.gap,
                 borderRadius: 35,
                 borderWidth: 2,
                 borderColor: colors.border
+            },
+            userMessage: {
+                marginLeft: sizes.gap
             },
             userName: {
                 ...fonts.h2,

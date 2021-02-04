@@ -8,7 +8,6 @@
 import React, { PureComponent } from 'react';
 import { Image, StyleSheet, View } from 'react-native';
 import { observable } from 'mobx';
-import { generateFromString } from 'generate-avatar';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
 import { TouchableView } from '@app/components/common/touchable-view';
@@ -39,7 +38,7 @@ export class CommentItem extends PureComponent<ICommentListItemProps> {
         return (
             <View style={styles.container}>
                 <Image
-                    source={{ uri: `data:image/svg+xml;utf8,${generateFromString(comment._id)}` }} 
+                    source={require('@app/assets/images/gravatar.png')} 
                     style={styles.gravatar}
                 />
                 <View style={styles.content}>

@@ -1,0 +1,10 @@
+获取当前天气、未来三天天气
+1、使用的是和风天气API
+
+获取位置问题：
+1、react-native-geolocation-service，获取经纬度进行逆地理编码API调用，获取城市，虚拟机需要开启google play服务，以及
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/> 安卓添加权限， 修改android/src/main/AndroidManifest.xml
+
+
+图片上传问题：
+1、react-native-image-picker， 3.1.4版本，minSdkVersion最少要21以上，使用的react-native 0.61.5，修改android/build.gradle

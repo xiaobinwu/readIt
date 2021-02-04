@@ -42,6 +42,7 @@
     "react-native-device-info": "^8.0.1",
     "react-native-geolocation-service": "^5.1.1",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-image-picker": "^3.1.4",
     "react-native-image-viewing": "^0.2.0",
     "react-native-localize": "^1.4.0",
     "react-native-modal-datetime-picker": "^9.1.0",
