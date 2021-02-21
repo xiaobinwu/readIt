@@ -6,7 +6,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { StyleSheet, View, Image } from 'react-native';
+import { StyleSheet, View, Image, ScrollView } from 'react-native';
 import { observable } from 'mobx';
 import { staticApi } from '@app/config';
 import { IPageProps } from '@app/types/props';
@@ -18,16 +18,18 @@ export default class Sponsor extends PureComponent<ISponsorProps> {
   render() {
     const { styles } = obStyles;
     return (
-      <View style={styles.container}>
-        <Image
-            style={styles.image1}
-            source={{ uri: `${staticApi}/sys/wechatPay.jpg` }}
-        />
-        <Image
-            style={styles.image2}
-            source={{ uri: `${staticApi}/sys/antdPay.jpg` }}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.container}>
+          <Image
+              style={styles.image1}
+              source={{ uri: `${staticApi}/sys/wechatPay.jpg` }}
+          />
+          <Image
+              style={styles.image2}
+              source={{ uri: `${staticApi}/sys/antdPay.jpg` }}
+          />
+        </View>
+      </ScrollView>
     );
   }
 }
@@ -38,6 +40,7 @@ const obStyles = observable({
       container: {
         flex: 1,
         ...mixins.center,
+        paddingVertical: 20,
         backgroundColor: normalColors.white
       },
       image1: {

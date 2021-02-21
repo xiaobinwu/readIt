@@ -6,7 +6,7 @@
  */
 
 import React, { PureComponent } from 'react';
-import { View, StyleSheet, Image, ImageProps,  } from 'react-native';
+import { View, StyleSheet, Image, ImageProps, } from 'react-native';
 import { observable, action } from 'mobx';
 import { boundMethod } from 'autobind-decorator';
 import { observer } from 'mobx-react';
@@ -14,7 +14,9 @@ import mixins from '@app/style/mixins';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { Iconfont } from '@app/components/common/iconfont';
 import { ImageViewerModal } from '@app/components/common/image-viewer';
-import {launchImageLibrary} from 'react-native-image-picker';
+import { launchImageLibrary } from 'react-native-image-picker';
+import request from '@app/services/request';
+
 
 export interface IGravatar extends ImageProps {
     picker?: boolean;
@@ -42,7 +44,9 @@ const DEFAULT_WH_SCALE = DEFAULT_WH * 0.5;
         if (picker) {
             launchImageLibrary({
                 mediaType: 'photo'
-            }, (res) => {
+            }, (res: any) => {
+                // 图片上传
+                request.uploadFile(res);
                 console.log(res);
             });
         }

@@ -7,7 +7,8 @@
 import { Platform } from 'react-native';
 import packageJSON from '../package.json';
 
-export const appApi = 'http://192.168.47.1:8087/api/readIt';
+export const baseApi = 'http://192.168.163.1:8087/api';
+export const appApi = `${baseApi}/readIt`;
 export const staticApi = 'http://read-it.oss-cn-shenzhen.aliyuncs.com';
 export const appName = 'ReadIt';
 export const webUrl = 'http://wushaobin.top';

@@ -1,5 +1,7 @@
-import { appApi, weatherKey, weatherCurUrl, weather3dUrl, geocodeRegeoUrl, geocodeRegeoKey } from '@app/config';
+import { appApi, baseApi, weatherKey, weatherCurUrl, weather3dUrl, geocodeRegeoUrl, geocodeRegeoKey } from '@app/config';
+import AliyunOSS from 'aliyun-oss-rn';
 import { HttpService } from './http';
+
 
 
 class Request extends HttpService {
@@ -116,8 +118,43 @@ class Request extends HttpService {
             } });
             return data;
         }
-
     }
+
+    // 获取STS临时授权签名
+    async getSTSAuth(params = {}) {
+        const { data } = await this.get(`${baseApi}/ram/sts`, params);
+        return data;
+    }
+    
+    // 上传OSS
+    async uploadFile(file: any) {
+        const creds: any = await this.getSTSAuth();
+        if (creds.code === 0) {
+            try {
+                const configuration = {
+                    maxRetryCount: 3,
+                    timeoutIntervalForRequest: 30,
+                    timeoutIntervalForResource: 24 * 60 * 60,
+                };
+                console.log(file.uri, 'uri');
+                // 根据AliyunOss配置AccessKey
+                AliyunOSS.enableDevMode();
+                AliyunOSS.initWithPlainTextAccessKey(creds.accessKeyId, creds.accessKeySecret, `${creds.region}.aliyuncs.com`, configuration);
+                AliyunOSS.asyncUpload(creds.bucket, `images/${file.fileName?.split('.')[0]}-${file.fileSize}-${file.width}x${file.height}.${file.fileName?.split('.')[1]}`, file.uri).then(res => {
+                    console.log('upload success: %j', res);
+                }).catch(error => {
+                    console.log(error);
+                });
+                
+            } catch (error) {
+                console.log('upload error: %j', error);
+                return Promise.reject(error);
+            }
+        } else {
+            return Promise.reject(new Error('STS临时授权签名获取失败'));
+        }
+    }
+
 }
 
 export default new Request();

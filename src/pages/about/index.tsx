@@ -5,7 +5,7 @@
  */
 import React, { Component } from 'react';
 import Geolocation from 'react-native-geolocation-service';
-import { View, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert } from 'react-native';
+import { View, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert, SafeAreaView, ScrollView, TextInput } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
 import { observable, computed, reaction } from 'mobx';
 import { TouchableView } from '@app/components/common/touchable-view';
@@ -320,7 +320,7 @@ class About extends Component<IAboutProps> {
             { key: Sections.Social, data: this.socials.slice() }
         ];
         return (
-            <View style={styles.container}>
+            <SafeAreaView style={styles.container}>
                 <ImageBackground
                     style={styles.user}
                     source={{ uri: `${staticApi}/sys/black-bg.png` }}
@@ -333,8 +333,23 @@ class About extends Component<IAboutProps> {
                             picker={true}
                         />
                         <View style={styles.userMessage}>
-                            <Text style={styles.userName}>{this.userInfo.name}</Text>
-                            <Text style={styles.userSlogan}>{this.userInfo.slogan}</Text>
+                            <TextInput
+                                placeholderTextColor={colors.textSecondary}
+                                placeholder={i18n.t(LANGUAGE_KEYS.WIRTEWATH)}
+                                style={styles.userName}
+                                value={this.userInfo.name}
+                                editable={false}
+                                // onChangeText={text => toDoStore.updateInputTitle(text)}
+                            />
+                            <TextInput
+                                placeholderTextColor={colors.textSecondary}
+                                style={styles.userSlogan}
+                                value={this.userInfo.slogan}
+                                editable={false}
+                                // onChangeText={text => toDoStore.updateInputTitle(text)}
+                            />
+                            {/* <Text style={styles.userName}>{this.userInfo.name}</Text>
+                            <Text style={styles.userSlogan}>{this.userInfo.slogan}</Text> */}
                         </View>
                     </View>
                     <Weather { ...this.currentWeather } currentCity={this.currentCity}  onPress={() => {
@@ -360,29 +375,31 @@ class About extends Component<IAboutProps> {
                         <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.VIEW)}</Text>
                     </View>
                 </View>
-                {this.renderTitle(LANGUAGE_KEYS.ABOUTME)}
-                <View>
-                    <SectionList<ISectionItem>
-                        sections={sections2}
-                        ListHeaderComponent={<View style={styles.listHeaderAndFooter} />}
-                        ListFooterComponent={<View style={styles.listHeaderAndFooter} />}
-                        SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
-                        ItemSeparatorComponent={() =>  <View style={styles.lineItemSeparator} />}
-                        renderItem={this.renderSection}
-                    />
-                </View>
-                {this.renderTitle(LANGUAGE_KEYS.MORESETTING)}
-                <View>
-                    <SectionList<ISectionItem>
-                        sections={sections1}
-                        ListHeaderComponent={<View style={styles.listHeaderAndFooter} />}
-                        ListFooterComponent={<View style={styles.listHeaderAndFooter} />}
-                        SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
-                        ItemSeparatorComponent={() =>  <View style={styles.lineItemSeparator} />}
-                        renderItem={this.renderSection}
-                    />
-                </View>
-            </View>
+                <ScrollView>
+                    {this.renderTitle(LANGUAGE_KEYS.ABOUTME)}
+                    <View>
+                        <SectionList<ISectionItem>
+                            sections={sections2}
+                            ListHeaderComponent={<View style={styles.listHeaderAndFooter} />}
+                            ListFooterComponent={<View style={styles.listHeaderAndFooter} />}
+                            SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
+                            ItemSeparatorComponent={() =>  <View style={styles.lineItemSeparator} />}
+                            renderItem={this.renderSection}
+                        />
+                    </View>
+                    {this.renderTitle(LANGUAGE_KEYS.MORESETTING)}
+                    <View>
+                        <SectionList<ISectionItem>
+                            sections={sections1}
+                            ListHeaderComponent={<View style={styles.listHeaderAndFooter} />}
+                            ListFooterComponent={<View style={styles.listHeaderAndFooter} />}
+                            SectionSeparatorComponent={() => <View style={styles.sectionSeparator} />}
+                            ItemSeparatorComponent={() =>  <View style={styles.lineItemSeparator} />}
+                            renderItem={this.renderSection}
+                        />
+                    </View>
+                </ScrollView>
+            </SafeAreaView>
         );
     }
 }
@@ -421,13 +438,10 @@ const obStyles = observable({
                 ...fonts.h2,
                 fontWeight: 'bold',
                 color: colors.cardBackground,
-                marginTop: sizes.gap,
-                marginBottom: sizes.gap / 2
             },
             userSlogan: {
                 ...fonts.base,
                 color: colors.cardBackground,
-                marginBottom: sizes.gap
             },
             statistic: {
                 flexDirection: 'row',
