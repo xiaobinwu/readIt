@@ -69,7 +69,7 @@
     "@types/shelljs": "^0.8.6",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
     "@typescript-eslint/parser": "^2.24.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-jest": "^24.9.0",
     "babel-plugin-transform-remove-console": "^6.9.4",
     "eslint": "^6.5.1",
