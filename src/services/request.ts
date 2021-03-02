@@ -15,12 +15,26 @@ class Request extends HttpService {
     // 获取文章详情
     async fetchArticleDetail<T>(params = {}) {
         console.log(params);
+        const { deviceId, _id } = params;
+        await this.fetchUpdateUser<T>({
+            deviceId,
+            articleId: _id,
+            type: 'view'
+        });
+        await this.fetchViewArticle<T>(params);
         const { data } = await this.post<T>(`${appApi}/article/detail`, params);
         return data;
     }
 
+    // 阅读文章
+    async fetchViewArticle<T>(params = {}) {
+        console.log(params);
+        const { data } = await this.post<T>(`${appApi}/article/view`, params);
+        return data;
+    }
+
     // 喜欢文章
-    async fetchUpdateArticle<T>(params  = {}) {
+    async fetchLikeArticle<T>(params  = {}) {
         console.log(params);
         const { data } = await this.post<T>(`${appApi}/article/like`, params);
         return data;
@@ -111,14 +125,27 @@ class Request extends HttpService {
         console.log(params);
         const {  code, encrypt } = await this.fetchRegEncrypt<any>(params);
         const { encoded, md5Str } = encrypt;
-        params.e = encoded;
         if (code === 0) {
-            const { data } = await this.post<T>(`${appApi}/users/create`, params, { headers: {
+            const { data } = await this.post<T>(`${appApi}/users/create`, { ...params, e: encoded }, { headers: {
                 signature: md5Str
             } });
             return data;
         }
     }
+
+    // 更新用户信息
+    async fetchUpdateUser<T>(params = {}) {
+        console.log(params);
+        const {  code, encrypt } = await this.fetchRegEncrypt<any>(params);
+        const { encoded, md5Str } = encrypt;
+        if (code === 0) {
+            const { data } = await this.post<T>(`${appApi}/users/edit`, { ...params, e: encoded }, { headers: {
+                signature: md5Str
+            } });
+            return data;
+        }
+    }
+
 
     // 获取STS临时授权签名
     async getSTSAuth(params = {}) {
@@ -142,7 +169,7 @@ class Request extends HttpService {
                 AliyunOSS.initWithPlainTextAccessKey(creds.accessKeyId, creds.accessKeySecret, `${creds.region}.aliyuncs.com`, configuration);
                 AliyunOSS.asyncUpload(creds.bucket, `images/${file.fileName?.split('.')[0]}-${file.fileSize}-${file.width}x${file.height}.${file.fileName?.split('.')[1]}`, file.uri).then(res => {
                     console.log('upload success: %j', res);
-                }).catch(error => {
+                }).catch((error: any) => {
                     console.log(error);
                 });
                 

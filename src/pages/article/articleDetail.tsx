@@ -34,6 +34,8 @@ import fonts from '@app/style/fonts';
 import request from '@app/services/request';
 import { staticApi } from '@app/config';
 import { BetterModal } from '@app/components/common/modal';
+import { optionStore } from '@app/stores/option';
+import { Iuser } from '@app/types/business';
 
 const headerHeight = sizes.gap * 3;
 const headerHeightCollapsed = sizes.gap * 2.5;
@@ -201,7 +203,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     private async handleLikeArticle() {
         if (!this.isLikedArticle) {
             const articleId = this.getArticleId();
-            const data = await request.fetchUpdateArticle<TIHttpResultOrdinary>({ _id: articleId });
+            const data = await request.fetchLikeArticle<TIHttpResultOrdinary>({ _id: articleId });
             if (data.code === 0) {
                 action(() => {
                     likeStore.likeArticle(articleId);
@@ -214,11 +216,15 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     @boundMethod
     private async fetchArticleDatail(): Promise<any> {
         const articleId = this.getArticleId();
+        const deviceId = (optionStore.userInfo as Iuser)?.deviceId;
         if (!articleId) {
             return Promise.reject();
         }
         this.updateLoadingState(true);
-        const data = await request.fetchArticleDetail<TIHttpResultOrdinary>({ _id: articleId });
+        const data = await request.fetchArticleDetail<TIHttpResultOrdinary>({
+                _id: articleId,
+                deviceId,
+        });
         const { code, message, ...reset } = data;
         if (code === 0) {
             this.updateResultData(reset);

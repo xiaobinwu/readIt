@@ -12,10 +12,13 @@ import { STORAGE } from '@app/constants/storage';
 import { getDeviceLanguage, updateLanguage, TLanguage } from '@app/services/i18n';
 import storage from '@app/services/storage';
 import { updateTheme, isDarkSystemTheme } from '@app/style/colors';
+import { Iuser } from '@app/types/business';
 
+type Tuser = Iuser | {};
 export interface IOptionStore {
     language: TLanguage;
-    darkTheme: boolean
+    darkTheme: boolean;
+    userInfo: Tuser;
 }
 
 class OptionStore {
@@ -25,6 +28,7 @@ class OptionStore {
 
     @observable.ref language: TLanguage = LANGUAGES.ZH;
     @observable.ref darkTheme: boolean = isDarkSystemTheme;
+    @observable.ref userInfo: Tuser = {};
 
     @computed get isEnlang() {
         return this.language === LANGUAGES.EN;
@@ -48,6 +52,11 @@ class OptionStore {
         this.darkTheme = darkTheme;
         storage.set(STORAGE.LOCAL_DARK_THEME, darkTheme);
         updateTheme(darkTheme);
+    }
+
+    @action.bound
+    updateUserInfo(userInfo: Tuser) {
+        this.userInfo = userInfo;
     }
 
 

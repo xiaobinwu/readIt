@@ -53,7 +53,7 @@ dependencies {
 
 闹钟问题
 
-1、react-native-alarm-clock（只适用于android）,目前yarn只能下载1.0.0，所以用法有些不一样，需要更改react-native-alarm-clock npm包的android/build.gradle,提高SDK版本号
+1、react-native-alarm-clock（只适用于android）,目前yarn只能下载1.0.0，npm就可以下下载2.0.0，所以用法有些不一样，需要更改react-native-alarm-clock npm包的android/build.gradle,提高SDK版本号
 ```
 apply plugin: 'com.android.library'
 

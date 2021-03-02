@@ -30,7 +30,10 @@ import { optionStore } from '@app/stores/option';
 import { staticApi } from '@app/config';
 import locationService from '@app/services/location';
 import { showToast } from '@app/services/toast';
+import { Iuser } from '@app/types/business';
+import { IHttpResultOrdinary } from '@app/types/http';
 
+type TIHttpResultOrdinary = IHttpResultOrdinary<Iuser>;
 
 export interface IAboutProps extends IPageProps {}
 
@@ -50,14 +53,19 @@ interface ISectionItem {
 }
 
 interface IUserInfo {
-    gravatar: ImageSourcePropType
-    name: string
-    slogan: string
+    avatar: ImageSourcePropType
+    nickName: string
+    motto: string
+}
+
+enum UserInfo {
+    Avatar = 'avatar',
+    NickName = 'nickName',
+    Motto = 'motto'
 }
 
 type StatisticValue = number | '-'
 interface IStatistic {
-    tags: StatisticValue
     views: StatisticValue
     articles: StatisticValue
     comments: StatisticValue
@@ -77,9 +85,9 @@ class About extends Component<IAboutProps> {
 
     @observable.ref
     private userInfo: IUserInfo = {
-      gravatar: { uri: `${staticApi}/sys/green-bg.jpg` },
-      name: '-',
-      slogan: '-'
+      avatar: { uri: (optionStore.userInfo as Iuser)?.avatar || `${staticApi}/sys/green-bg.jpg` },
+      nickName: (optionStore.userInfo as Iuser)?.nickName ||  '-',
+      motto: (optionStore.userInfo as Iuser)?.motto || '-'
     }
 
     @observable.ref
@@ -97,10 +105,9 @@ class About extends Component<IAboutProps> {
 
     @observable.ref
     private statistic: IStatistic = {
-      tags: '-',
-      views: '-',
-      articles: '-',
-      comments: '-'
+      views: (optionStore.userInfo as Iuser)?.viewArticles ? (optionStore.userInfo as Iuser)?.viewArticles.length : '-',
+      articles: (optionStore.userInfo as Iuser)?.likeArticles ? (optionStore.userInfo as Iuser)?.likeArticles.length : '-',
+      comments: (optionStore.userInfo as Iuser)?.commentArticles ? (optionStore.userInfo as Iuser)?.commentArticles.length : '-',
     }
     
     @computed
@@ -310,6 +317,27 @@ class About extends Component<IAboutProps> {
         );
     }
 
+    // 改变用户信息
+    @boundMethod
+    updateUserInfo(fieldName: string, text: string) {
+        optionStore.updateUserInfo({
+            ...optionStore.userInfo,
+            [fieldName]: text
+        });
+        this.userInfo = {
+            ...this.userInfo,
+            [fieldName]: text,
+        };
+    }
+
+    // 改变用户信息
+    async fetchUserInfo(fieldName: string, text: string) {
+        const data = await request.fetchUpdateUser<TIHttpResultOrdinary>({
+            deviceId: optionStore.userInfo?.deviceId,
+            [fieldName]: text,
+        });
+    }
+
     render() {
         const { styles } = obStyles;
         const sections1 = [
@@ -329,27 +357,28 @@ class About extends Component<IAboutProps> {
                     <View style={styles.userContent}>
                         <Gravatar
                             style={styles.userGravatar}
-                            source={this.userInfo.gravatar}
+                            source={this.userInfo.avatar}
                             picker={true}
                         />
                         <View style={styles.userMessage}>
                             <TextInput
-                                placeholderTextColor={colors.textSecondary}
+                                placeholderTextColor={colors.cardBackground}
                                 placeholder={i18n.t(LANGUAGE_KEYS.WIRTEWATH)}
                                 style={styles.userName}
-                                value={this.userInfo.name}
-                                editable={false}
-                                // onChangeText={text => toDoStore.updateInputTitle(text)}
+                                value={this.userInfo.nickName}
+                                editable={true}
+                                onChangeText={text => this.updateUserInfo(UserInfo.NickName, text)}
+                                onSubmitEditing={({nativeEvent: { text }}) => this.fetchUserInfo(UserInfo.NickName, text)}
                             />
                             <TextInput
-                                placeholderTextColor={colors.textSecondary}
+                                placeholderTextColor={colors.cardBackground}
+                                placeholder={i18n.t(LANGUAGE_KEYS.WIRTEWATH)}
                                 style={styles.userSlogan}
-                                value={this.userInfo.slogan}
-                                editable={false}
-                                // onChangeText={text => toDoStore.updateInputTitle(text)}
+                                value={this.userInfo.motto}
+                                editable={true}
+                                onChangeText={text => this.updateUserInfo(UserInfo.Motto, text)}
+                                onSubmitEditing={({nativeEvent: { text }}) => this.fetchUserInfo(UserInfo.Motto, text)}
                             />
-                            {/* <Text style={styles.userName}>{this.userInfo.name}</Text>
-                            <Text style={styles.userSlogan}>{this.userInfo.slogan}</Text> */}
                         </View>
                     </View>
                     <Weather { ...this.currentWeather } currentCity={this.currentCity}  onPress={() => {
@@ -432,16 +461,19 @@ const obStyles = observable({
                 borderColor: colors.border
             },
             userMessage: {
-                marginLeft: sizes.gap
+                marginLeft: sizes.gap,
+                ...mixins.colCenter,
+                alignItems: 'flex-start'
             },
             userName: {
                 ...fonts.h2,
-                fontWeight: 'bold',
                 color: colors.cardBackground,
+                padding: 2,
             },
             userSlogan: {
                 ...fonts.base,
                 color: colors.cardBackground,
+                padding: 2,
             },
             statistic: {
                 flexDirection: 'row',

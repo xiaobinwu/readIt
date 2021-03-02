@@ -184,7 +184,7 @@ const AboutStackComponent = observer(() => {
             const os = await getBaseOs();
             const deviceName = await getDeviceName();
             const manufacturer = await getManufacturer();
-            const data = await request.fetchAddUser<TIHttpResultOrdinary>({
+            const { code, entry } = await request.fetchAddUser<TIHttpResultOrdinary>({
                 deviceId: getUniqueId(),
                 os,
                 brand: getBrand(),
@@ -192,6 +192,11 @@ const AboutStackComponent = observer(() => {
                 manufacturer,
                 systemVersion: getSystemVersion()
             });
+            if (code === 0) {
+                optionStore.updateUserInfo(entry);
+            }
+        } else if (code === 0 && entry.length > 0) {
+            optionStore.updateUserInfo(entry[entry.length - 1]);
         }
     }
 
