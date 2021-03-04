@@ -30,10 +30,9 @@ import { optionStore } from '@app/stores/option';
 import { staticApi } from '@app/config';
 import locationService from '@app/services/location';
 import { showToast } from '@app/services/toast';
+import { TIHttpUserResultOrdinary } from '@app/types/http';
 import { Iuser } from '@app/types/business';
-import { IHttpResultOrdinary } from '@app/types/http';
 
-type TIHttpResultOrdinary = IHttpResultOrdinary<Iuser>;
 
 export interface IAboutProps extends IPageProps {}
 
@@ -85,9 +84,9 @@ class About extends Component<IAboutProps> {
 
     @observable.ref
     private userInfo: IUserInfo = {
-      avatar: { uri: (optionStore.userInfo as Iuser)?.avatar || `${staticApi}/sys/green-bg.jpg` },
-      nickName: (optionStore.userInfo as Iuser)?.nickName ||  '-',
-      motto: (optionStore.userInfo as Iuser)?.motto || '-'
+      avatar: { uri: optionStore.userInfo.avatar || `${staticApi}/sys/green-bg.jpg` },
+      nickName: optionStore.userInfo.nickName ||  '-',
+      motto: optionStore.userInfo.motto || '-'
     }
 
     @observable.ref
@@ -102,13 +101,6 @@ class About extends Component<IAboutProps> {
         fxLink: '-'
     }
     @observable private currentCity = '-';
-
-    @observable.ref
-    private statistic: IStatistic = {
-      views: (optionStore.userInfo as Iuser)?.viewArticles ? (optionStore.userInfo as Iuser)?.viewArticles.length : '-',
-      articles: (optionStore.userInfo as Iuser)?.likeArticles ? (optionStore.userInfo as Iuser)?.likeArticles.length : '-',
-      comments: (optionStore.userInfo as Iuser)?.commentArticles ? (optionStore.userInfo as Iuser)?.commentArticles.length : '-',
-    }
     
     @computed
     private get socials() {
@@ -332,13 +324,20 @@ class About extends Component<IAboutProps> {
 
     // 改变用户信息
     async fetchUserInfo(fieldName: string, text: string) {
-        const data = await request.fetchUpdateUser<TIHttpResultOrdinary>({
-            deviceId: optionStore.userInfo?.deviceId,
+        await request.fetchUpdateUser<TIHttpUserResultOrdinary>({
+            deviceId: optionStore.userInfo.deviceId,
             [fieldName]: text,
         });
     }
 
     render() {
+        const { viewArticles, likeArticles, commentArticles } = optionStore.userInfo;
+        const statistic: IStatistic = {
+          views: viewArticles ? viewArticles.length : '-',
+          articles: likeArticles ? likeArticles.length : '-',
+          comments: commentArticles ? commentArticles.length : '-',
+        };
+
         const { styles } = obStyles;
         const sections1 = [
             { key: Sections.Setting, data: this.settings.slice() }
@@ -390,17 +389,17 @@ class About extends Component<IAboutProps> {
                 </ImageBackground>
                 <View style={styles.statistic}>
                     <View style={styles.statisticItem}>
-                        <Text style={styles.statisticCount}>{this.statistic.articles}</Text>
+                        <Text style={styles.statisticCount}>{statistic.articles}</Text>
                         <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.LIKE)}</Text>
                     </View>
                     <View style={styles.statisticSeparator} />
                     <View style={styles.statisticItem}>
-                        <Text style={styles.statisticCount}>{this.statistic.comments}</Text>
+                        <Text style={styles.statisticCount}>{statistic.comments}</Text>
                         <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.COMMENT)}</Text>
                     </View>
                     <View style={styles.statisticSeparator} />
                     <View style={styles.statisticItem}>
-                        <Text style={styles.statisticCount}>{this.statistic.views}</Text>
+                        <Text style={styles.statisticCount}>{statistic.views}</Text>
                         <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.VIEW)}</Text>
                     </View>
                 </View>

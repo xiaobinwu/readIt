@@ -28,7 +28,23 @@ class OptionStore {
 
     @observable.ref language: TLanguage = LANGUAGES.ZH;
     @observable.ref darkTheme: boolean = isDarkSystemTheme;
-    @observable.ref userInfo: Tuser = {};
+    // 初始值
+    @observable.ref userInfo: Iuser = {
+        deviceId: '',
+        _id: '',
+        nickName: '',
+        motto: '',
+        email: '',
+        avatar: '',
+        os: '',
+        brand: '',
+        deviceName: '',
+        manufacturer: '',
+        systemVersion: '',
+        likeArticles: [],
+        commentArticles: [],
+        viewArticles: []
+    };
 
     @computed get isEnlang() {
         return this.language === LANGUAGES.EN;
@@ -55,7 +71,7 @@ class OptionStore {
     }
 
     @action.bound
-    updateUserInfo(userInfo: Tuser) {
+    updateUserInfo(userInfo: Iuser) {
         this.userInfo = userInfo;
     }
 

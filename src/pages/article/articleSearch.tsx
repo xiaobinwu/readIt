@@ -40,7 +40,7 @@ class ArticleSearch extends Component<ISearchProps> {
     @action.bound
     private updateHistorys(historys: string[]) {
         this.historys = historys || [];
-        console.log('历史记录Storage', this.historys);
+        // console.log('历史记录Storage', this.historys);
     }
 
     @boundMethod

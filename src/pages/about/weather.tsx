@@ -18,7 +18,6 @@ export interface IWeatherProps extends IPageProps {}
 export default class Weather extends PureComponent<IWeatherProps> {
   render() {
     const { styles } = obStyles;
-    console.log(this.props.route.params?.fxLink);
     return (
       <View style={styles.container}>
         <WebView

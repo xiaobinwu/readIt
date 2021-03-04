@@ -13,7 +13,7 @@ import { Observer, observer } from 'mobx-react';
 import { boundMethod } from 'autobind-decorator';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { IComment } from '@app/types/business';
-import { IHttpPaginate, IHttpResultPaginate, IHttpResultOrdinary } from '@app/types/http';
+import { IHttpPaginate, IHttpResultPaginate, TIHttpCommentResultOrdinary, } from '@app/types/http';
 import { IS_IOS } from '@app/config';
 import { likeStore } from '@app/stores/like';
 import { Iconfont } from '@app/components/common/iconfont';
@@ -28,8 +28,6 @@ import fonts from '@app/style/fonts';
 import mixins from '@app/style/mixins';
 import { optionStore } from '@app/stores/option';
 import { CommentItem } from './item';
-
-type TIHttpResultOrdinary = IHttpResultOrdinary<IComment>;
 
 export type TCommentListElement = RefObject<FlatList<IComment>>;
 
@@ -120,7 +118,7 @@ export class Comment extends Component<ICommentProps> {
     @boundMethod
     private async submitComment() {
         const { articleId } = this.props;
-        console.log(2);
+
         if (this.commentAuthor && this.commentEmail && this.commentContent) {
             const params = {
                 author: this.commentAuthor,
@@ -128,14 +126,13 @@ export class Comment extends Component<ICommentProps> {
                 content: this.commentContent,
                 article_id: articleId
             };
-            const data = await request.addComment<TIHttpResultOrdinary>({ ...params });
+            const data = await request.addComment<TIHttpCommentResultOrdinary>({ ...params });
             const { code, message, ...reset } = data;
             if (code === 0) {
                 showToast(i18n.t(LANGUAGE_KEYS.COMMENT_SUCESS));
                 return data;
             }
         } else {
-            console.log(1);
             showToast(i18n.t(LANGUAGE_KEYS.COMMENT_FAIL));
         }
     }
@@ -267,7 +264,7 @@ export class Comment extends Component<ICommentProps> {
     @boundMethod
     private async handleLikeComment(comment: IComment) {
         const commentId = comment._id;
-        const data = await request.fetchUpdateComment<TIHttpResultOrdinary>({ _id: commentId });
+        const data = await request.fetchUpdateComment<TIHttpCommentResultOrdinary>({ _id: commentId });
         if (data.code === 0) {
             action(() => {
                 const targetCommentIndex = this.comments.findIndex(item => item._id === commentId);

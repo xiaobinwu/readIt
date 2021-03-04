@@ -78,9 +78,9 @@ export interface Iuser {
   deviceName: string;
   manufacturer: string;
   systemVersion: string;
-  likeArticles: IArticle[];
-  commentArticles: IArticle[];
-  viewArticles: IArticle[];
-  update_at: string;
-  create_at: string;
+  likeArticles: string[];
+  commentArticles: string[];
+  viewArticles: string[];
+  update_at?: string;
+  create_at?: string;
 }

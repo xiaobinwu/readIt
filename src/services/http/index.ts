@@ -12,7 +12,7 @@ import { showToast } from '@app/services/toast';
 import request from './request';
 import defaultConfig from './config';
 import { constants } from './config';
-import { getLocalCacheKey, encrypt } from './util';
+import { getLocalCacheKey } from './util';
 
 const { PREFIX_URL } = constants;
 

@@ -27,7 +27,7 @@ import { RichContent } from '@app/components/common/richcontent';
 import { IPageProps } from '@app/types/props';
 import mixins, { getHeaderButtonStyle } from '@app/style/mixins';
 import sizes, { safeAreaViewBottom } from '@app/style/sizes';
-import { IHttpResultOrdinary } from '@app/types/http';
+import { TIHttpArticleResultOrdinary } from '@app/types/http';
 import i18n from '@app/services/i18n';
 import colors from '@app/style/colors';
 import fonts from '@app/style/fonts';
@@ -42,8 +42,6 @@ const headerHeightCollapsed = sizes.gap * 2.5;
 const headerDescriptionHeight = 20;
 const thumbHeight = sizes.screen.width / sizes.thumbHeightRatio;
 const footerHeight = headerHeightCollapsed;
-
-type TIHttpResultOrdinary = IHttpResultOrdinary<IArticle>;
 
 export interface IArticleDetailProps extends IPageProps {}
 
@@ -91,7 +89,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     }
 
     private getParamArticle(): IArticle {
-        console.log('props请求获得', this.props.route.params?.article);
+        // console.log('props请求获得', this.props.route.params?.article);
         return this.props.route.params?.article;
     }
 
@@ -112,7 +110,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
 
     @computed
     private get isLikedArticle(): boolean {
-        return likeStore.articles.includes(this.getArticleId());
+        return optionStore.userInfo.likeArticles.includes(this.getArticleId());
     }
 
     @action 
@@ -126,11 +124,11 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     }
 
     @action
-    private updateResultData(result: TIHttpResultOrdinary) {
+    private updateResultData(result: TIHttpArticleResultOrdinary) {
         const { entry, ...resetReuslt } = result;
         this.updateLoadingState(false);
         if (entry) {
-            console.log('请求获得', entry);
+            // console.log('请求获得', entry);
             this.updateAndCorrectArticle(entry);
         }
     }
@@ -203,10 +201,20 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     private async handleLikeArticle() {
         if (!this.isLikedArticle) {
             const articleId = this.getArticleId();
-            const data = await request.fetchLikeArticle<TIHttpResultOrdinary>({ _id: articleId });
-            if (data.code === 0) {
+            const deviceId = optionStore.userInfo.deviceId;
+            if (!articleId) {
+                return Promise.reject();
+            }
+            const data = await request.fetchLikeArticle<TIHttpArticleResultOrdinary>({ _id: articleId, deviceId, });
+            if (data && data.code === 0) {
                 action(() => {
-                    likeStore.likeArticle(articleId);
+                    const { likeArticles } = optionStore.userInfo;
+                    const likeArticlesItems = likeArticles.slice();
+                    likeArticlesItems.push(articleId);
+                    optionStore.updateUserInfo({
+                        ...optionStore.userInfo,
+                        likeArticles: likeArticlesItems,
+                    });
                     this.article && this.article.meta.likes++;
                 })();
             }
@@ -216,22 +224,32 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     @boundMethod
     private async fetchArticleDatail(): Promise<any> {
         const articleId = this.getArticleId();
-        const deviceId = (optionStore.userInfo as Iuser)?.deviceId;
+        const deviceId = optionStore.userInfo.deviceId;
         if (!articleId) {
             return Promise.reject();
         }
         this.updateLoadingState(true);
-        const data = await request.fetchArticleDetail<TIHttpResultOrdinary>({
-                _id: articleId,
-                deviceId,
+        const data = await request.fetchArticleDetail<TIHttpArticleResultOrdinary>({
+            _id: articleId,
+            deviceId,
         });
-        const { code, message, ...reset } = data;
-        if (code === 0) {
-            this.updateResultData(reset);
+        if (data) {
+            const { code, message, ...reset } = data;
+            if (code === 0) {
+                const { viewArticles } = optionStore.userInfo;
+                const viewArticlesItems = viewArticles.slice();
+                viewArticlesItems.push(articleId);
+                optionStore.updateUserInfo({
+                    ...optionStore.userInfo,
+                    viewArticles: viewArticlesItems,
+                });
+                // console.log(JSON.stringify(optionStore.userInfo), 'userInfo');
+                this.updateResultData(reset);
+                this.updateLoadingState(false);
+                return data;
+            }
             this.updateLoadingState(false);
-            return data;
         }
-        this.updateLoadingState(false);
     }
 
     @boundMethod

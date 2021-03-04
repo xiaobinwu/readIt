@@ -1,5 +1,7 @@
 import { appApi, baseApi, weatherKey, weatherCurUrl, weather3dUrl, geocodeRegeoUrl, geocodeRegeoKey } from '@app/config';
+// @ts-ignore
 import AliyunOSS from 'aliyun-oss-rn';
+import { TIHttpArticleResultOrdinary, TIHttpUserResultOrdinary } from '@app/types/http';
 import { HttpService } from './http';
 
 
@@ -15,15 +17,19 @@ class Request extends HttpService {
     // 获取文章详情
     async fetchArticleDetail<T>(params = {}) {
         console.log(params);
+        // @ts-ignore
         const { deviceId, _id } = params;
-        await this.fetchUpdateUser<T>({
+        const updateUserResult = await this.fetchUpdateUser<TIHttpUserResultOrdinary>({
             deviceId,
             articleId: _id,
             type: 'view'
         });
-        await this.fetchViewArticle<T>(params);
-        const { data } = await this.post<T>(`${appApi}/article/detail`, params);
-        return data;
+        const viewArticleResult = await this.fetchViewArticle<TIHttpArticleResultOrdinary>(params);
+
+        if (updateUserResult && viewArticleResult && updateUserResult.code === 0 && viewArticleResult.code === 0) {
+            const { data } = await this.post<T>(`${appApi}/article/detail`, params);
+            return data;
+        }
     }
 
     // 阅读文章
@@ -36,8 +42,17 @@ class Request extends HttpService {
     // 喜欢文章
     async fetchLikeArticle<T>(params  = {}) {
         console.log(params);
-        const { data } = await this.post<T>(`${appApi}/article/like`, params);
-        return data;
+        // @ts-ignore
+        const { deviceId, _id } = params;
+        const updateUserResult = await this.fetchUpdateUser<TIHttpUserResultOrdinary>({
+            deviceId,
+            articleId: _id,
+            type: 'like'
+        });
+        if (updateUserResult && updateUserResult.code === 0) {
+            const { data } = await this.post<T>(`${appApi}/article/like`, params);
+            return data;
+        }
     }
 
     // 获取文章标签列表
@@ -126,6 +141,7 @@ class Request extends HttpService {
         const {  code, encrypt } = await this.fetchRegEncrypt<any>(params);
         const { encoded, md5Str } = encrypt;
         if (code === 0) {
+            // @ts-ignore
             const { data } = await this.post<T>(`${appApi}/users/create`, { ...params, e: encoded }, { headers: {
                 signature: md5Str
             } });
@@ -139,6 +155,7 @@ class Request extends HttpService {
         const {  code, encrypt } = await this.fetchRegEncrypt<any>(params);
         const { encoded, md5Str } = encrypt;
         if (code === 0) {
+            // @ts-ignore
             const { data } = await this.post<T>(`${appApi}/users/edit`, { ...params, e: encoded }, { headers: {
                 signature: md5Str
             } });
@@ -167,7 +184,7 @@ class Request extends HttpService {
                 // 根据AliyunOss配置AccessKey
                 AliyunOSS.enableDevMode();
                 AliyunOSS.initWithPlainTextAccessKey(creds.accessKeyId, creds.accessKeySecret, `${creds.region}.aliyuncs.com`, configuration);
-                AliyunOSS.asyncUpload(creds.bucket, `images/${file.fileName?.split('.')[0]}-${file.fileSize}-${file.width}x${file.height}.${file.fileName?.split('.')[1]}`, file.uri).then(res => {
+                AliyunOSS.asyncUpload(creds.bucket, `images/${file.fileName?.split('.')[0]}-${file.fileSize}-${file.width}x${file.height}.${file.fileName?.split('.')[1]}`, file.uri).then((res: any) => {
                     console.log('upload success: %j', res);
                 }).catch((error: any) => {
                     console.log(error);

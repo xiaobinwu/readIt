@@ -35,12 +35,9 @@ import { LANGUAGE_KEYS } from '@app/constants/language';
 import { WebViewPage } from '@app/pages/common/webview';
 import request from '@app/services/request';
 import { getUniqueId, getBaseOs, getDeviceName, getManufacturer, getBrand, getSystemVersion  } from 'react-native-device-info';
-import { Iuser } from '@app/types/business';
-import { IHttpResultOrdinary } from '@app/types/http';
+import { TIHttpUserResultOrdinary } from '@app/types/http';
 import { optionStore } from './stores/option';
 
-
-type TIHttpResultOrdinary = IHttpResultOrdinary<Iuser>;
 
 const Tab = createBottomTabNavigator();
 
@@ -179,12 +176,14 @@ const AboutStackComponent = observer(() => {
 
     // 请求签名牌，创建用户
     private async fetchLogin() {
+        const a = await getBaseOs();
+        console.log(a, '1111');
         const { code, entry } = await this.fetchHasLogin();
         if (code === 0 && entry.length === 0) {
             const os = await getBaseOs();
             const deviceName = await getDeviceName();
             const manufacturer = await getManufacturer();
-            const { code, entry } = await request.fetchAddUser<TIHttpResultOrdinary>({
+            const data = await request.fetchAddUser<TIHttpUserResultOrdinary>({
                 deviceId: getUniqueId(),
                 os,
                 brand: getBrand(),
@@ -192,8 +191,11 @@ const AboutStackComponent = observer(() => {
                 manufacturer,
                 systemVersion: getSystemVersion()
             });
-            if (code === 0) {
-                optionStore.updateUserInfo(entry);
+            if (data) {
+                const { code, entry } = data;
+                if (code === 0) {
+                    optionStore.updateUserInfo(entry);
+                }
             }
         } else if (code === 0 && entry.length > 0) {
             optionStore.updateUserInfo(entry[entry.length - 1]);
@@ -202,7 +204,7 @@ const AboutStackComponent = observer(() => {
 
     // 判断是否已经有用户
     private async fetchHasLogin(): Promise<any> {
-        const data = await request.fetchHasLogin<TIHttpResultOrdinary>({ deviceId: getUniqueId() });
+        const data = await request.fetchHasLogin<TIHttpUserResultOrdinary>({ deviceId: getUniqueId() });
         return data;
     }
 

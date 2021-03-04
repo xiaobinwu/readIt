@@ -6,6 +6,7 @@
  */
 
 import { AxiosRequestConfig, AxiosResponse, Method, CancelTokenSource, Canceler, CancelToken } from 'axios';
+import { Iuser, IArticle, IComment } from '@app/types/business';
 
 export type TRequestUrlPath = string;
 export type TRequestData = object;
@@ -89,3 +90,8 @@ export interface IJsonpCancelTokenSource {
 }
 
 export type TCancelToken = CancelTokenSource | IJsonpCancelTokenSource;
+
+// 具体业务
+export type TIHttpUserResultOrdinary = IHttpResultOrdinary<Iuser>;
+export type TIHttpCommentResultOrdinary = IHttpResultOrdinary<IComment>;
+export type TIHttpArticleResultOrdinary = IHttpResultOrdinary<IArticle>;

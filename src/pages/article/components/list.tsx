@@ -18,7 +18,7 @@ import { optionStore } from '@app/stores/option';
 import { ArticleRoutes } from '@app/constants/routes';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { IHttpPaginate, IRequestParams, IHttpResultPaginate } from '@app/types/http';
-import { IArticle, ITag, ICategory } from '@app/types/business';
+import { IArticle, ITag, ICategory, Iuser } from '@app/types/business';
 import { NavigationProps } from '@app/types/props';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
@@ -281,7 +281,7 @@ import mixins from '@app/style/mixins';
                                 render={() => (
                                     <ListItem
                                         article={article}
-                                        liked={likeStore.articles.includes(article._id)}
+                                        liked={optionStore.userInfo.likeArticles.includes(article._id)}
                                         onPress={this.handleToDetailPage}
                                         darkTheme={optionStore.darkTheme}
                                         language={optionStore.language}
