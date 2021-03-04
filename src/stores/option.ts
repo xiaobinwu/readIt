@@ -43,7 +43,8 @@ class OptionStore {
         systemVersion: '',
         likeArticles: [],
         commentArticles: [],
-        viewArticles: []
+        viewArticles: [],
+        likeComments: []
     };
 
     @computed get isEnlang() {

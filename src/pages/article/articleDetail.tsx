@@ -15,7 +15,6 @@ import { webUrl, appName } from '@app/config';
 import { ArticleRoutes } from '@app/constants/routes';
 import { IArticle } from '@app/types/business';
 import { LANGUAGE_KEYS } from '@app/constants/language';
-import { likeStore } from '@app/stores/like';   
 import { Iconfont } from '@app/components/common/iconfont';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { AutoActivityIndicator } from '@app/components/common/activity-indicator';
@@ -219,6 +218,13 @@ class ArticleDetail extends Component<IArticleDetailProps> {
                 })();
             }
         }
+    }
+
+    @boundMethod
+    private commentSuccess() {
+        action(() => {
+            this.article && this.article.meta.comments++;
+        })();
     }
 
     @boundMethod
@@ -488,7 +494,7 @@ class ArticleDetail extends Component<IArticleDetailProps> {
                         </TouchableView>
                     )}
                 >
-                    <Comment articleId={this.getArticleId()} isOpenCommentInput={this.isOpenCommentInput}  />
+                    <Comment articleId={this.getArticleId()} isOpenCommentInput={this.isOpenCommentInput} onSuccess={this.commentSuccess} />
                 </BetterModal>
             </SafeAreaView>
         );

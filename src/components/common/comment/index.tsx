@@ -15,7 +15,6 @@ import { LANGUAGE_KEYS } from '@app/constants/language';
 import { IComment } from '@app/types/business';
 import { IHttpPaginate, IHttpResultPaginate, TIHttpCommentResultOrdinary, } from '@app/types/http';
 import { IS_IOS } from '@app/config';
-import { likeStore } from '@app/stores/like';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
 import { TouchableView } from '@app/components/common/touchable-view';
@@ -36,7 +35,8 @@ type THttpResultPaginateComment = IHttpResultPaginate<IComment[]>;
 export interface ICommentProps {
     isOpenCommentInput: boolean;
     articleId: string;
-    onScroll?(event: NativeSyntheticEvent<NativeScrollEvent>): void
+    onScroll?(event: NativeSyntheticEvent<NativeScrollEvent>): void;
+    onSuccess?(data: any): void;
 }
 
 @observer
@@ -117,20 +117,23 @@ export class Comment extends Component<ICommentProps> {
 
     @boundMethod
     private async submitComment() {
-        const { articleId } = this.props;
+        const { articleId, onSuccess } = this.props;
 
         if (this.commentAuthor && this.commentEmail && this.commentContent) {
             const params = {
                 author: this.commentAuthor,
                 email: this.commentEmail,
                 content: this.commentContent,
-                article_id: articleId
+                articleId: articleId
             };
             const data = await request.addComment<TIHttpCommentResultOrdinary>({ ...params });
-            const { code, message, ...reset } = data;
-            if (code === 0) {
-                showToast(i18n.t(LANGUAGE_KEYS.COMMENT_SUCESS));
-                return data;
+            if (data) {
+                const { code, message, ...reset } = data;
+                if (code === 0) {
+                    showToast(i18n.t(LANGUAGE_KEYS.COMMENT_SUCESS));
+                    onSuccess && onSuccess(data);
+                    return data;
+                }
             }
         } else {
             showToast(i18n.t(LANGUAGE_KEYS.COMMENT_FAIL));
@@ -144,8 +147,8 @@ export class Comment extends Component<ICommentProps> {
     @boundMethod
     private async fetchComments(pageNo: number = 1): Promise<any> {
         const params = {
-            sort: this.isSortByHot ? 2 : -1, // 是否按照热度排序
-            article_id: this.props.articleId,
+            sort: this.isSortByHot ? true : false, // 是否按照热度排序，默认按时间倒序
+            articleId: this.props.articleId,
             pageNo,
             pageSize: 50
         };
@@ -253,9 +256,9 @@ export class Comment extends Component<ICommentProps> {
         }
         // 修正参数
         // runInAction(f) => action(f)()
-        runInAction(() => {
-            this.isSortByHot = !!this.isSortByHot;
-        });
+        action(() => {
+            this.isSortByHot = !this.isSortByHot;
+        })();
         // 重新请求数据
         setTimeout(this.fetchComments, 266);
     }
@@ -264,11 +267,22 @@ export class Comment extends Component<ICommentProps> {
     @boundMethod
     private async handleLikeComment(comment: IComment) {
         const commentId = comment._id;
-        const data = await request.fetchUpdateComment<TIHttpCommentResultOrdinary>({ _id: commentId });
-        if (data.code === 0) {
+        const articleId = comment.articleId;
+        const deviceId = optionStore.userInfo.deviceId;
+        if (!articleId) {
+            return Promise.reject();
+        }
+        const data = await request.fetchUpdateComment<TIHttpCommentResultOrdinary>({ _id: commentId, articleId, deviceId, });
+        if (data && data.code === 0) {
             action(() => {
                 const targetCommentIndex = this.comments.findIndex(item => item._id === commentId);
-                likeStore.likeComment(commentId);
+                const { likeComments } = optionStore.userInfo;
+                const likeCommentsItems = likeComments.slice();
+                likeCommentsItems.push({ articleId, commentId });
+                optionStore.updateUserInfo({
+                    ...optionStore.userInfo,
+                    likeComments: likeCommentsItems,
+                });
                 this.comments.splice(targetCommentIndex, 1, {
                     ...comment,
                     likes: comment.likes + 1
@@ -385,7 +399,7 @@ export class Comment extends Component<ICommentProps> {
                                 darkTheme={optionStore.darkTheme}
                                 language={optionStore.language}
                                 comment={comment}
-                                liked={likeStore.comments.includes(comment._id)}
+                                liked={optionStore.userInfo.likeComments.findIndex(it => comment._id === it.commentId) > -1}
                                 onLike={this.handleLikeComment}
                                 seq={index}
                             />

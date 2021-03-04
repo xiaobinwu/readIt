@@ -54,7 +54,7 @@ export interface IArticle {
 }
 
 export interface IComment {
-  article_id: string;
+  articleId: string;
   _id: string;
   content: string;
   author: string;
@@ -65,7 +65,10 @@ export interface IComment {
   isShow: boolean;
 }
 
-
+export interface ILikeComment {
+  articleId: string;
+  commentId: string;
+}
 export interface Iuser {
   deviceId: string;
   _id: string;
@@ -79,6 +82,7 @@ export interface Iuser {
   manufacturer: string;
   systemVersion: string;
   likeArticles: string[];
+  likeComments: ILikeComment[];
   commentArticles: string[];
   viewArticles: string[];
   update_at?: string;

@@ -39,6 +39,13 @@ class Request extends HttpService {
         return data;
     }
 
+    // 评论文章
+    async fetchCommentArticle<T>(params = {}) {
+        console.log(params);
+        const { data } = await this.post<T>(`${appApi}/article/comment`, params);
+        return data;
+    }
+
     // 喜欢文章
     async fetchLikeArticle<T>(params  = {}) {
         console.log(params);
@@ -79,15 +86,35 @@ class Request extends HttpService {
     // 新增评论
     async addComment<T>(params = {}) {
         console.log(params);
-        const { data } = await this.post<T>(`${appApi}/comment/add`, params);
-        return data;
+        // @ts-ignore
+        const { deviceId, articleId } = params;
+        const updateUserResult = await this.fetchUpdateUser<TIHttpUserResultOrdinary>({
+            deviceId,
+            articleId,
+            type: 'comment'
+        });
+        const commentArticleResult = await this.fetchCommentArticle<TIHttpArticleResultOrdinary>(params);
+        if (updateUserResult && commentArticleResult && updateUserResult.code === 0 && commentArticleResult.code === 0) {
+            const { data } = await this.post<T>(`${appApi}/comment/add`, params);
+            return data;
+        }
     }
 
     // 喜欢评论
     async fetchUpdateComment<T>(params  = {}) {
         console.log(params);
-        const { data } = await this.post<T>(`${appApi}/comment/like`, params);
-        return data;
+        // @ts-ignore
+        const { deviceId, _id, articleId, } = params;
+        const updateUserResult = await this.fetchUpdateUser<TIHttpUserResultOrdinary>({
+            deviceId,
+            articleId,
+            commentId: _id,
+            type: 'fabulous'
+        });
+        if (updateUserResult && updateUserResult.code === 0) {
+            const { data } = await this.post<T>(`${appApi}/comment/like`, params);
+            return data;
+        }
     }
 
     // 获取实况天气

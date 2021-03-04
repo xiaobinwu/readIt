@@ -14,7 +14,6 @@ import { appName, version } from '@app/config';
 import { IPageProps } from '@app/types/props';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { optionStore } from '@app/stores/option';
-import { likeStore } from '@app/stores/like';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
 import { TouchableView } from '@app/components/common/touchable-view';
@@ -100,7 +99,6 @@ export interface ISettingProps extends IPageProps {}
                     text: i18n.t(LANGUAGE_KEYS.OK),
                     onPress: () => {
                         const done = () => {
-                            likeStore.resetStore();
                             Alert.alert(i18n.t(LANGUAGE_KEYS.SUCCESS));
                         };
                         storage.clear().then(done).catch(done);
