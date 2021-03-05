@@ -93,7 +93,12 @@ class Request extends HttpService {
             articleId,
             type: 'comment'
         });
-        const commentArticleResult = await this.fetchCommentArticle<TIHttpArticleResultOrdinary>(params);
+        const commentArticleResult = await this.fetchCommentArticle<TIHttpArticleResultOrdinary>({
+            ...params,
+            _id: articleId
+        });
+        console.log(updateUserResult, 'updateUserResult');
+        console.log(commentArticleResult, 'commentArticleResult');
         if (updateUserResult && commentArticleResult && updateUserResult.code === 0 && commentArticleResult.code === 0) {
             const { data } = await this.post<T>(`${appApi}/comment/add`, params);
             return data;

@@ -120,17 +120,36 @@ export class Comment extends Component<ICommentProps> {
         const { articleId, onSuccess } = this.props;
 
         if (this.commentAuthor && this.commentEmail && this.commentContent) {
+            const deviceId = optionStore.userInfo.deviceId;
+            if (!articleId) {
+                return Promise.reject();
+            }
             const params = {
                 author: this.commentAuthor,
                 email: this.commentEmail,
                 content: this.commentContent,
-                articleId: articleId
+                articleId,
+                deviceId
             };
             const data = await request.addComment<TIHttpCommentResultOrdinary>({ ...params });
             if (data) {
                 const { code, message, ...reset } = data;
                 if (code === 0) {
                     showToast(i18n.t(LANGUAGE_KEYS.COMMENT_SUCESS));
+
+                    const { commentArticles } = optionStore.userInfo;
+                    const commentArticlesItems = commentArticles.slice();
+                    commentArticlesItems.push(articleId);
+                    optionStore.updateUserInfo({
+                        ...optionStore.userInfo,
+                        commentArticles: commentArticlesItems,
+                    });
+                    // 归顶
+                    if (this.pagination && this.pagination.total > 0) {
+                        this.scrollToListTop();
+                    }
+                    // 重新请求数据
+                    setTimeout(this.fetchComments, 266);
                     onSuccess && onSuccess(data);
                     return data;
                 }
