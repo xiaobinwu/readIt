@@ -376,7 +376,7 @@ export class Comment extends Component<ICommentProps> {
 
             <BetterModal
                 visible={this.commentContentModalVisable}
-                title={'添加评论'}
+                title={i18n.t(LANGUAGE_KEYS.ADDCOMMENT)}
                 onClose={() => this.updateCommentFormModalVisible(false)}
                 top={this.props.top}
                 extra={(

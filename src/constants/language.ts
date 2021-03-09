@@ -143,6 +143,7 @@ export enum LANGUAGE_KEYS {
     SEGMENTFAULT = 'segmentfault',
     FELLIKE = 'feellike',
     WEATHER = 'weather',
-    LIKE_COMMENT = 'likeComments'
+    LIKE_COMMENT = 'likeComments',
+    ADDCOMMENT = 'addcoment'
 }
 

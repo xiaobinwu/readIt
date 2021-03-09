@@ -113,6 +113,7 @@ export default {
     [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault',
     [LANGUAGE_KEYS.FELLIKE]: 'FeelLike',
     [LANGUAGE_KEYS.LIKE_COMMENT]: 'Fabulous',
+    [LANGUAGE_KEYS.ADDCOMMENT]: 'Add Comment'
 };
 
 export const LOCALES_EN = {

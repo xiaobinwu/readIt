@@ -111,6 +111,7 @@ export default {
     [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault',
     [LANGUAGE_KEYS.FELLIKE]: '体感温度',
     [LANGUAGE_KEYS.LIKE_COMMENT]: '点赞',
+    [LANGUAGE_KEYS.ADDCOMMENT]: '添加评论'
 };
 
 export const LOCALES_ZH = {
