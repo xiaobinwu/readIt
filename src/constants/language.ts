@@ -142,6 +142,7 @@ export enum LANGUAGE_KEYS {
     CNBLOG = 'cnblog',
     SEGMENTFAULT = 'segmentfault',
     FELLIKE = 'feellike',
-    WEATHER = 'weather'
+    WEATHER = 'weather',
+    LIKE_COMMENT = 'likeComments'
 }
 

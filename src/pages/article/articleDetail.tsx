@@ -158,8 +158,8 @@ class ArticleDetail extends Component<IArticleDetailProps> {
     }
 
     @action
-    private openCommentInput() {
-        this.isOpenCommentInput = !this.isOpenCommentInput;
+    private openCommentInput(visible: boolean) {
+        this.isOpenCommentInput = visible;
     }
 
     @boundMethod
@@ -488,13 +488,19 @@ class ArticleDetail extends Component<IArticleDetailProps> {
                     extra={(
                         <TouchableView
                             accessibilityLabel="添加评论"
-                            onPress={this.openCommentInput}
+                            onPress={() => this.openCommentInput(true)}
                         >
                             <Iconfont name="pinglun1" color={colors.textLink} {...getHeaderButtonStyle()} />
                         </TouchableView>
                     )}
                 >
-                    <Comment articleId={this.getArticleId()} isOpenCommentInput={this.isOpenCommentInput} onSuccess={this.commentSuccess} />
+                    <Comment
+                        top={this.isHeaderCollapsed ? headerHeightCollapsed : headerHeight}
+                        articleId={this.getArticleId()}
+                        isOpenCommentInput={this.isOpenCommentInput}
+                        onSuccess={this.commentSuccess}
+                        onClose={() => this.openCommentInput(false)}
+                    />
                 </BetterModal>
             </SafeAreaView>
         );

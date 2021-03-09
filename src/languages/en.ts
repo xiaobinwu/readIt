@@ -111,7 +111,8 @@ export default {
     [LANGUAGE_KEYS.JUEJIN]: 'JUEJIN',
     [LANGUAGE_KEYS.CNBLOG]: 'CN Blog',
     [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault',
-    [LANGUAGE_KEYS.FELLIKE]: 'FeelLike'
+    [LANGUAGE_KEYS.FELLIKE]: 'FeelLike',
+    [LANGUAGE_KEYS.LIKE_COMMENT]: 'Fabulous',
 };
 
 export const LOCALES_EN = {

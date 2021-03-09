@@ -8,7 +8,7 @@
 import React, { Component, RefObject } from 'react';
 import { FlatList, StyleSheet, View, NativeSyntheticEvent, NativeScrollEvent, TextInput, Button } from 'react-native';
 import { showToast } from '@app/services/toast';
-import { observable, action, computed, runInAction } from 'mobx';
+import { observable, action, computed, reaction } from 'mobx';
 import { Observer, observer } from 'mobx-react';
 import { boundMethod } from 'autobind-decorator';
 import { LANGUAGE_KEYS } from '@app/constants/language';
@@ -19,12 +19,13 @@ import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { AutoActivityIndicator } from '@app/components/common/activity-indicator';
+import { BetterModal } from '@app/components/common/modal';
 import request from '@app/services/request';
 import i18n from '@app/services/i18n';
 import colors from '@app/style/colors';
 import sizes from '@app/style/sizes';
 import fonts from '@app/style/fonts';
-import mixins from '@app/style/mixins';
+import mixins, { getHeaderButtonStyle } from '@app/style/mixins';
 import { optionStore } from '@app/stores/option';
 import { CommentItem } from './item';
 
@@ -37,6 +38,8 @@ export interface ICommentProps {
     articleId: string;
     onScroll?(event: NativeSyntheticEvent<NativeScrollEvent>): void;
     onSuccess?(data: any): void;
+    onClose?(data: any): void;
+    top: number;
 }
 
 @observer
@@ -45,11 +48,18 @@ export class Comment extends Component<ICommentProps> {
     constructor(props: ICommentProps) {
         super(props);
         this.fetchComments();
+        // reaction监听visible的变化
+        reaction(
+            () => this.props.isOpenCommentInput,
+            visible => this.updateVisible(visible),
+            { fireImmediately: true }
+        );
     }
 
     private listElement: TCommentListElement = React.createRef();
 
     @observable.ref private isLoading: boolean = false;
+    @observable private commentContentModalVisable: boolean = false;
     @observable.ref private isSortByHot: boolean = false;
     @observable.ref private pagination: IHttpPaginate | null = null;
     @observable.shallow private comments: IComment[] = [];
@@ -65,6 +75,11 @@ export class Comment extends Component<ICommentProps> {
         if (this.commentListData.length) {
             listElement && listElement.scrollToIndex({ index: 0, viewOffset: 0 });
         }
+    }
+
+    @action
+    private updateVisible(visible: boolean) {
+        this.commentContentModalVisable = visible;
     }
 
     // 为了不影响FlatList组件渲染，对于引用类型，需要特殊处理
@@ -103,6 +118,20 @@ export class Comment extends Component<ICommentProps> {
     @action.bound
     private updateCommentAuthor(commentAuthor: string) {
       this.commentAuthor = commentAuthor;
+    }
+
+    @action
+    private resetInput() {
+        this.commentAuthor = '';
+        this.commentContent = '';
+        this.commentEmail = '';
+    }
+
+    @action
+    private updateCommentFormModalVisible(visible: boolean) {
+      const { onClose } = this.props;
+      this.resetInput();
+      onClose && onClose(visible);
     }
 
     @action.bound
@@ -151,6 +180,7 @@ export class Comment extends Component<ICommentProps> {
                     // 重新请求数据
                     setTimeout(this.fetchComments, 266);
                     onSuccess && onSuccess(data);
+                    this.updateCommentFormModalVisible(false);
                     return data;
                 }
             }
@@ -302,9 +332,10 @@ export class Comment extends Component<ICommentProps> {
                     ...optionStore.userInfo,
                     likeComments: likeCommentsItems,
                 });
+                console.log('comment.likes', comment.likes);
                 this.comments.splice(targetCommentIndex, 1, {
                     ...comment,
-                    likes: comment.likes + 1
+                    likes: (comment.likes || 0) + 1
                 });
             })();
         }
@@ -342,44 +373,63 @@ export class Comment extends Component<ICommentProps> {
         const { isLoading } = this;
         const { styles } = obStyles;
         return (
-            <Observer render={
-                () => (
-                    <View style={styles.commentBox}>
-                        <TextInput
-                            style={styles.input}
-                            value={this.commentAuthor}
-                            maxLength={30}
-                            placeholder={i18n.t(LANGUAGE_KEYS.NICKNAME)}
-                            placeholderTextColor={colors.textSecondary}
-                            onChangeText={this.updateCommentAuthor}
-                        />
-                        <TextInput
-                            style={styles.input}
-                            value={this.commentEmail}
-                            placeholder={i18n.t(LANGUAGE_KEYS.EMAIL)}
-                            placeholderTextColor={colors.textSecondary}
-                            onChangeText={this.updateCommentEmail}
-                        />
-                        <TextInput
-                            style={[styles.input, styles.inputContent]}
-                            value={this.commentContent}
-                            placeholder={i18n.t(LANGUAGE_KEYS.COMMENT_COTENT)}
-                            multiline
-                            numberOfLines={4}
-                            maxLength={100}
-                            placeholderTextColor={colors.textSecondary}
-                            onChangeText={this.updateCommentContent}
-                        />
-                        <View style={styles.commentButton}>
-                            <Button
-                                title={i18n.t(LANGUAGE_KEYS.COMMENT_PUBLISH)}
-                                color={colors.primary}
-                                onPress={this.submitComment}
+
+            <BetterModal
+                visible={this.commentContentModalVisable}
+                title={'添加评论'}
+                onClose={() => this.updateCommentFormModalVisible(false)}
+                top={this.props.top}
+                extra={(
+                    <TouchableView
+                        accessibilityLabel="撤销"
+                        onPress={() => this.resetInput()}
+                    >
+                        <Iconfont name="zhongfu1" color={colors.textLink} {...getHeaderButtonStyle()} />
+                    </TouchableView>
+                )}
+                opacity={0}
+            >
+              <Observer render={
+                    () => (
+                        <View style={styles.commentBox}>
+                            <TextInput
+                                style={styles.input}
+                                value={this.commentAuthor}
+                                maxLength={30}
+                                placeholder={i18n.t(LANGUAGE_KEYS.NICKNAME)}
+                                placeholderTextColor={colors.textSecondary}
+                                onChangeText={this.updateCommentAuthor}
                             />
+                            <TextInput
+                                style={styles.input}
+                                value={this.commentEmail}
+                                keyboardType="email-address"
+                                placeholder={i18n.t(LANGUAGE_KEYS.EMAIL)}
+                                placeholderTextColor={colors.textSecondary}
+                                onChangeText={this.updateCommentEmail}
+                            />
+                            <TextInput
+                                style={[styles.input, styles.inputContent]}
+                                value={this.commentContent}
+                                placeholder={i18n.t(LANGUAGE_KEYS.COMMENT_COTENT)}
+                                multiline
+                                numberOfLines={4}
+                                maxLength={300}
+                                placeholderTextColor={colors.textSecondary}
+                                onChangeText={this.updateCommentContent}
+                            />
+                            <View style={styles.commentButton}>
+                                <Button
+                                    accessibilityLabel="提交按钮"
+                                    title={i18n.t(LANGUAGE_KEYS.COMMENT_PUBLISH)}
+                                    color={colors.primary}
+                                    onPress={this.submitComment}
+                                />
+                            </View>
                         </View>
-                    </View>
-                )
-            } />
+                    )
+                } />
+            </BetterModal>
         );
     }
 
@@ -474,14 +524,9 @@ const obStyles = observable({
             },
             commentBox: {
                 paddingHorizontal: sizes.goldenRatioGap,
-                position: 'absolute',
-                left: 0,
-                bottom: 0,
-                width: sizes.screen.width,
-                height: 400,
                 flex: 1,
                 flexDirection: 'column',
-                justifyContent: 'space-around',
+                justifyContent: 'flex-start',
                 borderTopColor: colors.border,
                 borderTopWidth: sizes.borderWidth,
                 zIndex: 1,
@@ -490,18 +535,20 @@ const obStyles = observable({
                 backgroundColor: colors.cardBackground
             },
             input: {
-                height: 40,
+                width: '100%',
+                height: 60,
                 paddingHorizontal: 10,
                 paddingVertical: 5,
+                marginVertical: 20,
                 color: colors.textDefault,
-                width: '100%',
                 borderBottomColor: colors.border,
                 borderBottomWidth: sizes.borderWidth,
             },
             inputContent: {
-                height: 40
+                height: 120
             },
             commentButton: {
+                marginTop: 50,
                 paddingVertical: sizes.goldenRatio
             }
         });

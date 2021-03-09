@@ -109,7 +109,8 @@ export default {
     [LANGUAGE_KEYS.JUEJIN]: '掘金',
     [LANGUAGE_KEYS.CNBLOG]: '博客园',
     [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault',
-    [LANGUAGE_KEYS.FELLIKE]: '体感温度'
+    [LANGUAGE_KEYS.FELLIKE]: '体感温度',
+    [LANGUAGE_KEYS.LIKE_COMMENT]: '点赞',
 };
 
 export const LOCALES_ZH = {

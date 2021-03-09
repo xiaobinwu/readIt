@@ -12,7 +12,7 @@ import { TouchableView } from '@app/components/common/touchable-view';
 import { Observer, observer } from 'mobx-react';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { IPageProps } from '@app/types/props';
-import colors from '@app/style/colors';
+import colors, { normalColors } from '@app/style/colors';
 import sizes from '@app/style/sizes';
 import fonts from '@app/style/fonts';
 import { Iconfont } from '@app/components/common/iconfont';
@@ -68,6 +68,7 @@ interface IStatistic {
     views: StatisticValue
     articles: StatisticValue
     comments: StatisticValue
+    likeComments: StatisticValue
 }
 
 @observer
@@ -331,11 +332,12 @@ class About extends Component<IAboutProps> {
     }
 
     render() {
-        const { viewArticles, likeArticles, commentArticles } = optionStore.userInfo;
+        const { viewArticles, likeArticles, commentArticles, likeComments } = optionStore.userInfo;
         const statistic: IStatistic = {
           views: viewArticles ? viewArticles.length : '-',
           articles: likeArticles ? likeArticles.length : '-',
           comments: commentArticles ? commentArticles.length : '-',
+          likeComments: likeComments ? likeComments.length : '-'
         };
 
         const { styles } = obStyles;
@@ -396,6 +398,11 @@ class About extends Component<IAboutProps> {
                     <View style={styles.statisticItem}>
                         <Text style={styles.statisticCount}>{statistic.comments}</Text>
                         <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.COMMENT)}</Text>
+                    </View>
+                    <View style={styles.statisticSeparator} />
+                    <View style={styles.statisticItem}>
+                        <Text style={styles.statisticCount}>{statistic.likeComments}</Text>
+                        <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.LIKE_COMMENT)}</Text>
                     </View>
                     <View style={styles.statisticSeparator} />
                     <View style={styles.statisticItem}>
@@ -466,12 +473,12 @@ const obStyles = observable({
             },
             userName: {
                 ...fonts.h2,
-                color: colors.cardBackground,
+                color: normalColors.white,
                 padding: 2,
             },
             userSlogan: {
                 ...fonts.base,
-                color: colors.cardBackground,
+                color: normalColors.white,
                 padding: 2,
             },
             statistic: {
