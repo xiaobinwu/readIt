@@ -22,6 +22,7 @@ export interface IGravatar extends ImageProps {
     picker?: boolean;
     preview?: boolean;
     onPress?(): void;
+    onSuccess?(data: any): void;
 }
 
 interface IGravatarProps extends IGravatar {}
@@ -37,7 +38,7 @@ const DEFAULT_WH_SCALE = DEFAULT_WH * 0.5;
 
     @boundMethod
     private onGravatarPress() {
-        const { preview, picker } = this.props;
+        const { preview, picker, onSuccess } = this.props;
         if (preview) {
             this.updateImageModalVisible(true);
         }
@@ -46,8 +47,9 @@ const DEFAULT_WH_SCALE = DEFAULT_WH * 0.5;
                 mediaType: 'photo'
             }, (res: any) => {
                 // 图片上传
-                request.uploadFile(res);
+                // request.uploadFile(res);
                 console.log(res);
+                onSuccess && onSuccess(res.uri);
             });
         }
     }

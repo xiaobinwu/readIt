@@ -31,7 +31,8 @@ import { staticApi } from '@app/config';
 import locationService from '@app/services/location';
 import { showToast } from '@app/services/toast';
 import { TIHttpUserResultOrdinary } from '@app/types/http';
-import { Iuser } from '@app/types/business';
+import { STORAGE } from '@app/constants/storage';
+import storage from '@app/services/storage';
 
 
 export interface IAboutProps extends IPageProps {}
@@ -312,7 +313,7 @@ class About extends Component<IAboutProps> {
 
     // 改变用户信息
     @boundMethod
-    updateUserInfo(fieldName: string, text: string) {
+    updateUserInfo(fieldName: string, text: string | object) {
         optionStore.updateUserInfo({
             ...optionStore.userInfo,
             [fieldName]: text
@@ -321,6 +322,12 @@ class About extends Component<IAboutProps> {
             ...this.userInfo,
             [fieldName]: text,
         };
+    }
+
+    @boundMethod
+    updateUserInfoAvatar(uri: string) {
+        this.updateUserInfo(UserInfo.Avatar, { uri });
+        storage.set(STORAGE.USER_AVATAR, uri);
     }
 
     // 改变用户信息
@@ -360,6 +367,7 @@ class About extends Component<IAboutProps> {
                             style={styles.userGravatar}
                             source={this.userInfo.avatar}
                             picker={true}
+                            onSuccess={(uri) => { this.updateUserInfoAvatar(uri); }}
                         />
                         <View style={styles.userMessage}>
                             <TextInput

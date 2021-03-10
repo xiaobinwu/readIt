@@ -36,6 +36,8 @@ import { WebViewPage } from '@app/pages/common/webview';
 import request from '@app/services/request';
 import { getUniqueId, getBaseOs, getDeviceName, getManufacturer, getBrand, getSystemVersion  } from 'react-native-device-info';
 import { TIHttpUserResultOrdinary } from '@app/types/http';
+import { STORAGE } from '@app/constants/storage';
+import storage from '@app/services/storage';
 import { optionStore } from './stores/option';
 
 
@@ -198,7 +200,12 @@ const AboutStackComponent = observer(() => {
                 }
             }
         } else if (code === 0 && entry.length > 0) {
-            optionStore.updateUserInfo(entry[entry.length - 1]);
+            const avatar = await storage.get<string>(STORAGE.USER_AVATAR);
+            // HACK 目前还未实现图片上传，暂时讲头像存储在Storage
+            optionStore.updateUserInfo({
+                ...entry[entry.length - 1],
+                ...(avatar ? { avatar } : {})
+            });
         }
     }
 
