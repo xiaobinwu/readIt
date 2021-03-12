@@ -7,11 +7,12 @@ import React, { Component } from 'react';
 import Geolocation from 'react-native-geolocation-service';
 import { View, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert, SafeAreaView, ScrollView, TextInput } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
+import { CustomHeaderTitle } from '@app/components/layout/title';
 import { observable, computed, reaction } from 'mobx';
 import { TouchableView } from '@app/components/common/touchable-view';
 import { Observer, observer } from 'mobx-react';
 import { LANGUAGE_KEYS } from '@app/constants/language';
-import { IPageProps } from '@app/types/props';
+import { IPageProps, NavigationProps } from '@app/types/props';
 import colors, { normalColors } from '@app/style/colors';
 import sizes from '@app/style/sizes';
 import fonts from '@app/style/fonts';
@@ -33,7 +34,7 @@ import { showToast } from '@app/services/toast';
 import { TIHttpUserResultOrdinary } from '@app/types/http';
 import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
-
+import { getHeaderButtonStyle } from '@app/style/mixins';
 
 export interface IAboutProps extends IPageProps {}
 
@@ -72,8 +73,45 @@ interface IStatistic {
     likeComments: StatisticValue
 }
 
+class AboutStore {
+    @observable editProfile: boolean = false;
+
+    @boundMethod
+    updateEditProfile() {
+        this.editProfile = !this.editProfile;
+    }
+}
+
+export const aboutStore = new AboutStore();
+
 @observer
 class About extends Component<IAboutProps> {
+
+    // 静态方法，定义主页（文章列表）屏幕组件的配置
+    static getPageScreenOptions = ({ navigation }: NavigationProps) => {
+        return {
+            headerTitle: () => (
+                <CustomHeaderTitle
+                    i18nKey={LANGUAGE_KEYS.ABOUT}
+                />
+            ),
+            headerRight: () => (
+                <Observer render={() => (
+                    <TouchableView
+                        accessibilityLabel="编辑个人资料"
+                        accessibilityHint="编辑个人资料"
+                        onPress={() => { aboutStore.updateEditProfile(); }}
+                    >
+                        <Iconfont
+                            name="pinglun1"
+                            color={colors.cardBackground}
+                            {...getHeaderButtonStyle(18)}
+                        />
+                    </TouchableView>
+                )} />
+            )
+        };
+    }
 
     constructor(props: IAboutProps) {
         super(props);
@@ -366,7 +404,7 @@ class About extends Component<IAboutProps> {
                         <Gravatar
                             style={styles.userGravatar}
                             source={this.userInfo.avatar}
-                            picker={true}
+                            picker={aboutStore.editProfile}
                             onSuccess={(uri) => { this.updateUserInfoAvatar(uri); }}
                         />
                         <View style={styles.userMessage}>
@@ -375,7 +413,7 @@ class About extends Component<IAboutProps> {
                                 placeholder={i18n.t(LANGUAGE_KEYS.WIRTEWATH)}
                                 style={styles.userName}
                                 value={this.userInfo.nickName}
-                                editable={true}
+                                editable={aboutStore.editProfile}
                                 onChangeText={text => this.updateUserInfo(UserInfo.NickName, text)}
                                 onSubmitEditing={({nativeEvent: { text }}) => this.fetchUserInfo(UserInfo.NickName, text)}
                             />
@@ -384,7 +422,7 @@ class About extends Component<IAboutProps> {
                                 placeholder={i18n.t(LANGUAGE_KEYS.WIRTEWATH)}
                                 style={styles.userSlogan}
                                 value={this.userInfo.motto}
-                                editable={true}
+                                editable={aboutStore.editProfile}
                                 onChangeText={text => this.updateUserInfo(UserInfo.Motto, text)}
                                 onSubmitEditing={({nativeEvent: { text }}) => this.fetchUserInfo(UserInfo.Motto, text)}
                             />

@@ -117,9 +117,7 @@ const AboutStackComponent = observer(() => {
             <AboutStack.Screen
                 name={AboutRoutes.About}
                 component={About}
-                options={{
-                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.ABOUT} />
-                }}
+                options={About.getPageScreenOptions}
             />
             <AboutStack.Screen
                 name={AboutRoutes.Github}

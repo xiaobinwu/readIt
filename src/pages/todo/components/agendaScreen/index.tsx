@@ -57,7 +57,6 @@ class AgendaStore {
 
     @action.bound
     updateAgendaItems(items: AgendaItemsMap<IAgendaItem>) {
-        console.log(items);
         if (items) {
             this.items = items;
         }
@@ -88,6 +87,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
         super(props);
         this.setAgendLocale(optionStore.language);
         this.initAgendaScreen();
+        // Hack
         reaction(
             () => optionStore.isEnlang,
             (isEnlang) => {
@@ -101,11 +101,18 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
             },
             { fireImmediately: true }
         );
-        // storage.remove(STORAGE.AGENDA_ITEMS_MAP);
-        // setTimeout(() => {
-        //     optionStore.updateLanguage(LANGUAGES.ZH);
-        // }, 7000);
+        // Hack
+        reaction(
+            () => optionStore.darkTheme,
+            (darkTheme) => {
+                this.keyId++;
+                this.forceUpdate();
+            },
+            { fireImmediately: true }
+        );
     }
+
+    @observable keyId: number = 1; 
 
     @boundMethod
     setAgendLocale(lang: TLanguage) {
@@ -234,7 +241,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
             <Observer render={() => (
                 <View style={styles.emptyContainer}>
                     {
-                        isDarkSystemTheme ? (
+                        optionStore.darkTheme ? (
                             <Image
                                 style={styles.emptyImage}
                                 source={require('@app/assets/images/noPlan-dark.png')}
@@ -262,35 +269,38 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
 
     render() {
         const { styles } = obStyles;
+        const theme = {
+            backgroundColor: colors.background,
+            calendarBackground: colors.cardBackground,
+            textSectionTitleColor: colors.textDefault,
+            selectedDayBackgroundColor: colors.primary,
+            selectedDayTextColor: colors.cardBackground,
+            todayTextColor: colors.primary,
+            dayTextColor: colors.textDefault,
+            textDisabledColor: colors.textDefault,
+            dotColor: colors.primary,
+            selectedDotColor: colors.cardBackground,
+            monthTextColor: colors.primary,
+            indicatorColor: colors.primary,
+            agendaDayTextColor: colors.primary,
+            agendaDayNumColor: colors.primary,
+            agendaTodayColor: colors.primary,
+        };
         return (
+            // @ts-ignore
             <Agenda
+                key={this.keyId}
                 style={styles.agendaContainer}
                 testID="calendars"
                 items={agendaStore.items}
-                selected={this.selectedDate}
+                selected={agendaStore.selectedDate}
                 renderItem={this.renderItem}
                 onDayPress={this.dayChange}
                 onDayChange={this.dayChange}
                 rowHasChanged={this.rowHasChanged}
                 renderEmptyData={this.renderEmptyData}
                 onCalendarToggled={this.calendarToggled}
-                theme={{
-                    backgroundColor: colors.background,
-                    calendarBackground: colors.cardBackground,
-                    textSectionTitleColor: colors.textDefault,
-                    selectedDayBackgroundColor: colors.primary,
-                    selectedDayTextColor: colors.cardBackground,
-                    todayTextColor: colors.primary,
-                    dayTextColor: colors.textDefault,
-                    textDisabledColor: colors.textDefault,
-                    dotColor: colors.primary,
-                    selectedDotColor: colors.cardBackground,
-                    monthTextColor: colors.primary,
-                    indicatorColor: colors.primary,
-                    agendaDayTextColor: colors.primary,
-                    agendaDayNumColor: colors.primary,
-                    agendaTodayColor: colors.primary,
-                }}
+                theme={theme}
             />
         );
     }
