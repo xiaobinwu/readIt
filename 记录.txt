@@ -86,3 +86,10 @@ dependencies {
 
 1、react-native-picker-select，报错信息 `"RNCAndroidDialogPicker" was not found in the UIManager`，参考Issues https://github.com/lawnstarter/react-native-picker-select/issues/402，
 解决办法，降级@react-native-picker/picker 至 1.8.3
+
+
+管理员CMD
+#keytool -genkey -dname "CN=wushaobin,OU=个人,O=个人,L=深圳,ST=广东,C=CN" -alias readit -keyalg RSA -validity 400000 -keystore readit.keystore
+#keytool -importkeystore -srckeystore readit.keystore -destkeystore readit.keystore -deststoretype pkcs12
+#keytool -list -v -keystore readit.keystore -storepass Wu13539672487
+或 keytool -genkeypair -v -keystore readit.keystore -alias readit -keyalg RSA -keysize 2048 -validity 400000

@@ -8,6 +8,7 @@ import 'react-native-gesture-handler'; // 链接原生依赖
 import React, { Component } from 'react';
 import { StyleSheet } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
+import SplashScreen from 'react-native-splash-screen';
 import { computed, observable, action } from 'mobx';
 import { observer } from 'mobx-react';
 import { NavigationContainer, NavigationState } from '@react-navigation/native';
@@ -173,6 +174,10 @@ const AboutStackComponent = observer(() => {
     }
 
     @observable.ref private navigationState: NavigationState | undefined;
+
+    componentDidMount() {
+        SplashScreen.hide();
+    }
 
     // 请求签名牌，创建用户
     private async fetchLogin() {
