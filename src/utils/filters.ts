@@ -13,14 +13,14 @@
     if (!dateString) {
         return dateString;
     }
-    console.log(dateString);
-    const date = new Date(dateString);
+    console.log(dateString.replace(/-/gi, '/'));
+    const date = new Date(dateString.replace(/-/gi, '/'));
     const year = date.getFullYear();
     const month = date.getMonth() + 1;
     const day = date.getDate();
     const hour = date.getHours();
     console.log(`${year}/${month}/${day} ${hour > 11 ? i18n.t(LANGUAGE_KEYS.PM) : i18n.t(LANGUAGE_KEYS.AM)}`);
-    return `${year}/${month}/${day} ${hour > 11 ? i18n.t(LANGUAGE_KEYS.PM) : i18n.t(LANGUAGE_KEYS.AM)}`;
+    return `${year}/${padNumber(month)}/${padNumber(day)} ${hour > 11 ? i18n.t(LANGUAGE_KEYS.PM) : i18n.t(LANGUAGE_KEYS.AM)}`;
  };
 
  // 文本限制

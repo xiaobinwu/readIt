@@ -156,7 +156,8 @@ class TodoDetail extends Component<ITodoDetailProps> {
                 console.log(date.toLocaleString());
                 console.log(toDoStore.title, Number(dateStrArr[0]), Number(dateStrArr[1]));
                 // 1.0.0的调用
-                AlarmClock.createAlarm(toDoStore.title, 17, 20);
+                // AlarmClock.createAlarm(toDoStore.title, 17, 20);
+                AlarmClock.createAlarm(date.toISOString(), toDoStore.title);
                 params.hasClock = true;
             }
             params.title = toDoStore.title;

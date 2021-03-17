@@ -9,6 +9,10 @@
   },
   "scripts": {
     "android": "react-native run-android",
+    "android-release": "react-native run-android --variant=release",
+    "android-gradlew-build": "cd android && gradlew build",
+    "android-assembleRelease": "cd android && gradlew clean && gradlew assembleRelease",
+    "android-index-bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res",
     "ios": "react-native run-ios",
     "link": "react-native link",
     "start": "react-native start",

@@ -108,8 +108,7 @@ const obStyles = observable({
             container: {
                 flex: 1,
                 alignItems: 'center',
-                justifyContent: 'center',
-                backgroundColor: colors.cardBackground
+                justifyContent: 'center'
             },
             headerCheckedIcon: {
                 position: 'absolute',
