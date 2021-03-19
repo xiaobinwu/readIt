@@ -22,6 +22,8 @@ export const weatherKey = 'f51675abaa1840548d4fcce778828437'; // https://dev.qwe
 export const geocodeRegeoKey = 'a39e9f0d5d10460b3e4ae7e735f34733'; // https://console.amap.com/dev/key/app
 export const geocodeRegeoUrl = 'https://restapi.amap.com/v3/geocode/regeo';
 
+export const geocodeRegeoAndroidKey = '2a6798dbf79f695cb560bd25be519722';
+
 export const IS_DEV = __DEV__;
 export const IS_IOS = Object.is(Platform.OS, 'ios');
 export const IS_ANDROID = !IS_IOS;

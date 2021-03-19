@@ -61,10 +61,12 @@
 ### 第三方库躺坑  
 
 #### 如何获取当前天气、未来三天天气？  
-使用的是和风天气API
+使用的是和风天气API，需要经纬入参，所以必须先获取位置。
 
 #### 如何获取位置？    
-使用`react-native-geolocation-service`第三方库，获取经纬度进行高德逆地理编码API调用，获取城市，虚拟机需要开启google play服务，需要有处理获取位置的服务程序`app/services/location`，以及修改`android/src/main/AndroidManifest.xml`，添加`<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>` 安卓添加权限。
+Part1，使用`react-native-geolocation-service`第三方库，获取经纬度进行高德逆地理编码API调用，获取城市，开启google play服务，需要有处理获取位置的服务程序`app/services/location`（参考`react-native-geolocation-service` github example），以及修改`android/app/src/main/AndroidManifest.xml`，添加`<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>` 安卓添加权限。结果不行，针对google play服务国内不能使用，所以该方案得摒弃掉，对应`app/services/location`会删除。
+
+Part2，使用`react-native-amap-geolocation`第三方库，[接口文档](https://qiuxiang.github.io/react-native-amap-geolocation/api/globals.html#setgpsfirst)，[使用指南](https://qiuxiang.github.io/react-native-amap-geolocation/#/?id=%e5%bf%ab%e9%80%9f%e4%b8%8a%e6%89%8b)
 
 #### 图片上传问题  
 

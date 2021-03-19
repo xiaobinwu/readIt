@@ -4,8 +4,7 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 import React, { Component } from 'react';
-import Geolocation from 'react-native-geolocation-service';
-import { View, StyleSheet, ImageBackground, Image, ImageSourcePropType, Linking, SectionList, Alert, SafeAreaView, ScrollView, TextInput } from 'react-native';
+import { View, StyleSheet, ImageBackground, PermissionsAndroid, ImageSourcePropType, Linking, SectionList, Alert, SafeAreaView, ScrollView, TextInput } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
 import { CustomHeaderTitle } from '@app/components/layout/title';
 import { observable, computed, reaction } from 'mobx';
@@ -19,7 +18,7 @@ import fonts from '@app/style/fonts';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Remind } from '@app/components/common/remind';
 import mixins from '@app/style/mixins';
-import i18n from '@app/services/i18n';
+import i18n, { TLanguage } from '@app/services/i18n';
 import { webUrl, email } from '@app/config';
 import { Text } from '@app/components/common/text';
 import { IWeather, Weather } from '@app/components/common/weather';
@@ -28,13 +27,22 @@ import { AboutRoutes } from '@app/constants/routes';
 import { AutoI18nTitle, } from '@app/components/layout/title';
 import request from '@app/services/request';
 import { optionStore } from '@app/stores/option';
-import { staticApi } from '@app/config';
-import locationService from '@app/services/location';
+import { staticApi, geocodeRegeoAndroidKey } from '@app/config';
 import { showToast } from '@app/services/toast';
 import { TIHttpUserResultOrdinary } from '@app/types/http';
 import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 import { getHeaderButtonStyle } from '@app/style/mixins';
+import {
+    init,
+    Geolocation,
+    setInterval,
+    setGeoLanguage,
+    setGpsFirst,
+    setGpsFirstTimeout,
+    setLocationMode,
+    setNeedAddress
+} from "react-native-amap-geolocation";
 
 export interface IAboutProps extends IPageProps {}
 
@@ -87,6 +95,8 @@ export const aboutStore = new AboutStore();
 @observer
 class About extends Component<IAboutProps> {
 
+    watchPositionId = null;
+
     // 静态方法，定义主页（文章列表）屏幕组件的配置
     static getPageScreenOptions = ({ navigation }: NavigationProps) => {
         return {
@@ -117,9 +127,15 @@ class About extends Component<IAboutProps> {
         super(props);
         reaction(
             () => optionStore.language,
-            (language) => this.getLocation()
+            (language: TLanguage) => {
+                setGeoLanguage(language.toUpperCase());
+            }
         );
         this.getLocation();
+    }
+
+    componentWillUnmount() {
+        Geolocation.clearWatch(this.watchPositionId);
     }
 
     @observable.ref
@@ -233,17 +249,38 @@ class About extends Component<IAboutProps> {
     }
 
     // 获取定位信息
-    private getLocation() {
-        locationService.getLocation((position) => {
-            this.fetchWeatherMessage(position);
-            this.fetchGeocodeRegeo(position);
-        }, (error) => {
+    private async getLocation() {
+        try {
+            // 对于 Android 需要自行根据需要申请权限
+            await PermissionsAndroid.requestMultiple([
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+                PermissionsAndroid.PERMISSIONS.ACCESS_COARSE_LOCATION,
+            ]);
+        
+            // 使用自己申请的高德 App Key 进行初始化
+            await init({
+                android: geocodeRegeoAndroidKey
+            });
+        
+            // android下的配置
+            setGpsFirst(true);
+            setGpsFirstTimeout(10000);
+            setInterval(60000);
+            setNeedAddress(true);
+            setLocationMode('Hight_Accuracy');
+
+            this.watchPositionId = Geolocation.watchPosition((position: any) => {
+                console.log(position);
+                this.fetchWeatherMessage(position);
+                this.fetchGeocodeRegeo(position);
+            });
+        } catch (error) {
             showToast(error.message);
-        });
+        }
     }
 
     // 获取当前城市
-    private async fetchGeocodeRegeo(position: Geolocation.GeoPosition) {
+    private async fetchGeocodeRegeo(position: any) {
         const { coords } = position;
         const { longitude, latitude } = coords;
         const curGeoData = await request.fetchGeocodeRegeo<any>({ location: `${longitude},${latitude}` });
@@ -257,7 +294,7 @@ class About extends Component<IAboutProps> {
     }
 
     // 获取实况天气预报
-    private async fetchWeatherMessage(position: Geolocation.GeoPosition) {
+    private async fetchWeatherMessage(position: any) {
         const { coords } = position;
         const { longitude, latitude } = coords;
         let currentWeather;

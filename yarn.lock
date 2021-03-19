@@ -7303,6 +7303,11 @@ react-native-alarm-clock@^1.0.0:
   resolved "https://registry.npm.taobao.org/react-native-alarm-clock/download/react-native-alarm-clock-1.0.0.tgz#63606cda3919368163ada18cf50a91776eee702b"
   integrity sha1-Y2Bs2jkZNoFjraGM9QqRd27ucCs=
 
+react-native-amap-geolocation@^1.1.2:
+  version "1.1.2"
+  resolved "https://registry.npm.taobao.org/react-native-amap-geolocation/download/react-native-amap-geolocation-1.1.2.tgz#4388731828bbe84493ac5894d0df27b4402ae3c5"
+  integrity sha1-Q4hzGCi76ESTrFiU0N8ntEAq48U=
+
 react-native-appearance@^0.3.3:
   version "0.3.4"
   resolved "https://registry.npm.taobao.org/react-native-appearance/download/react-native-appearance-0.3.4.tgz#2cbcbc5142cdc1898c116684f519b16c879cbec2"
