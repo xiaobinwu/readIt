@@ -268,11 +268,14 @@ class About extends Component<IAboutProps> {
             setInterval(60000);
             setNeedAddress(true);
             setLocationMode('Hight_Accuracy');
+            setGeoLanguage(optionStore.language.toUpperCase());
 
             this.watchPositionId = Geolocation.watchPosition((position: any) => {
-                console.log(position);
                 this.fetchWeatherMessage(position);
                 this.fetchGeocodeRegeo(position);
+            }, (err: { message: string; }) => {
+                console.log(err);
+                showToast(err.message);
             });
         } catch (error) {
             showToast(error.message);
@@ -281,15 +284,20 @@ class About extends Component<IAboutProps> {
 
     // 获取当前城市
     private async fetchGeocodeRegeo(position: any) {
-        const { coords } = position;
-        const { longitude, latitude } = coords;
-        const curGeoData = await request.fetchGeocodeRegeo<any>({ location: `${longitude},${latitude}` });
-        const { status, info } = curGeoData;
-        if (status !== '0') {
-            const { regeocode: { addressComponent: { city } } } = curGeoData;
+        const { coords, location = {} } = position;
+        const { city } = location;
+        if (city) {
             this.currentCity = city;
         } else {
-            showToast(info);
+            const { longitude, latitude } = coords;
+            const curGeoData = await request.fetchGeocodeRegeo<any>({ location: `${longitude},${latitude}` });
+            const { status, info } = curGeoData;
+            if (status !== '0') {
+                const { regeocode: { addressComponent: { city } } } = curGeoData;
+                this.currentCity = city;
+            } else {
+                showToast(info);
+            }
         }
     }
 
@@ -532,12 +540,13 @@ const obStyles = observable({
             user: {
                 flexDirection: 'row',
                 alignItems: 'center',
-                justifyContent: 'space-between',
+                justifyContent: "space-between",
                 paddingVertical: sizes.gap * 1.5,
                 paddingHorizontal: sizes.gap,
                 backgroundColor: colors.cardBackground,
                 borderBottomColor: colors.border,
-                borderBottomWidth: sizes.borderWidth
+                borderBottomWidth: sizes.borderWidth,
+                width: sizes.screen.width
             },
             userContent: {
                 ...mixins.rowCenter
