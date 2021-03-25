@@ -41,7 +41,9 @@ import {
     setGpsFirst,
     setGpsFirstTimeout,
     setLocationMode,
-    setNeedAddress
+    setNeedAddress,
+    GeoLanguage,
+    LocationMode
 } from "react-native-amap-geolocation";
 
 export interface IAboutProps extends IPageProps {}
@@ -95,7 +97,7 @@ export const aboutStore = new AboutStore();
 @observer
 class About extends Component<IAboutProps> {
 
-    watchPositionId = null;
+    watchPositionId: any = null;
 
     // 静态方法，定义主页（文章列表）屏幕组件的配置
     static getPageScreenOptions = ({ navigation }: NavigationProps) => {
@@ -127,9 +129,7 @@ class About extends Component<IAboutProps> {
         super(props);
         reaction(
             () => optionStore.language,
-            (language: TLanguage) => {
-                setGeoLanguage(language.toUpperCase());
-            }
+            (language: TLanguage) => setGeoLanguage(language.toUpperCase() as GeoLanguage)
         );
         this.getLocation();
     }
@@ -267,8 +267,8 @@ class About extends Component<IAboutProps> {
             setGpsFirstTimeout(10000);
             setInterval(60000);
             setNeedAddress(true);
-            setLocationMode('Hight_Accuracy');
-            setGeoLanguage(optionStore.language.toUpperCase());
+            setLocationMode('Hight_Accuracy' as LocationMode);
+            setGeoLanguage(optionStore.language.toUpperCase() as GeoLanguage);
 
             this.watchPositionId = Geolocation.watchPosition((position: any) => {
                 this.fetchWeatherMessage(position);

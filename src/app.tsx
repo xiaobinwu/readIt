@@ -181,8 +181,6 @@ const AboutStackComponent = observer(() => {
 
     // 请求签名牌，创建用户
     private async fetchLogin() {
-        const a = await getBaseOs();
-        console.log(a, '1111');
         const { code, entry } = await this.fetchHasLogin();
         if (code === 0 && entry.length === 0) {
             const os = await getBaseOs();

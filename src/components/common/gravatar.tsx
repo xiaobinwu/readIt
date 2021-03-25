@@ -47,7 +47,7 @@ const DEFAULT_WH_SCALE = DEFAULT_WH * 0.5;
                 mediaType: 'photo'
             }, (res: any) => {
                 // 图片上传
-                // request.uploadFile(res);
+                request.uploadFile(res);
                 console.log(res);
                 onSuccess && onSuccess(res.uri);
             });

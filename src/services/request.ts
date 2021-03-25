@@ -202,30 +202,51 @@ class Request extends HttpService {
         return data;
     }
     
-    // 上传OSS
+    // 上传oss，PostObject直传
+    async uploadToOSS(url: string, formData: any) {
+        console.log(url, 'url');
+        console.log(formData, 'formData');
+        this.post(url, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+    }
+
+    // 上传图片
     async uploadFile(file: any) {
         const creds: any = await this.getSTSAuth();
+        console.log(creds, 'creds');
         if (creds.code === 0) {
             try {
-                const configuration = {
-                    maxRetryCount: 3,
-                    timeoutIntervalForRequest: 30,
-                    timeoutIntervalForResource: 24 * 60 * 60,
-                };
                 console.log(file.uri, 'uri');
-                // 根据AliyunOss配置AccessKey
-                AliyunOSS.enableDevMode();
-                AliyunOSS.initWithPlainTextAccessKey(creds.accessKeyId, creds.accessKeySecret, `${creds.region}.aliyuncs.com`, configuration);
-                AliyunOSS.asyncUpload(creds.bucket, `images/${file.fileName?.split('.')[0]}-${file.fileSize}-${file.width}x${file.height}.${file.fileName?.split('.')[1]}`, file.uri).then((res: any) => {
-                    console.log('upload success: %j', res);
-                }).catch((error: any) => {
-                    console.log(error);
-                });
+
+                
+
+                const uploadMediaData = new FormData();
+
+                uploadMediaData.append('key', `images/${file.fileName?.split('.')[0]}-${file.fileSize}-${file.width}x${file.height}.${file.fileName?.split('.')[1]}`);                
+                uploadMediaData.append('success_action_status', '200');
+                uploadMediaData.append('x-oss-content-type', 'multipart/form-data');
+                uploadMediaData.append('x-oss-security-token', creds.securityToken);
+                uploadMediaData.append('OSSAccessKeyId', creds.accessKeyId);
+                uploadMediaData.append('policy', creds.formPolicy);
+                uploadMediaData.append('Signature', creds.formSignature);
+                uploadMediaData.append('file', JSON.stringify({
+                  uri: file.uri,
+                  type: 'multipart/form-data',
+                  name: file.fileName,
+                }));
+
+                const data: any = await this.uploadToOSS(`http://${creds.bucket}.${creds.region}.aliyuncs.com`, uploadMediaData);
+
+                console.log('上传成功', data);
+
                 
             } catch (error) {
                 console.log('upload error: %j', error);
                 return Promise.reject(error);
-            }
+            } 
         } else {
             return Promise.reject(new Error('STS临时授权签名获取失败'));
         }
