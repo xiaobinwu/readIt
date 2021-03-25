@@ -22,7 +22,7 @@ export interface IGravatar extends ImageProps {
     picker?: boolean;
     preview?: boolean;
     onPress?(): void;
-    onSuccess?(data: any): void;
+    onSuccess?(data: any, url: any): void;
 }
 
 interface IGravatarProps extends IGravatar {}
@@ -45,11 +45,10 @@ const DEFAULT_WH_SCALE = DEFAULT_WH * 0.5;
         if (picker) {
             launchImageLibrary({
                 mediaType: 'photo'
-            }, (res: any) => {
+            }, async (res: any) => {
                 // 图片上传
-                request.uploadFile(res);
-                console.log(res);
-                onSuccess && onSuccess(res.uri);
+                const uploadedUrl = await request.uploadFile(res);
+                onSuccess && onSuccess(res.uri, uploadedUrl);
             });
         }
     }

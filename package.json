@@ -31,7 +31,6 @@
     "@types/marked": "^1.1.0",
     "@types/react-native-actionsheet": "^2.4.1",
     "@types/react-native-calendars": "^1.20.10",
-    "aliyun-oss-rn": "^1.0.1",
     "autobind-decorator": "^2.4.0",
     "highlight.js": "^10.1.1",
     "marked": "^1.1.1",

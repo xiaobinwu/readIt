@@ -74,25 +74,26 @@ export class HttpService {
       cancelToken: this.cancelToken.token,
       ...curParams
     }).then((res: AxiosResponse<T>) => {
-      const { data = {} } = res;
-      const { code, message } = data as IBaseResponse; // 断言，「欺骗」TypeScript 编译器
-      if (code && code !== 0 && message && curParams.errorPop) {
-        curParams.errorPopCall && curParams.errorPopCall(res);
-        showToast(message);
-      }
-      // 接口报错不缓存, TODO, 待修改 
-      if (code && code === 0 && Number(curParams.useLocalCache) > 0) {
-        setTimeout(() => {
-          // 设置缓存和缓存时的时间
-          try {
-            localCacheName && storage.set(localCacheName, {
-              result: res,
-              lastCacheTime: Math.round((+new Date()) / 1000)
-            });
-          } catch (e) {
-            // nothing
-          }
-        }, 0);
+      if (res.data) {
+        const { code, message } = res.data as IBaseResponse; // 断言，「欺骗」TypeScript 编译器
+        if (code && code !== 0 && message && curParams.errorPop) {
+          curParams.errorPopCall && curParams.errorPopCall(res);
+          showToast(message);
+        }
+        // 接口报错不缓存, TODO, 待修改 
+        if (code && code === 0 && Number(curParams.useLocalCache) > 0) {
+          setTimeout(() => {
+            // 设置缓存和缓存时的时间
+            try {
+              localCacheName && storage.set(localCacheName, {
+                result: res,
+                lastCacheTime: Math.round((+new Date()) / 1000)
+              });
+            } catch (e) {
+              // nothing
+            }
+          }, 0);
+        }
       }
       return res;
     });

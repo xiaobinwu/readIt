@@ -408,9 +408,10 @@ class About extends Component<IAboutProps> {
     }
 
     @boundMethod
-    updateUserInfoAvatar(uri: string) {
+    updateUserInfoAvatar(uri: string, uploadedUrl: string) {
         this.updateUserInfo(UserInfo.Avatar, { uri });
         storage.set(STORAGE.USER_AVATAR, uri);
+        this.fetchUserInfo(UserInfo.Avatar, uploadedUrl);
     }
 
     // 改变用户信息
@@ -449,8 +450,8 @@ class About extends Component<IAboutProps> {
                         <Gravatar
                             style={styles.userGravatar}
                             source={this.userInfo.avatar}
-                            picker={aboutStore.editProfile}
-                            onSuccess={(uri) => { this.updateUserInfoAvatar(uri); }}
+                            picker={true}
+                            onSuccess={(uri, uploadedUrl) => { this.updateUserInfoAvatar(uri, uploadedUrl); }}
                         />
                         <View style={styles.userMessage}>
                             <TextInput

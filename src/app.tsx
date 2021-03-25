@@ -202,7 +202,6 @@ const AboutStackComponent = observer(() => {
             }
         } else if (code === 0 && entry.length > 0) {
             const avatar = await storage.get<string>(STORAGE.USER_AVATAR);
-            // HACK 目前还未实现图片上传，暂时讲头像存储在Storage
             optionStore.updateUserInfo({
                 ...entry[entry.length - 1],
                 ...(avatar ? { avatar } : {})

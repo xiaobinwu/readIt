@@ -76,7 +76,9 @@ Part2，使用`react-native-amap-geolocation`第三方库，[接口文档](https
 
 对于`react-native-image-picker`第三方库， 对于`3.1.4`版本，`minSdkVersion`最少要21以上，在使用的`react-native 0.61.5`下，修改`android/build.gradle`的`minSdkVersion`配置  
 
-阿里oss `aliyun-oss-rn`，需要更改`aliyun-oss-rn` npm包的`android/build.gradle`（如下配置）,提高SDK版本号，以及修改主项目`AndroidManifest.xml`,添加`android:allowBackup="true"`,目前使用上仍有问题。  
+阿里oss `aliyun-oss-rn`，需要更改`aliyun-oss-rn` npm包的`android/build.gradle`（如下配置）,提高SDK版本号，以及修改主项目`AndroidManifest.xml`,添加`android:allowBackup="true"`,目前使用上仍有问题，于是放弃该方案，改用oss postObject直传方式
+
+
 
 ``` javascript
 buildscript {

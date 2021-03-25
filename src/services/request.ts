@@ -1,7 +1,6 @@
 import { appApi, baseApi, weatherKey, weatherCurUrl, weather3dUrl, geocodeRegeoUrl, geocodeRegeoKey } from '@app/config';
-// @ts-ignore
-import AliyunOSS from 'aliyun-oss-rn';
 import { TIHttpArticleResultOrdinary, TIHttpUserResultOrdinary } from '@app/types/http';
+import { optionStore } from '@app/stores/option';
 import { HttpService } from './http';
 
 
@@ -204,45 +203,48 @@ class Request extends HttpService {
     
     // 上传oss，PostObject直传
     async uploadToOSS(url: string, formData: any) {
-        console.log(url, 'url');
         console.log(formData, 'formData');
-        this.post(url, formData, {
+        const res = await this.post(url, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
         });
+        return res;
     }
 
     // 上传图片
     async uploadFile(file: any) {
+        console.log(file);
+        const STATUS_OSS_CODE = 201;
         const creds: any = await this.getSTSAuth();
         console.log(creds, 'creds');
         if (creds.code === 0) {
             try {
-                console.log(file.uri, 'uri');
-
-                
-
+                const deviceId = optionStore.userInfo.deviceId;
+                const host = `http://${creds.bucket}.${creds.region}.aliyuncs.com`;
+                const key = `images/${deviceId}-${file.fileSize}-${file.width}x${file.height}.${file.fileName?.split('.')[1]}`;
                 const uploadMediaData = new FormData();
-
-                uploadMediaData.append('key', `images/${file.fileName?.split('.')[0]}-${file.fileSize}-${file.width}x${file.height}.${file.fileName?.split('.')[1]}`);                
-                uploadMediaData.append('success_action_status', '200');
+                uploadMediaData.append('key', key);                
+                uploadMediaData.append('success_action_status', String(STATUS_OSS_CODE));
                 uploadMediaData.append('x-oss-content-type', 'multipart/form-data');
                 uploadMediaData.append('x-oss-security-token', creds.securityToken);
                 uploadMediaData.append('OSSAccessKeyId', creds.accessKeyId);
                 uploadMediaData.append('policy', creds.formPolicy);
                 uploadMediaData.append('Signature', creds.formSignature);
-                uploadMediaData.append('file', JSON.stringify({
+                uploadMediaData.append('file', {
                   uri: file.uri,
                   type: 'multipart/form-data',
                   name: file.fileName,
-                }));
-
-                const data: any = await this.uploadToOSS(`http://${creds.bucket}.${creds.region}.aliyuncs.com`, uploadMediaData);
-
-                console.log('上传成功', data);
-
-                
+                });
+                const res: any = await this.uploadToOSS(host, uploadMediaData);
+                if (res.status === STATUS_OSS_CODE) {
+                    optionStore.updateUserInfo({
+                        ...optionStore.userInfo,
+                        avatar: `${host}/${key}`
+                    });
+                    return Promise.resolve(`${host}/${key}`);
+                }
+                return Promise.resolve(null);
             } catch (error) {
                 console.log('upload error: %j', error);
                 return Promise.reject(error);
