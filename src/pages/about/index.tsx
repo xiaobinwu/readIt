@@ -450,7 +450,7 @@ class About extends Component<IAboutProps> {
                         <Gravatar
                             style={styles.userGravatar}
                             source={this.userInfo.avatar}
-                            picker={true}
+                            picker={aboutStore.editProfile}
                             onSuccess={(uri, uploadedUrl) => { this.updateUserInfoAvatar(uri, uploadedUrl); }}
                         />
                         <View style={styles.userMessage}>
