@@ -93,10 +93,10 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
             (isEnlang) => {
                 if (isEnlang) {
                    this.setAgendLocale(LANGUAGES.EN);
-                   this.forceUpdate();
+                   this.keyId++;
                 } else {
                    this.setAgendLocale(LANGUAGES.ZH);
-                   this.forceUpdate();
+                   this.keyId++;
                 }
             },
             { fireImmediately: true }
@@ -112,7 +112,7 @@ export class AgendaScreen extends PureComponent<IAgendaScreenProps> {
         );
     }
 
-    @observable keyId: number = 1; 
+    @observable keyId: number = 1; // 通过修改key让日历组件强制重新渲染
 
     @boundMethod
     setAgendLocale(lang: TLanguage) {

@@ -65,9 +65,9 @@ export class Comment extends Component<ICommentProps> {
     @observable.shallow private comments: IComment[] = [];
 
     // 评论框内容
-    @observable private commentAuthor: string = '';
+    @observable private commentAuthor: string = optionStore.userInfo.nickName;
     @observable private commentContent: string = '';
-    @observable private commentEmail: string = '';
+    @observable private commentEmail: string = optionStore.userInfo.email;
 
     @boundMethod
     scrollToListTop() {

@@ -76,7 +76,7 @@ Part2，使用`react-native-amap-geolocation`第三方库，[接口文档](https
 
 对于`react-native-image-picker`第三方库， 对于`3.1.4`版本，`minSdkVersion`最少要21以上，在使用的`react-native 0.61.5`下，修改`android/build.gradle`的`minSdkVersion`配置  
 
-阿里oss `aliyun-oss-rn`，需要更改`aliyun-oss-rn` npm包的`android/build.gradle`（如下配置）,提高SDK版本号，以及修改主项目`AndroidManifest.xml`,添加`android:allowBackup="true"`,目前使用上仍有问题，于是放弃该方案，改用oss postObject直传方式
+阿里oss `aliyun-oss-rn`，需要更改`aliyun-oss-rn` npm包的`android/build.gradle`（如下配置）,提高SDK版本号，以及修改主项目`AndroidManifest.xml`,添加`android:allowBackup="true"`,目前使用上仍有问题，于是放弃该方案，改用oss postObject直传方式，[参考资料](https://help.aliyun.com/document_detail/31988.html)，使用sts临时授权、policy、Signature配合上传。
 
 
 
@@ -118,6 +118,30 @@ dependencies {
 }
   
   
+```
+
+
+#### 日历问题
+`react-native-calendars`的`Agenda`问题如下：  
+一、国际化切换、主题切换时，日历没有对应切换，对应HACK处理方法，给`Agenda`组件设置`key`，强制组件卸载，重新加载  
+二、`Agenda`在国际化切换、主题切换、添加日程的时候，会导致`Agenda`组件内部`View`组件`onLayout`重复触发（我是不需要其一直触发），导致`this.viewHeight`一直发生变化，导致每次动画执行定位不准问题，处理方法，用个变量存储`this.viewHeight`，示例代码如下：  
+
+```javascript
+let VIEW_HEIGHT = 0;
+
+constructor(props) {
+    this.viewHeight = VIEW_HEIGHT || windowSize.height;
+}
+
+onLayout = event => {
+    if (!VIEW_HEIGHT) {
+        VIEW_HEIGHT = event.nativeEvent.layout.height;
+        this.viewHeight = event.nativeEvent.layout.height;
+        this.viewWidth = event.nativeEvent.layout.width;
+        this.forceUpdate();
+    }
+};
+
 ```
 
 

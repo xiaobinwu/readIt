@@ -86,10 +86,12 @@ class Request extends HttpService {
     async addComment<T>(params = {}) {
         console.log(params);
         // @ts-ignore
-        const { deviceId, articleId } = params;
+        const { deviceId, articleId, email, author } = params;
         const updateUserResult = await this.fetchUpdateUser<TIHttpUserResultOrdinary>({
             deviceId,
             articleId,
+            nickName: author,
+            email,
             type: 'comment'
         });
         const commentArticleResult = await this.fetchCommentArticle<TIHttpArticleResultOrdinary>({
