@@ -11,7 +11,7 @@ import { observable } from 'mobx';
 import { Iconfont } from '@app/components/common/iconfont';
 import { Text } from '@app/components/common/text';
 import { TouchableView } from '@app/components/common/touchable-view';
-import { IComment } from '@app/types/business';
+import { IComment, Iuser } from '@app/types/business';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import i18n, { TLanguage } from '@app/services/i18n';
 import { dateToYMD } from '@app/utils/filters';
@@ -34,11 +34,13 @@ export class CommentItem extends PureComponent<ICommentListItemProps> {
     render() {
         const { props } = this;
         const { comment, liked, seq } = props;
+        const { user = {} } = comment;
+        const { avatar, } = user as Iuser;
         const { styles } = obStyles;
         return (
             <View style={styles.container}>
                 <Image
-                    source={require('@app/assets/images/gravatar.png')} 
+                    source={avatar ? { uri: avatar } : require('@app/assets/images/gravatar.png')} 
                     style={styles.gravatar}
                 />
                 <View style={styles.content}>

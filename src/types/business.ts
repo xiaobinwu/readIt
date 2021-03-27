@@ -63,6 +63,7 @@ export interface IComment {
   create_at: string;
   update_at: string;
   isShow: boolean;
+  user: object;
 }
 
 export interface ILikeComment {

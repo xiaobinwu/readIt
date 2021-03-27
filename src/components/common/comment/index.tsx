@@ -122,9 +122,7 @@ export class Comment extends Component<ICommentProps> {
 
     @action
     private resetInput() {
-        this.commentAuthor = '';
         this.commentContent = '';
-        this.commentEmail = '';
     }
 
     @action
@@ -171,6 +169,8 @@ export class Comment extends Component<ICommentProps> {
                     commentArticlesItems.push(articleId);
                     optionStore.updateUserInfo({
                         ...optionStore.userInfo,
+                        nickName: this.commentAuthor,
+                        email: this.commentEmail,
                         commentArticles: commentArticlesItems,
                     });
                     // 归顶
@@ -395,6 +395,7 @@ export class Comment extends Component<ICommentProps> {
                             <TextInput
                                 style={styles.input}
                                 value={this.commentAuthor}
+                                editable={!this.commentAuthor}
                                 maxLength={30}
                                 placeholder={i18n.t(LANGUAGE_KEYS.NICKNAME)}
                                 placeholderTextColor={colors.textSecondary}
