@@ -142,6 +142,34 @@ onLayout = event => {
     }
 };
 
+```  
+三、日程列表改造，只显示当前选中日期的的日程，`Agenda`组件代码改造如下：  
+
+```javascript
+
+  renderReservations() {
+    const reservationListProps = extractComponentProps(ReservationList, this.props);
+    let reservations = {};
+    const { items } = this.props;
+    if (this.props.selected && items[this.props.selected.dateString]) {
+      reservations = { [this.props.selected.dateString]: items[this.props.selected.dateString] };
+    }
+    console.log(this.props.selected, '选中的时间');
+
+    return (
+      <ReservationList
+        {...reservationListProps}
+        ref={c => (this.list = c)}
+        reservations={reservations}
+        selectedDay={this.state.selectedDay}
+        topDay={this.state.topDay}
+        onDayChange={this.onDayChange}
+        onScroll={() => {}}
+      />
+    );
+  }
+
+
 ```
 
 
