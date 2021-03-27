@@ -101,7 +101,7 @@ export default {
     [LANGUAGE_KEYS.MORESETTING]: '更多设置',
     [LANGUAGE_KEYS.SETTING]: '设置',
     [LANGUAGE_KEYS.CLEAR_CACHE]: '清理缓存',
-    [LANGUAGE_KEYS.CLEAR_CACHE_TEXT]: '这将清除本地数据，继续吗？',
+    [LANGUAGE_KEYS.CLEAR_CACHE_TEXT]: '这将清除本地数据（包括学习计划），继续吗？',
     [LANGUAGE_KEYS.OK]: '确认',
     [LANGUAGE_KEYS.SUCCESS]: '操作成功',
     [LANGUAGE_KEYS.DARK_THEME]: '深色模式',
