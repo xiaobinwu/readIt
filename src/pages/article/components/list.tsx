@@ -43,7 +43,7 @@ import mixins from '@app/style/mixins';
     private listElement: TArticleListElement = React.createRef();
     @observable private isLoading: boolean = false;
     @observable.ref private pagination: IHttpPaginate | null = null; // 引用类型，不自动转换成observer
-    @observable.ref private articles: IArticle[] = [];
+    @observable.shallow private articles: IArticle[] = [];
     @observable.ref private params: IRequestParams = {};
 
     constructor(props: IListProps) {
