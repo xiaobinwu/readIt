@@ -282,3 +282,7 @@ componentDidMount() {
 
 
 #### 发布版本时，删除`build/debug.apk`
+
+
+#### React Native Android9.0以上打包apk后http请求不到解决方法
+[参考资料](https://blog.csdn.net/Cui_xing_tian/article/details/103874265?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&dist_request_id=&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control)

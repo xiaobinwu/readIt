@@ -18,6 +18,7 @@ import { Remind } from '@app/components/common/remind';
 import { Iconfont } from '@app/components/common/iconfont';
 import { getHeaderButtonStyle } from '@app/style/mixins';
 import { ArticleRoutes } from '@app/constants/routes';
+import { EArticleListType } from '@app/types/state';
 import List from './components/list';
 import { filterStore, Filter } from './components/filter';
 
@@ -95,6 +96,7 @@ class ArticleList extends Component<IArticleListProps> {
                     route={route}
                     navigation={navigation}
                     ref={indexStore.articleListElement}
+                    pageType={EArticleListType.List}
                 />
             </View>
         );

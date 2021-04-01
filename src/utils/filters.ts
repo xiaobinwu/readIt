@@ -47,3 +47,15 @@ export const padNumber = (n) => {
       year: date.getFullYear()
     };
  };
+
+ // 数组升维
+ export const arrayUpDimension = (arr: any, size: number) => {
+   return arr.reduce((pre: any, next: any, idx: number) => {
+      if (idx % size) {
+          pre[parseInt(idx / size, 10)].push(next);
+      }else{
+          pre.push([next]);
+      }
+      return pre;
+   }, []);
+ };

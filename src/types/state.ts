@@ -26,3 +26,9 @@
     Second = 2,
     Third = 3
  }
+
+ export enum EArticleListType {
+    List = 'list',
+    Like = 'like',
+    View = 'view'
+ }

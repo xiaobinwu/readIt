@@ -31,11 +31,18 @@ import colors from '@app/style/colors';
 import sizes from '@app/style/sizes';
 import fonts from '@app/style/fonts';
 import mixins from '@app/style/mixins';
+import { EArticleListType } from '@app/types/state';
+import { arrayUpDimension } from '@app/utils/filters';
 
  type THttpResultPaginateArticles = IHttpResultPaginate<IArticle[]>;
 
  export type TArticleListElement = RefObject<FlatList<IArticle>>;
- export interface IListProps extends NavigationProps {}
+ export interface IListProps extends NavigationProps {
+    pageType: string;
+    articleIds?: [string];
+ }
+
+ const VIRTUAL_PAGE_SIZE = 10;
 
  @observer 
  class List extends Component<IListProps> {
@@ -45,9 +52,17 @@ import mixins from '@app/style/mixins';
     @observable.ref private pagination: IHttpPaginate | null = null; // 引用类型，不自动转换成observer
     @observable.shallow private articles: IArticle[] = [];
     @observable.ref private params: IRequestParams = {};
+    @observable private virtualPages: number = 0; // pageType非‘list’时,虚拟总页数
+    @observable private virtualPage: number = 0; // pageType非‘list’时,虚拟当前页数
+
+    static defaultProps = { 
+        pageType: EArticleListType.List
+    };
 
     constructor(props: IListProps) {
         super(props);
+        // pageType非‘list’时的初始化
+        this.initVistualPage();
         this.fetchArticles();
         // 当过滤条件变化时进行重请求
         reaction(
@@ -57,7 +72,9 @@ import mixins from '@app/style/mixins';
                 filterStore.filterValue
             ],
             ([isActive, type, value]: any) => {
-                this.handleFilterChanged(isActive, type, value);
+                if (this.props.pageType === EArticleListType.List) {
+                    this.handleFilterChanged(isActive, type, value);
+                }
             }
         );
     }
@@ -81,12 +98,33 @@ import mixins from '@app/style/mixins';
         return this.articles.slice() || [];
     }
 
+    @computed
+    private get virtualListArticleIds(): any {
+        const { articleIds } = this.props;
+        if (articleIds && Array.isArray(articleIds)) {
+            return arrayUpDimension(articleIds, VIRTUAL_PAGE_SIZE);
+        }
+        return null;
+    }
+
+    @action
+    private initVistualPage() {
+        const { pageType, articleIds } = this.props;
+        if (articleIds && Array.isArray(articleIds) && pageType !== EArticleListType.List) {
+            this.virtualPages = Math.ceil(articleIds.length / VIRTUAL_PAGE_SIZE);
+            this.virtualPage = 1;
+        }
+    }
+
     // 计算是否已经是最后一页
     @computed
     private get isNoMoreData(): boolean {
-        return (
-            !!this.pagination && this.pagination.page === this.pagination.pages
-        );
+        if (this.props.pageType === EArticleListType.List) {
+            return (
+                !!this.pagination && this.pagination.page === this.pagination.pages
+            );
+        }
+        return this.virtualPages === this.virtualPage;
     }
 
     @action
@@ -99,11 +137,19 @@ import mixins from '@app/style/mixins';
         const { entry, ...resetReuslt } = result;
         const { list = [] } = entry;
         this.updateLoadingState(false);
-        this.pagination = resetReuslt;
-        if (resetReuslt.page > 1) {
-            this.articles.push(...list);
+        if (this.props.pageType === EArticleListType.List) {
+            this.pagination = resetReuslt;
+            if (resetReuslt.page > 1) {
+                this.articles.push(...list);
+            } else {
+                this.articles = list;
+            }
         } else {
-            this.articles = list;
+            if (this.virtualPage > 1) {
+                this.articles.push(...list);
+            } else if (this.virtualPage === 1) {
+                this.articles = list;
+            }
         }
     }
 
@@ -141,8 +187,13 @@ import mixins from '@app/style/mixins';
 
     @boundMethod
     private async fetchArticles(pageNo: number = 1): Promise<any> {
+        const params = { 
+            ...this.params,
+            pageNo,
+            ...(this.virtualListArticleIds ? { articleIds: this.virtualListArticleIds[pageNo - 1] } : {})
+        };
         this.updateLoadingState(true);
-        const data = await request.fetchArticles<THttpResultPaginateArticles>({ ...this.params, pageNo });
+        const data = await request.fetchArticles<THttpResultPaginateArticles>(params);
         const { code, message, ...reset } = data;
         if (code === 0) {
             this.updateResultData(reset);
@@ -229,9 +280,14 @@ import mixins from '@app/style/mixins';
     }
 
     @boundMethod
+    @action
     private handleLoadmoreArticle() {
-        if (!this.isNoMoreData && !this.isLoading && this.pagination) {
-        this.fetchArticles(this.pagination.page + 1);
+        if (this.props.pageType !== EArticleListType.List && !this.isNoMoreData && !this.isLoading && this.virtualPage && this.virtualPages) {
+            this.virtualPage += 1;
+            this.fetchArticles(this.virtualPage);
+        }
+        if (this.props.pageType === EArticleListType.List && !this.isNoMoreData && !this.isLoading && this.pagination) {
+            this.fetchArticles(this.pagination.page + 1);
         }
     }
 
