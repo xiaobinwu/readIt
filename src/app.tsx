@@ -21,6 +21,7 @@ import { headerStyles, AutoI18nTitle, CustomHeaderTitle } from '@app/components/
 import ArticleList, { indexStore } from '@app/pages/article/articleList';
 import ArticleSearch from '@app/pages/article/articleSearch';
 import ArticleDetail from '@app/pages/article/articleDetail';
+import CollectArticleList from '@app/pages/article/collectArticleList';
 import TodoList from '@app/pages/todo/todoList';
 import TodoDetail from '@app/pages/todo/todoDetail';
 import { Iconfont } from '@app/components/common/iconfont';
@@ -161,6 +162,18 @@ const AboutStackComponent = observer(() => {
                 options={{
                     headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.SETTING} />
                 }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.CollectArticleList}
+                component={CollectArticleList}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.ARTICLELIST} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.CollectArticleDetail}
+                component={ArticleDetail}
+                options={{ headerShown: false }}
             />
         </AboutStack.Navigator>
     );

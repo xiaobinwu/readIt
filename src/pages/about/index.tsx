@@ -23,7 +23,7 @@ import { webUrl, email } from '@app/config';
 import { Text } from '@app/components/common/text';
 import { IWeather, Weather } from '@app/components/common/weather';
 import { Gravatar } from '@app/components/common/gravatar';
-import { AboutRoutes } from '@app/constants/routes';
+import { AboutRoutes, ArticleRoutes } from '@app/constants/routes';
 import { AutoI18nTitle, } from '@app/components/layout/title';
 import request from '@app/services/request';
 import { optionStore } from '@app/stores/option';
@@ -33,6 +33,7 @@ import { TIHttpUserResultOrdinary } from '@app/types/http';
 import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 import { getHeaderButtonStyle } from '@app/style/mixins';
+import { EArticleListType } from '@app/types/state';
 import {
     init,
     Geolocation,
@@ -265,7 +266,7 @@ class About extends Component<IAboutProps> {
             // android下的配置
             setGpsFirst(true);
             setGpsFirstTimeout(10000);
-            setInterval(60000);
+            setInterval(600000);
             setNeedAddress(true);
             setLocationMode('Hight_Accuracy' as LocationMode);
             setGeoLanguage(optionStore.language.toUpperCase() as GeoLanguage);
@@ -482,10 +483,23 @@ class About extends Component<IAboutProps> {
                     }} />
                 </ImageBackground>
                 <View style={styles.statistic}>
-                    <View style={styles.statisticItem}>
-                        <Text style={styles.statisticCount}>{statistic.articles}</Text>
-                        <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.LIKE)}</Text>
-                    </View>
+                    <TouchableView
+                        accessibilityLabel="喜欢的文章"
+                        accessibilityHint="喜欢的文章"
+                        onPress={() => { 
+                            // 可以使用navigate
+                            this.props.navigation.navigate(AboutRoutes.CollectArticleList, {
+                                pageType: EArticleListType.Like,
+                                articleIds: likeArticles
+                            });
+                        }}
+                        style={styles.statisticItem}
+                    >
+                        <View>
+                            <Text style={styles.statisticCount}>{statistic.articles}</Text>
+                            <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.LIKE)}</Text>
+                        </View>
+                    </TouchableView>
                     <View style={styles.statisticSeparator} />
                     <View style={styles.statisticItem}>
                         <Text style={styles.statisticCount}>{statistic.comments}</Text>
@@ -497,10 +511,23 @@ class About extends Component<IAboutProps> {
                         <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.LIKE_COMMENT)}</Text>
                     </View>
                     <View style={styles.statisticSeparator} />
-                    <View style={styles.statisticItem}>
-                        <Text style={styles.statisticCount}>{statistic.views}</Text>
-                        <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.VIEW)}</Text>
-                    </View>
+                    <TouchableView
+                        accessibilityLabel="阅读的文章"
+                        accessibilityHint="阅读的文章"
+                        onPress={() => { 
+                            // 可以使用navigate
+                            this.props.navigation.navigate(AboutRoutes.CollectArticleList, {
+                                pageType: EArticleListType.View,
+                                articleIds: Array.from(new Set(viewArticles))
+                            });
+                        }}
+                        style={styles.statisticItem}
+                    >
+                        <View>
+                            <Text style={styles.statisticCount}>{statistic.views}</Text>
+                            <Text style={styles.statisticTitle}>{i18n.t(LANGUAGE_KEYS.VIEW)}</Text>
+                        </View>
+                    </TouchableView>
                 </View>
                 <ScrollView>
                     {this.renderTitle(LANGUAGE_KEYS.ABOUTME)}

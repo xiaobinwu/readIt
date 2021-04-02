@@ -14,7 +14,7 @@ import { CommonActions } from '@react-navigation/native';
 import { boundMethod } from 'autobind-decorator';
 import { IS_IOS } from '@app/config';
 import { optionStore } from '@app/stores/option';
-import { ArticleRoutes } from '@app/constants/routes';
+import { AboutRoutes, ArticleRoutes } from '@app/constants/routes';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { IHttpPaginate, IRequestParams, IHttpResultPaginate } from '@app/types/http';
 import { IArticle, ITag, ICategory, Iuser } from '@app/types/business';
@@ -173,7 +173,7 @@ import { arrayUpDimension } from '@app/utils/filters';
             const params: IRequestParams = {};
             if (isActive && value) {
                 if (type === EFilterType.Search) {
-                    params.keyword = value as string;
+                    params.title = value as string;
                 } else if (type === EFilterType.Tag) {
                     params.tag = [(value as ITag)._id];
                 } else if (type === EFilterType.Category) {
@@ -297,11 +297,19 @@ import { arrayUpDimension } from '@app/utils/filters';
         this.props.navigation.dispatch(
             CommonActions.navigate({
                 key: String(article._id),
-                name: ArticleRoutes.ArticleDetail,
+                name: this.props.pageType === EArticleListType.List ? ArticleRoutes.ArticleDetail : AboutRoutes.CollectArticleDetail,
                 params: { article }
             })
         );
     }
+
+   @boundMethod
+   private refreshFetchArticles() {
+       if (this.props.pageType !== EArticleListType.List) {
+           this.initVistualPage();
+       }
+       this.fetchArticles();
+   } 
 
     render() {
         return (
@@ -322,7 +330,7 @@ import { arrayUpDimension } from '@app/utils/filters';
                     // 当前列表 loading 状态
                     refreshing={this.isLoading}
                     // 刷新
-                    onRefresh={this.fetchArticles}
+                    onRefresh={this.refreshFetchArticles}
                     // 加载更多安全距离（相对于屏幕高度的比例）
                     onEndReachedThreshold={IS_IOS ? 0.05 : 0.2}
                     // 加载更多

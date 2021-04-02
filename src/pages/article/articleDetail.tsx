@@ -35,6 +35,7 @@ import { staticApi } from '@app/config';
 import { BetterModal } from '@app/components/common/modal';
 import { optionStore } from '@app/stores/option';
 import { Iuser } from '@app/types/business';
+import { EArticleListType } from '@app/types/state';
 
 const headerHeight = sizes.gap * 3;
 const headerHeightCollapsed = sizes.gap * 2.5;

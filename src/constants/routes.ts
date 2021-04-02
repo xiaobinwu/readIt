@@ -23,5 +23,7 @@ export enum AboutRoutes {
     Qq = 'Qq',
     Sponsor = 'Sponsor',
     Setting = 'Setting',
-    Weather = 'Weather'
+    Weather = 'Weather',
+    CollectArticleList = 'CollectArticleList',
+    CollectArticleDetail = 'CollectArticleDetail'
 }
