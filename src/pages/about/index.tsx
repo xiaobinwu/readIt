@@ -568,7 +568,7 @@ const obStyles = observable({
             user: {
                 flexDirection: 'row',
                 alignItems: 'center',
-                // justifyContent: "space-between",
+                justifyContent: "space-between",
                 paddingVertical: sizes.gap * 1.5,
                 paddingHorizontal: sizes.gap,
                 backgroundColor: colors.cardBackground,

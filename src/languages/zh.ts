@@ -97,7 +97,7 @@ export default {
     [LANGUAGE_KEYS.SPONSOR]: '一杯咖啡',
     [LANGUAGE_KEYS.EMAILTOME]: '给我投稿',
     [LANGUAGE_KEYS.VLOG]: '博客',
-    [LANGUAGE_KEYS.ABOUTME]: '关于开发者',
+    [LANGUAGE_KEYS.ABOUTME]: '关于ReadIT',
     [LANGUAGE_KEYS.MORESETTING]: '更多设置',
     [LANGUAGE_KEYS.SETTING]: '设置',
     [LANGUAGE_KEYS.CLEAR_CACHE]: '清理缓存',

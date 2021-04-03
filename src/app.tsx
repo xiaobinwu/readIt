@@ -15,6 +15,7 @@ import { NavigationContainer, NavigationState } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppearanceProvider } from 'react-native-appearance';
+import JPush from 'jpush-react-native';
 import { ArticleRoutes, TodoRoutes, AboutRoutes } from '@app/constants/routes';
 import colors from '@app/style/colors';
 import { headerStyles, AutoI18nTitle, CustomHeaderTitle } from '@app/components/layout/title';
@@ -190,6 +191,26 @@ const AboutStackComponent = observer(() => {
 
     componentDidMount() {
         SplashScreen.hide();
+        JPush.init();
+        JPush.setLoggerEnable(true);
+        // 连接状态
+        JPush.addConnectEventListener(result => {
+            console.log("connectListener:" + JSON.stringify(result));
+        });
+        // 通知回调
+        JPush.addNotificationListener(result => {
+            console.log("notificationListener:" + JSON.stringify(result));
+        });
+    }
+
+    componentWillUnmount() {
+    }
+
+    onReceiveMessage(message: any) {
+        console.log(message, 'onReceiveMessage');
+    }
+    onOpenMessage(message: any) {
+        console.log(message, 'onOpenMessage');
     }
 
     // 请求签名牌，创建用户

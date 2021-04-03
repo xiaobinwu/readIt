@@ -99,7 +99,7 @@ export default {
     [LANGUAGE_KEYS.SPONSOR]: 'Sponsor Me',
     [LANGUAGE_KEYS.EMAILTOME]: 'Contribute To Me',
     [LANGUAGE_KEYS.VLOG]: 'Blog',
-    [LANGUAGE_KEYS.ABOUTME]: 'About The Developer',
+    [LANGUAGE_KEYS.ABOUTME]: 'About ReadIT',
     [LANGUAGE_KEYS.MORESETTING]: 'More Setting',
     [LANGUAGE_KEYS.SETTING]: 'Setting',
     [LANGUAGE_KEYS.CLEAR_CACHE]: 'Clear cache',

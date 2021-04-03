@@ -1423,11 +1423,6 @@ ajv@^6.10.0, ajv@^6.10.2, ajv@^6.12.3:
     json-schema-traverse "^0.4.1"
     uri-js "^4.2.2"
 
-aliyun-oss-rn@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npm.taobao.org/aliyun-oss-rn/download/aliyun-oss-rn-1.0.1.tgz#9c0bbb5631f65fcb235381384e0473dd74249180"
-  integrity sha1-nAu7VjH2X8sjU4E4TgRz3XQkkYA=
-
 ansi-align@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npm.taobao.org/ansi-align/download/ansi-align-2.0.0.tgz#c36aeccba563b89ceb556f3690f0b1d9e3547f7f"
@@ -4623,6 +4618,11 @@ istanbul-reports@^2.2.6:
   dependencies:
     html-escaper "^2.0.0"
 
+jcore-react-native@^1.9.0:
+  version "1.9.0"
+  resolved "https://registry.npm.taobao.org/jcore-react-native/download/jcore-react-native-1.9.0.tgz#a0f518377686a3d599ac732d48adf9530891b2ab"
+  integrity sha1-oPUYN3aGo9WZrHMtSK35UwiRsqs=
+
 jest-changed-files@^24.9.0:
   version "24.9.0"
   resolved "https://registry.npm.taobao.org/jest-changed-files/download/jest-changed-files-24.9.0.tgz#08d8c15eb79a7fa3fc98269bc14b451ee82f8039"
@@ -4986,6 +4986,11 @@ jetifier@^1.6.2:
   version "1.6.6"
   resolved "https://registry.npm.taobao.org/jetifier/download/jetifier-1.6.6.tgz?cache=0&sync_timestamp=1591882098703&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fjetifier%2Fdownload%2Fjetifier-1.6.6.tgz#fec8bff76121444c12dc38d2dad6767c421dab68"
   integrity sha1-/si/92EhREwS3DjS2tZ2fEIdq2g=
+
+jpush-react-native@^2.8.2:
+  version "2.8.2"
+  resolved "https://registry.npm.taobao.org/jpush-react-native/download/jpush-react-native-2.8.2.tgz#db7e91811ab5395a7d60a08d0092c780f8c14d3d"
+  integrity sha1-236RgRq1OVp9YKCNAJLHgPjBTT0=
 
 js-beautify@^1.7.4:
   version "1.13.5"
@@ -7341,11 +7346,6 @@ react-native-device-info@^8.0.1:
   version "8.0.1"
   resolved "https://registry.npm.taobao.org/react-native-device-info/download/react-native-device-info-8.0.1.tgz#23a038ab39a9fe3ea8963feb366361ee7c03a2a1"
   integrity sha1-I6A4qzmp/j6olj/rNmNh7nwDoqE=
-
-react-native-geolocation-service@^5.1.1:
-  version "5.2.0"
-  resolved "https://registry.npm.taobao.org/react-native-geolocation-service/download/react-native-geolocation-service-5.2.0.tgz#eeb1c70cf842e612d68bc3d8706c0fdd917efaf5"
-  integrity sha1-7rHHDPhC5hLWi8PYcGwP3ZF++vU=
 
 react-native-gesture-handler@^1.6.1:
   version "1.10.1"

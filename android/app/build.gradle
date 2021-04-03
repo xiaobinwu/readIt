@@ -135,6 +135,10 @@ android {
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
+        manifestPlaceholders = [
+            JPUSH_APPKEY: "9d4efe2535f7bf6723bb2372",
+            JPUSH_CHANNEL: "developer-default"
+        ]
     }
     splits {
         abi {
@@ -193,7 +197,8 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation project(':jpush-react-native')  // 添加 jpush 依赖
+    implementation project(':jcore-react-native')  // 添加 jcore 依赖
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
