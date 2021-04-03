@@ -6,9 +6,149 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7556570",
+      "name": "云计算",
+      "font_class": "yunjisuan",
+      "unicode": "e7bc",
+      "unicode_decimal": 59324
+    },
+    {
+      "icon_id": "8314476",
+      "name": "数据库 大数据",
+      "font_class": "wulianwang-",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "15378556",
+      "name": "lua",
+      "font_class": "lua",
+      "unicode": "ebfd",
+      "unicode_decimal": 60413
+    },
+    {
+      "icon_id": "15378906",
+      "name": "typescript",
+      "font_class": "typescript",
+      "unicode": "ecef",
+      "unicode_decimal": 60655
+    },
+    {
+      "icon_id": "774372",
+      "name": "工具",
+      "font_class": "gongju",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "2032569",
+      "name": "服务器",
+      "font_class": "fuwuqi",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "3876124",
+      "name": "ruby",
+      "font_class": "ruby",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
+      "icon_id": "3879270",
+      "name": "安全",
+      "font_class": "anquan",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "10487558",
+      "name": "浏览器",
+      "font_class": "liulanqi",
+      "unicode": "e698",
+      "unicode_decimal": 59032
+    },
+    {
+      "icon_id": "12711374",
+      "name": "人工智能大脑",
+      "font_class": "rengongzhinengdanao",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "15214522",
+      "name": "net",
+      "font_class": "net",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "15378206",
+      "name": "c",
+      "font_class": "c",
+      "unicode": "eb57",
+      "unicode_decimal": 60247
+    },
+    {
+      "icon_id": "15378397",
+      "name": "go",
+      "font_class": "go",
+      "unicode": "eba6",
+      "unicode_decimal": 60326
+    },
+    {
+      "icon_id": "15660129",
+      "name": "面试题库",
+      "font_class": "mianshitiku",
+      "unicode": "eaa4",
+      "unicode_decimal": 60068
+    },
+    {
+      "icon_id": "16641162",
+      "name": "pageRank算法",
+      "font_class": "pageRanksuanfa",
+      "unicode": "e6a4",
+      "unicode_decimal": 59044
+    },
+    {
+      "icon_id": "17704318",
+      "name": "微信小程序",
+      "font_class": "weixinxiaochengxu",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "18224431",
+      "name": "区块链",
+      "font_class": "qukuailian",
+      "unicode": "e626",
+      "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "20113952",
+      "name": "bxl-spring-boot",
+      "font_class": "bxl-spring-boot",
+      "unicode": "e6fe",
+      "unicode_decimal": 59134
+    },
+    {
+      "icon_id": "15378445",
+      "name": "hexo",
+      "font_class": "hexo",
+      "unicode": "ebbc",
+      "unicode_decimal": 60348
+    },
+    {
+      "icon_id": "15378321",
+      "name": "electron",
+      "font_class": "electron",
+      "unicode": "eb86",
+      "unicode_decimal": 60294
+    },
+    {
       "icon_id": "9402946",
       "name": "相机",
-      "font_class": "changyongicon",
+      "font_class": "changyongicon-",
       "unicode": "e614",
       "unicode_decimal": 58900
     },
