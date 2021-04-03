@@ -97,7 +97,7 @@ export default {
     [LANGUAGE_KEYS.WECHAT]: 'Wechat',
     [LANGUAGE_KEYS.QQ]: 'QQ',
     [LANGUAGE_KEYS.SPONSOR]: 'Sponsor Me',
-    [LANGUAGE_KEYS.EMAILTOME]: 'Email Me',
+    [LANGUAGE_KEYS.EMAILTOME]: 'Contribute To Me',
     [LANGUAGE_KEYS.VLOG]: 'Blog',
     [LANGUAGE_KEYS.ABOUTME]: 'About The Developer',
     [LANGUAGE_KEYS.MORESETTING]: 'More Setting',

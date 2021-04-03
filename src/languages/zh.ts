@@ -95,7 +95,7 @@ export default {
     [LANGUAGE_KEYS.WECHAT]: '微信',
     [LANGUAGE_KEYS.QQ]: 'QQ',
     [LANGUAGE_KEYS.SPONSOR]: '一杯咖啡',
-    [LANGUAGE_KEYS.EMAILTOME]: '给我邮件',
+    [LANGUAGE_KEYS.EMAILTOME]: '给我投稿',
     [LANGUAGE_KEYS.VLOG]: '博客',
     [LANGUAGE_KEYS.ABOUTME]: '关于开发者',
     [LANGUAGE_KEYS.MORESETTING]: '更多设置',
