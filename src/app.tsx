@@ -6,7 +6,7 @@
  */
 import 'react-native-gesture-handler'; // 链接原生依赖
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Linking } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
 import SplashScreen from 'react-native-splash-screen';
 import { computed, observable, action } from 'mobx';
@@ -42,7 +42,6 @@ import { TIHttpUserResultOrdinary } from '@app/types/http';
 import { STORAGE } from '@app/constants/storage';
 import storage from '@app/services/storage';
 import { optionStore } from './stores/option';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -200,6 +199,19 @@ const AboutStackComponent = observer(() => {
         // 通知回调
         JPush.addNotificationListener(result => {
             console.log("notificationListener:" + JSON.stringify(result));
+            const { extras = {}, notificationEventType } = result;
+            if (notificationEventType === 'notificationOpened') {
+                const { url } = extras;
+                if (url) {
+                    setTimeout(() => {
+                        console.log(url);
+                        Linking.openURL(url).catch(error => {
+                            console.warn('Open url failed:', error);
+                            return Promise.reject(error);
+                        });
+                    }, 266);
+                }
+            }
         });
     }
 

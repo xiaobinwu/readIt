@@ -145,6 +145,7 @@ import { arrayUpDimension } from '@app/utils/filters';
                 this.articles = list;
             }
         } else {
+            console.log(this.virtualPage, this.virtualPages, list);
             if (this.virtualPage > 1) {
                 this.articles.push(...list);
             } else if (this.virtualPage === 1) {
