@@ -2,6 +2,10 @@
 
 [点我](https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/5972ebea149738f80f8ed11aed7dec22.mp4)
 
+###下载体验
+
+![img](https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/app-release/0.0.1/erCode.png)
+
 ### react-devtools调试（安卓模拟器）
 1、开发者菜单中选择"Debug JS Remotely"选项  
 2、自动打开调试页面 http://localhost:8081/debugger-ui（可做断点调试)  
