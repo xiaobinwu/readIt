@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "436155",
+      "name": "生活",
+      "font_class": "13",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "6380418",
+      "name": "招聘会",
+      "font_class": "zhaopinhui",
+      "unicode": "e628",
+      "unicode_decimal": 58920
+    },
+    {
+      "icon_id": "9189106",
+      "name": "前端开发",
+      "font_class": "qianduankaifa",
+      "unicode": "e62a",
+      "unicode_decimal": 58922
+    },
+    {
+      "icon_id": "9189112",
+      "name": "后端开发",
+      "font_class": "houduankaifa",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "688085",
+      "name": "其他",
+      "font_class": "qita",
+      "unicode": "e77f",
+      "unicode_decimal": 59263
+    },
+    {
       "icon_id": "7556570",
       "name": "云计算",
       "font_class": "yunjisuan",
