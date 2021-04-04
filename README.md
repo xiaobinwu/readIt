@@ -293,3 +293,16 @@ componentDidMount() {
 
 #### React Native Android9.0以上打包apk后http请求不到解决方法
 [参考资料](https://blog.csdn.net/Cui_xing_tian/article/details/103874265?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&dist_request_id=&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control)
+
+#### 开源不易，赏杯咖啡，哈哈
+![img](https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/antdPay.jpg)
+![img](https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/wechatPay.jpg)
+
+~ *^◎^* ╭^^^╮ {/ ^^ /} ( (oo) ) ) ) ) (*+﹏+*)~
+&(^___^)&
+(*^﹏^*)
+(^_^)
+(*^_^*)
+(*^__^*)
+^_^
+o(∩_∩)o
