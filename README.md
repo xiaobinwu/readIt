@@ -295,8 +295,8 @@ componentDidMount() {
 [参考资料](https://blog.csdn.net/Cui_xing_tian/article/details/103874265?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&dist_request_id=&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control)
 
 #### 开源不易，赏杯咖啡，哈哈
-![img](https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/antdPay.jpg)
-![img](https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/wechatPay.jpg)
+<img  src="https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/antdPay.jpg" width="150" />
+<img  src="https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/wechatPay.jpg" width="150" />
 
 ~ *^◎^* ╭^^^╮ {/ ^^ /} ( (oo) ) ) ) ) (*+﹏+*)~
 &(^___^)&
