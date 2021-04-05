@@ -266,7 +266,7 @@ class About extends Component<IAboutProps> {
             // android下的配置
             setGpsFirst(true);
             setGpsFirstTimeout(10000);
-            setInterval(600000);
+            setInterval(1800000);
             setNeedAddress(true);
             setLocationMode('Hight_Accuracy' as LocationMode);
             setGeoLanguage(optionStore.language.toUpperCase() as GeoLanguage);
