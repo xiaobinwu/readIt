@@ -93,6 +93,8 @@ export default {
     [LANGUAGE_KEYS.TIPTIME]: 'Reminder Time',
     [LANGUAGE_KEYS.SUBMIT]: 'Submit',
     [LANGUAGE_KEYS.GITHUB]: 'GitHub',
+    [LANGUAGE_KEYS.PRIVACY]: 'Privacy Policy',
+    [LANGUAGE_KEYS.PROTOCOL]: 'Service Agreement',
     [LANGUAGE_KEYS.WEATHER]: 'Weather',
     [LANGUAGE_KEYS.WECHAT]: 'Wechat',
     [LANGUAGE_KEYS.QQ]: 'QQ',

@@ -28,6 +28,8 @@ import TodoDetail from '@app/pages/todo/todoDetail';
 import { Iconfont } from '@app/components/common/iconfont';
 import About from '@app/pages/about';
 import Github from '@app/pages/about/github';
+import Privacy from '@app/pages/about/Privacy';
+import Protocol from '@app/pages/about/Protocol';
 import Weather from '@app/pages/about/weather';
 import Qq from '@app/pages/about/qq';
 import Wechat from '@app/pages/about/wechat';
@@ -126,6 +128,20 @@ const AboutStackComponent = observer(() => {
                 component={Github}
                 options={{
                     headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.GITHUB} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.Privacy}
+                component={Privacy}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.PRIVACY} />
+                }}
+            />
+            <AboutStack.Screen
+                name={AboutRoutes.Protocol}
+                component={Protocol}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.PROTOCOL} />
                 }}
             />
             <AboutStack.Screen

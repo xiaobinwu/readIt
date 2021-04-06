@@ -144,6 +144,8 @@ export enum LANGUAGE_KEYS {
     FELLIKE = 'feellike',
     WEATHER = 'weather',
     LIKE_COMMENT = 'likeComments',
-    ADDCOMMENT = 'addcoment'
+    ADDCOMMENT = 'addcoment',
+    PRIVACY = 'privacy',
+    PROTOCOL = 'protocol'
 }
 

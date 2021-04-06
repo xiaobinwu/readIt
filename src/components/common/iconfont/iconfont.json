@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "839820",
+      "name": "服务协议",
+      "font_class": "fuwuxieyi",
+      "unicode": "e651",
+      "unicode_decimal": 58961
+    },
+    {
+      "icon_id": "16242877",
+      "name": "M_隐私协议",
+      "font_class": "M_yinsixieyi",
+      "unicode": "e75e",
+      "unicode_decimal": 59230
+    },
+    {
       "icon_id": "436155",
       "name": "生活",
       "font_class": "13",

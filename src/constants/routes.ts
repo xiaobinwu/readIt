@@ -25,5 +25,7 @@ export enum AboutRoutes {
     Setting = 'Setting',
     Weather = 'Weather',
     CollectArticleList = 'CollectArticleList',
-    CollectArticleDetail = 'CollectArticleDetail'
+    CollectArticleDetail = 'CollectArticleDetail',
+    Privacy = 'Privacy',
+    Protocol = 'Protocol'
 }

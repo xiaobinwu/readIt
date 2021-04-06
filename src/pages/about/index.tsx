@@ -245,7 +245,23 @@ class About extends Component<IAboutProps> {
           onPress: () => {
             this.props.navigation.push(AboutRoutes.Setting);
           }
-        }
+        },
+        {
+            name: i18n.t(LANGUAGE_KEYS.PRIVACY),
+            key: 'privacy',
+            iconName: 'M_yinsixieyi',
+            onPress: () => {
+              this.props.navigation.push(AboutRoutes.Privacy);
+            }
+        },
+        {
+            name: i18n.t(LANGUAGE_KEYS.PROTOCOL),
+            key: 'protocol',
+            iconName: 'fuwuxieyi',
+            onPress: () => {
+              this.props.navigation.push(AboutRoutes.Protocol);
+            }
+        },
       ];
     }
 
