@@ -8,7 +8,9 @@ export enum ArticleRoutes {
     ArticleList = 'ArticleList',
     ArticleSearch = 'ArticleSearch',
     ArticleDetail = 'ArticleDetail',
-    ArticleWebview = 'ArticleWebview'
+    ArticleWebview = 'ArticleWebview',
+    ArticlePrivacy = 'ArticlePrivacy',
+    ArticleProtocol = 'ArticleProtocol'
 }
 
 export enum TodoRoutes {

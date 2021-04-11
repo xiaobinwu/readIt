@@ -5,13 +5,13 @@
  * @author twenty-four K <https://github.com/xiaobinwu>
  */
 import 'react-native-gesture-handler'; // 链接原生依赖
-import React, { Component } from 'react';
+import React, { Component, RefObject } from 'react';
 import { StyleSheet, Linking } from 'react-native';
 import { boundMethod } from 'autobind-decorator';
 import SplashScreen from 'react-native-splash-screen';
 import { computed, observable, action } from 'mobx';
 import { observer } from 'mobx-react';
-import { NavigationContainer, NavigationState } from '@react-navigation/native';
+import { NavigationContainer, NavigationContainerRef, NavigationState } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { AppearanceProvider } from 'react-native-appearance';
@@ -38,6 +38,7 @@ import Setting from '@app/pages/about/setting';
 import { IS_ANDROID } from '@app/config';
 import { LANGUAGE_KEYS } from '@app/constants/language';
 import { WebViewPage } from '@app/pages/common/webview';
+import AgreementModal from '@app/pages/common/agreementModal';
 import request from '@app/services/request';
 import { getUniqueId, getBaseOs, getDeviceName, getManufacturer, getBrand, getSystemVersion  } from 'react-native-device-info';
 import { TIHttpUserResultOrdinary } from '@app/types/http';
@@ -83,6 +84,20 @@ const ArticleStackComponent = observer(() => {
                 name={ArticleRoutes.ArticleWebview}
                 component={WebViewPage}
                 options={WebViewPage.getPageScreenOptions}
+            />
+            <ArticleStack.Screen
+                name={ArticleRoutes.ArticlePrivacy}
+                component={Privacy}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.PRIVACY} />
+                }}
+            />
+            <ArticleStack.Screen
+                name={ArticleRoutes.ArticleProtocol}
+                component={Protocol}
+                options={{
+                    headerTitle: () => <CustomHeaderTitle i18nKey={LANGUAGE_KEYS.PROTOCOL} />
+                }}
             />
         </ArticleStack.Navigator>
     );
@@ -196,13 +211,16 @@ const AboutStackComponent = observer(() => {
 });
 
 @observer export class App extends Component {
+    
+
+    @observable.ref private navigationState: NavigationState | undefined;
+    @observable private isVisible: boolean = false;
+    private navigationRef: RefObject<NavigationContainerRef> = React.createRef();
 
     constructor(props: Readonly<{}>) {
         super(props);
         this.fetchLogin();
     }
-
-    @observable.ref private navigationState: NavigationState | undefined;
 
     componentDidMount() {
         SplashScreen.hide();
@@ -234,40 +252,42 @@ const AboutStackComponent = observer(() => {
     componentWillUnmount() {
     }
 
-    onReceiveMessage(message: any) {
-        console.log(message, 'onReceiveMessage');
-    }
-    onOpenMessage(message: any) {
-        console.log(message, 'onOpenMessage');
-    }
-
     // 请求签名牌，创建用户
     private async fetchLogin() {
         const { code, entry } = await this.fetchHasLogin();
         if (code === 0 && entry.length === 0) {
-            const os = await getBaseOs();
-            const deviceName = await getDeviceName();
-            const manufacturer = await getManufacturer();
-            const data = await request.fetchAddUser<TIHttpUserResultOrdinary>({
-                deviceId: getUniqueId(),
-                os,
-                brand: getBrand(),
-                deviceName,
-                manufacturer,
-                systemVersion: getSystemVersion()
-            });
-            if (data) {
-                const { code, entry } = data;
-                if (code === 0) {
-                    optionStore.updateUserInfo(entry);
-                }
-            }
+            console.log(this.isVisible);
+            this.isVisible = true;
         } else if (code === 0 && entry.length > 0) {
             const avatar = await storage.get<string>(STORAGE.USER_AVATAR);
             optionStore.updateUserInfo({
                 ...entry[entry.length - 1],
                 ...(avatar ? { avatar } : {})
             });
+        }
+    }
+
+    // 创建用户
+    @boundMethod
+    @action
+    private async createUser() {
+        const os = await getBaseOs();
+        const deviceName = await getDeviceName();
+        const manufacturer = await getManufacturer();
+        const data = await request.fetchAddUser<TIHttpUserResultOrdinary>({
+            deviceId: getUniqueId(),
+            os,
+            brand: getBrand(),
+            deviceName,
+            manufacturer,
+            systemVersion: getSystemVersion()
+        });
+        if (data) {
+            const { code, entry } = data;
+            if (code === 0) {
+                this.isVisible = false;
+                optionStore.updateUserInfo(entry);
+            }
         }
     }
 
@@ -283,6 +303,13 @@ const AboutStackComponent = observer(() => {
         this.navigationState = state;
     } 
 
+    // 导航服务协议与隐私政策
+    @boundMethod
+    private navigateTo(name: string) {
+        this.isVisible = false;
+        this.navigationRef.current && this.navigationRef.current.navigate(name);
+    }
+
     render() {
         const labelStyle = StyleSheet.create({
             text: {
@@ -292,7 +319,14 @@ const AboutStackComponent = observer(() => {
         });
         return (
             <AppearanceProvider>
+                <AgreementModal
+                    isVisible={this.isVisible}
+                    onAgree={this.createUser}
+                    onReject={() => { this.isVisible = false; }}
+                    navigateTo={(name) => { this.navigateTo(name); }}
+                />
                 <NavigationContainer
+                    ref={this.navigationRef}
                     onStateChange={this.updateNavigationState}
                     theme={{
                         dark: optionStore.darkTheme,
@@ -367,18 +401,18 @@ const AboutStackComponent = observer(() => {
                                 const isAboutRoot = !routeState || routeState?.index === 0;
                                 const isAboutRoute = route.name === AboutRoutes.About;
                                 return {
-                                  tabBarVisible: isAboutRoute && isAboutRoot,
-                                  tabBarLabel: ({ color }) => (
-                                    <AutoI18nTitle
-                                      i18nKey={LANGUAGE_KEYS.ABOUT}
-                                      size={12}
-                                      color={color}
-                                      style={labelStyle.text}
-                                    />
-                                  ),
-                                  tabBarIcon: ({ color }) => (
-                                    <Iconfont name="icon_wode-" size={20} color={color} />
-                                  )
+                                    tabBarVisible: isAboutRoute && isAboutRoot,
+                                    tabBarLabel: ({ color }) => (
+                                        <AutoI18nTitle
+                                        i18nKey={LANGUAGE_KEYS.ABOUT}
+                                        size={12}
+                                        color={color}
+                                        style={labelStyle.text}
+                                        />
+                                    ),
+                                    tabBarIcon: ({ color }) => (
+                                        <Iconfont name="icon_wode-" size={20} color={color} />
+                                    )
                                 };
                             }}
                         />
