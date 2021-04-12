@@ -115,7 +115,13 @@ export default {
     [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault',
     [LANGUAGE_KEYS.FELLIKE]: 'FeelLike',
     [LANGUAGE_KEYS.LIKE_COMMENT]: 'Fabulous',
-    [LANGUAGE_KEYS.ADDCOMMENT]: 'Add Comment'
+    [LANGUAGE_KEYS.ADDCOMMENT]: 'Add Comment',
+    [LANGUAGE_KEYS.AGREEMENTCONTENT1]: 'Please read carefully and fully understand the "service agreement" and "privacy policy". We need to collect your device information. You can read',
+    [LANGUAGE_KEYS.AGREEMENTCONTENT2]: 'and',
+    [LANGUAGE_KEYS.AGREEMENTCONTENT3]: 'learn more. In order not to affect the normal collection, comments and other services, please click "Agree" to start accepting our services',
+    [LANGUAGE_KEYS.AGREEMENTBUTTON1]: 'Disagree',
+    [LANGUAGE_KEYS.AGREEMENTBUTTON2]: 'Agree',
+    [LANGUAGE_KEYS.AGREEMENTTITLE]: 'Service Agreement And Privacy Policy',
 };
 
 export const LOCALES_EN = {

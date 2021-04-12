@@ -146,6 +146,12 @@ export enum LANGUAGE_KEYS {
     LIKE_COMMENT = 'likeComments',
     ADDCOMMENT = 'addcoment',
     PRIVACY = 'privacy',
-    PROTOCOL = 'protocol'
+    PROTOCOL = 'protocol',
+    AGREEMENTCONTENT1 = 'agreementcontent1',
+    AGREEMENTCONTENT2 = 'agreementcontent2',
+    AGREEMENTCONTENT3 = 'agreementcontent3',
+    AGREEMENTBUTTON1 = 'agreementbutton1',
+    AGREEMENTBUTTON2 = 'agreementbutton2',
+    AGREEMENTTITLE = 'agreementtitle'
 }
 

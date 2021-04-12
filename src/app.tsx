@@ -215,6 +215,7 @@ const AboutStackComponent = observer(() => {
 
     @observable.ref private navigationState: NavigationState | undefined;
     @observable private isVisible: boolean = false;
+    @observable private isTempVisible: boolean = false; // 暂存弹框的显示状态
     private navigationRef: RefObject<NavigationContainerRef> = React.createRef();
 
     constructor(props: Readonly<{}>) {
@@ -256,8 +257,10 @@ const AboutStackComponent = observer(() => {
     private async fetchLogin() {
         const { code, entry } = await this.fetchHasLogin();
         if (code === 0 && entry.length === 0) {
-            console.log(this.isVisible);
-            this.isVisible = true;
+            setTimeout(() => {
+                this.isTempVisible = true;
+                this.isVisible = true;
+            }, 0);
         } else if (code === 0 && entry.length > 0) {
             const avatar = await storage.get<string>(STORAGE.USER_AVATAR);
             optionStore.updateUserInfo({
@@ -285,6 +288,7 @@ const AboutStackComponent = observer(() => {
         if (data) {
             const { code, entry } = data;
             if (code === 0) {
+                this.isTempVisible = false;
                 this.isVisible = false;
                 optionStore.updateUserInfo(entry);
             }
@@ -303,11 +307,13 @@ const AboutStackComponent = observer(() => {
         this.navigationState = state;
     } 
 
-    // 导航服务协议与隐私政策
+    // 导航至服务协议与隐私政策
     @boundMethod
     private navigateTo(name: string) {
         this.isVisible = false;
-        this.navigationRef.current && this.navigationRef.current.navigate(name);
+        setTimeout(() => {
+            this.navigationRef.current && this.navigationRef.current.navigate(name);
+        }, 200);
     }
 
     render() {
@@ -322,7 +328,7 @@ const AboutStackComponent = observer(() => {
                 <AgreementModal
                     isVisible={this.isVisible}
                     onAgree={this.createUser}
-                    onReject={() => { this.isVisible = false; }}
+                    onReject={() => { this.isVisible = false; this.isTempVisible = false; }}
                     navigateTo={(name) => { this.navigateTo(name); }}
                 />
                 <NavigationContainer
@@ -353,6 +359,10 @@ const AboutStackComponent = observer(() => {
                                 });
                                 const routeState = (route as any).state;
                                 const isHomeRoot = !routeState || routeState?.index === 0;
+                                // 复原弹框的可见状态
+                                if (isFocused && isHomeRoute && isHomeRoot) {
+                                    this.isVisible = this.isTempVisible;
+                                }
                                 return {
                                     tabBarVisible: isFocused && isHomeRoute && isHomeRoot,
                                     tabBarLabel: ({ color }) => (

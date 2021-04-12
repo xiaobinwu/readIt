@@ -33,23 +33,23 @@ class AgreementModal extends PureComponent<IModalProps> {
         return (
             <Modal isVisible={this.props.isVisible}>
                 <View style={styles.modal}>
-                    <Text style={styles.modalTitle}>服务协议和隐私政策</Text>
+                    <Text style={styles.modalTitle}>{i18n.t(LANGUAGE_KEYS.AGREEMENTTITLE)}</Text>
                     <View style={styles.modalContent}>
                         <Text style={styles.modalContentText}>
-                            请你务必审慎阅读、充分理解“服务协议”和“隐私政策”内容，我们需要收集你的设备信息。你可以阅读
+                            {i18n.t(LANGUAGE_KEYS.AGREEMENTCONTENT1)}
                             <Text style={styles.modalLink} onPress={() => {
                                 this.props.navigateTo(ArticleRoutes.ArticleProtocol);
-                            }}>《服务协议》</Text>
-                            和
+                            }}>《{i18n.t(LANGUAGE_KEYS.PROTOCOL)}》</Text>
+                            {i18n.t(LANGUAGE_KEYS.AGREEMENTCONTENT2)}
                             <Text style={styles.modalLink} onPress={() => {
                                 this.props.navigateTo(ArticleRoutes.ArticlePrivacy);
-                            }}>《隐私政策》</Text>
-                            了解详细内容。为了不影响正常收藏、评论文章等服务的正常性，请点击“同意”开始接受我们的服务
+                            }}>《{i18n.t(LANGUAGE_KEYS.PRIVACY)}》</Text>
+                            {i18n.t(LANGUAGE_KEYS.AGREEMENTCONTENT3)}
                         </Text>
                     </View>
                     <View style={styles.modalButtonContainer}>
-                        <Text style={[styles.modalButton]} onPress={this.props.onReject}>不同意</Text>
-                        <Text style={[styles.modalButton, styles.modalOkButton]} onPress={this.props.onAgree}>同意</Text>
+                        <Text style={[styles.modalButton]} onPress={this.props.onReject}>{i18n.t(LANGUAGE_KEYS.AGREEMENTBUTTON1)}</Text>
+                        <Text style={[styles.modalButton, styles.modalOkButton]} onPress={this.props.onAgree}>{i18n.t(LANGUAGE_KEYS.AGREEMENTBUTTON2)}</Text>
                     </View>
                 </View>
             </Modal>

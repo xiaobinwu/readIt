@@ -113,7 +113,13 @@ export default {
     [LANGUAGE_KEYS.SEGMENTFAULT]: 'Segmentfault',
     [LANGUAGE_KEYS.FELLIKE]: '体感温度',
     [LANGUAGE_KEYS.LIKE_COMMENT]: '点赞',
-    [LANGUAGE_KEYS.ADDCOMMENT]: '添加评论'
+    [LANGUAGE_KEYS.ADDCOMMENT]: '添加评论',
+    [LANGUAGE_KEYS.AGREEMENTCONTENT1]: '请你务必审慎阅读、充分理解“服务协议”和“隐私政策”内容，我们需要收集你的设备信息。你可以阅读',
+    [LANGUAGE_KEYS.AGREEMENTCONTENT2]: '和',
+    [LANGUAGE_KEYS.AGREEMENTCONTENT3]: '了解详细内容。为了不影响正常收藏、评论文章等服务的正常性，请点击“同意”开始接受我们的服务',
+    [LANGUAGE_KEYS.AGREEMENTBUTTON1]: '不同意',
+    [LANGUAGE_KEYS.AGREEMENTBUTTON2]: '同意',
+    [LANGUAGE_KEYS.AGREEMENTTITLE]: '服务协议和隐私政策',
 };
 
 export const LOCALES_ZH = {
