@@ -35,7 +35,7 @@
     "highlight.js": "^10.1.1",
     "jcore-react-native": "^1.9.0",
     "jpush-react-native": "^2.8.2",
-    "marked": "^1.1.1",
+    "marked": "^2.0.0",
     "mobx": "^5.15.4",
     "mobx-react": "^6.1.8",
     "react": "16.9.0",
