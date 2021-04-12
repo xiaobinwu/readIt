@@ -1,10 +1,24 @@
-###展示效果
+### 背景
+
+一款轻阅读应用ReadIT，支持功能：优质文章推送、评论点赞、计划制定、计划闹钟、天气预报、收藏文章、深浅两套主题、多语言切换、极光推送等功能。后续还会继续集成功能。前后端均自主研发，借鉴市面较好的种子工程，目前未上应用市场，文章目前也比较少，后续会持续补充优质文章。
+
+### 展示效果
 
 [点我](https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/5972ebea149738f80f8ed11aed7dec22.mp4)
 
-###下载体验
+### 下载体验（目前只有安卓版）
 
-![img](https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/app-release/0.0.1/erCode.png)
+![img](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1e1c24680e184065bc0288b7018ffc2a~tplv-k3u1fbpfcp-zoom-1.image)
+
+### Github
+https://github.com/xiaobinwu/readIt
+
+### 技能树
+1、客户端（react-native、@react-navigation、react-native第三方库、typescript、mobx、marked等技术）  
+
+2、中台后管系统（antd4、react、redux、react-router4、hook等技术）  
+
+3、后端程序（koa、mongoDb、jsonwebtoken、ali-oss等技术）  
 
 ### react-devtools调试（安卓模拟器）
 1、开发者菜单中选择"Debug JS Remotely"选项  
@@ -65,14 +79,24 @@
 11、`react-native-autoheight-webview` => React Native的自动高度webview，[前往](https://github.com/iou90/react-native-autoheight-webview)  
 12、`react-native-image-viewing` => 图片滑动浏览控件，[前往](https://github.com/jobtoday/react-native-image-viewing)  
 13、`react-native-root-toast` => 吐司控件，[前往](https://github.com/magicismight/react-native-root-toast)  
+14、`react-native-calendars` => 日历，[前往](https://github.com/wix/react-native-calendars)  
+15、`jcore-react-native`、`jpush-react-native` => 极光推送  
+16、`react-native-alarm-clock` => 闹钟，[前往](https://github.com/kmorales13/react-native-alarm-clock)  
+17、`react-native-amap-geolocation` => 高德地址服务，[前往](https://github.com/qiuxiang/react-native-amap-geolocation)  
+18、 `react-native-device-info` => 获取设备信息，[前往](https://github.com/react-native-device-info/react-native-device-info)  
+19、 `react-native-image-picker` => 上传图片，[前往](https://github.com/react-native-image-picker/react-native-image-picker)  
+20、`react-native-modal-datetime-picker` => 时间选择器，[前往](https://github.com/mmazzarolo/react-native-modal-datetime-picker)  
+21、`react-native-picker-select` => 下拉框选择器，[前往](https://github.com/lawnstarter/react-native-picker-select)  
+22、`react-native-splash-screen` => 应用启动图，[前往](https://github.com/crazycodeboy/react-native-splash-screen)
+23、`react-native-modal` => 弹框，[前往](https://github.com/react-native-community/react-native-modal)
 
 ### 第三方库躺坑  
 
 #### 如何获取当前天气、未来三天天气？  
-使用的是和风天气API，需要经纬入参，所以必须先获取位置。
+使用的是和风天气API，需要经纬入参，所以必须先获取位置，需要申请和风天气的appKey。
 
 #### 推送服务
-极光推送服务 `react-native-jpush`
+极光推送服务 `jcore-react-native`、`jpush-react-native`，需要申请AppKey。
 
 #### 如何获取位置？    
 Part1，使用`react-native-geolocation-service`第三方库，获取经纬度进行高德逆地理编码API调用，获取城市，开启google play服务，需要有处理获取位置的服务程序`app/services/location`（参考`react-native-geolocation-service` github example），以及修改`android/app/src/main/AndroidManifest.xml`，添加`<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>` 安卓添加权限。结果不行，针对google play服务国内不能使用，所以该方案得摒弃掉，对应`app/services/location`会删除。
@@ -271,38 +295,30 @@ componentDidMount() {
 #### app应用图标问题
 替换android/app/src/main/res/mipmap-*文件夹中图标图片
 
-./gradlew assembleRelease失败问题
-1、先执行./gradlew clean，卸载上一个debug版本
-2、再执行./gradlew assembleRelease，生成人release版本
+./gradlew assembleRelease失败问题  
+1、先执行./gradlew clean，卸载上一个debug版本  
+2、再执行./gradlew assembleRelease，生成release版本  
 
 常用指令 `./gradlew clean`、`./gradlew build`
 
 
-####  The Kotlin Gradle plugin was loaded multiple times in different subprojects, which is not supported and may break the build. 问题
+####  编译错误：The Kotlin Gradle plugin was loaded multiple times in different subprojects, which is not supported and may break the build. 问题解决方案：
 参考： https://forums.expo.io/t/kotlin-error-when-build-or-install/38868
 
 
 
-#### ./gradlew assembleRelease 失败 Error: ENOENT: no such file or directory, open 'F:\Project\reactnative\readIt\android\app\build\generated\sourcemaps\react\release\index.android.bundle.map'问题
+#### ./gradlew assembleRelease 编译失败  
 
+失败信息： Error: ENOENT: no such file or directory, open 'F:\Project\reactnative\readIt\android\app\build\generated\sourcemaps\react\release\index.android.bundle.map'  
+
+问题解决方案：  
 参考： https://stackoverflow.com/questions/56808518/android-gradlew-assemblerelease-sourcemap-output-fail-because-bundle-doesnt-e
 
 
-#### 发布版本时，删除`build/debug.apk`
+#### 发布版本时，删除`build/debug.apk`，执行`./gradlew clean`
 
 
 #### React Native Android9.0以上打包apk后http请求不到解决方法
 [参考资料](https://blog.csdn.net/Cui_xing_tian/article/details/103874265?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control&dist_request_id=&depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.control)
 
-#### 开源不易，赏杯咖啡，哈哈
-<img  src="https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/antdPay.jpg" width="150" />
-<img  src="https://read-it.oss-cn-shenzhen.aliyuncs.com/sys/wechatPay.jpg" width="150" />
 
-~ *^◎^* ╭^^^╮ {/ ^^ /} ( (oo) ) ) ) ) (*+﹏+*)~
-&(^___^)&
-(*^﹏^*)
-(^_^)
-(*^_^*)
-(*^__^*)
-^_^
-o(∩_∩)o
